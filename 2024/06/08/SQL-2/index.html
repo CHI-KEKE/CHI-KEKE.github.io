@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>LEFT JOIN...IS NULL vs NOT EXISTS vs NOT IN | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="場景是這樣的，我需要撈取會員點數的資料過程中，讀取另外一個表格資料以過濾現在正在撈取的會員資料的商店 ID，有就是說，這是一個 “排除”的情境，原本是建立 Temptable 接著使用 LEFTJOIN….ISNULL 來處理，但在某一次 Review 被退之後，就開始好奇 NOT IN、NOT EXISTS、LEFT JOIN 和 EXCEPT 等等，到底在效能或使用上有什麼差異? 所有就來做一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LEFT JOIN...IS NULL vs NOT EXISTS vs NOT IN">
+<meta property="og:url" content="https://chi-keke.github.io/2024/06/08/SQL-2/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="場景是這樣的，我需要撈取會員點數的資料過程中，讀取另外一個表格資料以過濾現在正在撈取的會員資料的商店 ID，有就是說，這是一個 “排除”的情境，原本是建立 Temptable 接著使用 LEFTJOIN….ISNULL 來處理，但在某一次 Review 被退之後，就開始好奇 NOT IN、NOT EXISTS、LEFT JOIN 和 EXCEPT 等等，到底在效能或使用上有什麼差異? 所有就來做一">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.imgur.com/NfCnwwU.png">
+<meta property="article:published_time" content="2024-06-08T15:50:34.000Z">
+<meta property="article:modified_time" content="2024-06-11T15:21:38.658Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="SQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/NfCnwwU.png"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2024/06/08/SQL-2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: 'days',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LEFT JOIN...IS NULL vs NOT EXISTS vs NOT IN',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-11 23:21:38'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.imgur.com/f2eWUWv.png')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">LEFT JOIN...IS NULL vs NOT EXISTS vs NOT IN</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-06-08T15:50:34.000Z" title="Created 2024-06-08 23:50:34">2024-06-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-06-11T15:21:38.658Z" title="Updated 2024-06-11 23:21:38">2024-06-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/SQL/">SQL</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="LEFT JOIN...IS NULL vs NOT EXISTS vs NOT IN"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>場景是這樣的，我需要撈取會員點數的資料過程中，讀取另外一個表格資料以過濾現在正在撈取的會員資料的商店 ID，有就是說，這是一個 “排除”的情境，原本是建立 Temptable 接著使用 LEFTJOIN….ISNULL 來處理，但在某一次 Review 被退之後，就開始好奇 NOT IN、NOT EXISTS、LEFT JOIN 和 EXCEPT 等等，到底在效能或使用上有什麼差異?</p>
+<p>所有就來做一點測試吧</p>
+<h2 id="測試-1"><a href="#測試-1" class="headerlink" title="測試 1"></a>測試 1</h2><p>我們建立了一個學生表包含學生 ID、學生姓名<br>也建立一個課程註冊紀錄表，包含 註冊 ID、課程名稱、學生 ID</p>
+<p>我們現在想要知道，哪些學生沒有註冊課程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">USE Test</span><br><span class="line">GO</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> STATISTICS <span class="type">TIME</span> <span class="keyword">ON</span>;</span><br><span class="line"><span class="keyword">SET</span> STATISTICS IO <span class="keyword">ON</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- NOT IN</span></span><br><span class="line">PRINT(<span class="string">&#x27;************************NOT IN************************&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> Student_id</span><br><span class="line"><span class="keyword">FROM</span> Students</span><br><span class="line"><span class="keyword">WHERE</span> Student_id <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="keyword">SELECT</span> Enrollment_Student_ID <span class="keyword">FROM</span> Enrollment)</span><br><span class="line">GO</span><br><span class="line"></span><br><span class="line"><span class="comment">--NOT EXISTS</span></span><br><span class="line">PRINT(<span class="string">&#x27;************************NOT EXISTS************************&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> Student_id</span><br><span class="line"><span class="keyword">FROM</span> Students s</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Enrollment e <span class="keyword">WHERE</span> s.Student_id <span class="operator">=</span> e.[Enrollment_Student_ID]);</span><br><span class="line">GO</span><br><span class="line"></span><br><span class="line"><span class="comment">-- LEFT JOIN</span></span><br><span class="line">PRINT(<span class="string">&#x27;************************LEFT JOIN************************&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> Student_id</span><br><span class="line"><span class="keyword">FROM</span> Students</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> Enrollment</span><br><span class="line">	<span class="keyword">ON</span> Student_id <span class="operator">=</span> Enrollment_Student_ID</span><br><span class="line"><span class="keyword">WHERE</span> Enrollment_Student_ID <span class="keyword">IS</span> <span class="keyword">NULL</span>;</span><br><span class="line">GO</span><br><span class="line"></span><br><span class="line"><span class="comment">-- EXCEPT</span></span><br><span class="line">PRINT(<span class="string">&#x27;************************EXCEPT************************&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> Student_id</span><br><span class="line"><span class="keyword">FROM</span> Students</span><br><span class="line"><span class="keyword">EXCEPT</span></span><br><span class="line"><span class="keyword">SELECT</span> Enrollment_Student_ID</span><br><span class="line"><span class="keyword">FROM</span> Enrollment</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>結果<br><img src="https://i.imgur.com/yrgNpTr.png" alt="Image"><br><img src="https://i.imgur.com/KGkuDm8.png" alt="Image"></p>
+<p>整理成表格<br><img src="https://i.imgur.com/mpKyR99.png" alt="Image"></p>
+<p>CPU Time:</p>
+<p>所有方法的 CPU 時間都是 0 毫秒，表示這些查詢在這個例子中並沒有對 CPU 產生顯著的負擔。</p>
+<p>Elapsed Time:</p>
+<p>EXCEPT 的執行時間最短，為 86 毫秒。<br>NOT IN 的執行時間最長，為 135 毫秒。</p>
+<p>Logical Reads:</p>
+<p>所有方法的邏輯讀取次數仍然是 59 次，包括對 Students 表的 57 次讀取和對 Enrollment 表的 2 次讀取。<br>這表示所有方法在查詢過程中訪問資料庫頁面的次數相同。</p>
+<h2 id="執行計畫-1"><a href="#執行計畫-1" class="headerlink" title="執行計畫 1"></a>執行計畫 1</h2><p>NOT IN<br><img src="https://i.imgur.com/LDHqPQ9.png" alt="Image"></p>
+<p>NOT EXISTS<br><img src="https://i.imgur.com/o5XAKP2.png" alt="Image"></p>
+<p>LEFT JOIN…ISNULL<br><img src="https://i.imgur.com/BBaAFoe.png" alt="Image"></p>
+<p>EXCEPT<br><img src="https://i.imgur.com/TSnJ0gX.png" alt="Image"></p>
+<h2 id="結論-1"><a href="#結論-1" class="headerlink" title="結論 1"></a>結論 1</h2><p>以這個例子的資料量以及資料複雜度，似乎體現不了方法之間的差異性，所以其實你想用什麼都可以，也因此有了實驗 2</p>
+<h2 id="測試-2"><a href="#測試-2" class="headerlink" title="測試 2"></a>測試 2</h2><p>建立資料參考 : <a target="_blank" rel="noopener" href="https://www.cnblogs.com/CreateMyself/p/6165543.html">https://www.cnblogs.com/CreateMyself/p/6165543.html</a></p>
+<p>總之:</p>
+<p>（1）t_left 表中插入 10 萬筆資料，其中包含 1 萬筆重複資料。</p>
+<p>（2）t_right 表插入 100 萬筆資料，其中包含 1 萬筆重複資料。</p>
+<p>（3）t_left 表中插入 10 筆 t_right 表中没有的資料。</p>
+<h2 id="執行計畫-2"><a href="#執行計畫-2" class="headerlink" title="執行計畫 2"></a>執行計畫 2</h2><h3 id="NOT-IN"><a href="#NOT-IN" class="headerlink" title="NOT IN"></a>NOT IN</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span>  l.id, l.value</span><br><span class="line"><span class="keyword">FROM</span>    [compare].t_left l</span><br><span class="line"><span class="keyword">WHERE</span>   l.value <span class="keyword">NOT</span> <span class="keyword">IN</span></span><br><span class="line">        (</span><br><span class="line">        <span class="keyword">SELECT</span>  <span class="keyword">value</span></span><br><span class="line">        <span class="keyword">FROM</span>    [compare].t_right r</span><br><span class="line">        )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/uGtKz1R.png" alt="Image"></p>
+<p>1.使用 Merge Anti Semi Join,也就是上述 Merge Join 和 Right Anti Semi Join 的結合</p>
+<p>2.資料庫引擎只要匹配到 t_right 表中的值，就會跳過所有 t_left 和 t_right 表中其他也同樣匹配的相同值，因為 Stream Aggregate 會進行分組，由於對 t_right 表中的值進行了分組，所以當進行合併右半連接時，只取組中的第一個值，其餘的自然就被跳過了。</p>
+<h3 id="NOT-EXIST"><a href="#NOT-EXIST" class="headerlink" title="NOT EXIST"></a>NOT EXIST</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span>  l.id, l.value</span><br><span class="line"><span class="keyword">FROM</span>    [compare].t_left l</span><br><span class="line"><span class="keyword">WHERE</span>   <span class="keyword">NOT</span> <span class="keyword">EXISTS</span></span><br><span class="line">        (</span><br><span class="line">        <span class="keyword">SELECT</span>  <span class="keyword">NULL</span></span><br><span class="line">        <span class="keyword">FROM</span>    [compare].t_right r</span><br><span class="line">        <span class="keyword">WHERE</span>   r.value <span class="operator">=</span> l.value</span><br><span class="line">        )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/rfwEVwF.png" alt="Image"></p>
+<p>執行計畫與 NOT IN 基本上沒甚麼差異，都使用了 Anti Semi Join 的概念</p>
+<p>但要注意的是，當查詢列允許 NULL 值時，情況就不同了:</p>
+<p>NOT IN 的語義是，如果子查詢返回的結果集中包含 NULL 值，那麼整個 NOT IN 條件的結果就會變為 NULL, 導致查詢結果可能不正確。<br>NOT EXISTS 則沒有這個問題，它只關心是否存在匹配的行，而不關心 NULL 值。</p>
+<p>例如</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> table1</span><br><span class="line"><span class="keyword">WHERE</span> column1 <span class="keyword">NOT</span> <span class="keyword">IN</span> (<span class="keyword">SELECT</span> column2 <span class="keyword">FROM</span> table2);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果 table2 的 column2 包含 NULL 值，那麼對於 table1 中的任何行，如果 column1 的值不在 table2 的 column2 中 (除了 NULL), 這些行仍然不會被選中，因為 NOT IN 的結果變為了 NULL。</p>
+<h3 id="LEFT-JOIN…ISNULL"><a href="#LEFT-JOIN…ISNULL" class="headerlink" title="LEFT JOIN…ISNULL"></a>LEFT JOIN…ISNULL</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span>  l.id, l.value</span><br><span class="line"><span class="keyword">FROM</span>    [compare].t_left l</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span></span><br><span class="line">        [compare].t_right r</span><br><span class="line"><span class="keyword">ON</span>      r.value <span class="operator">=</span> l.value</span><br><span class="line"><span class="keyword">WHERE</span>   r.value <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/jxuJAsc.png" alt="Image"><br><img src="https://i.imgur.com/U3Z7euQ.png" alt="Image"></p>
+<p>我們可以看到這次的執行計畫使用了 Parallelism (Repartition Stream)，原因可能在於，當兩個表的大小差異較大時，直接進行連接操作可能會導致某些執行執行緒的工作負載過重，而其他執行執行緒的工作負載較輕，透過 Repartition Stream 將資料重新分配到不同的執行執行緒上，可以平衡執行執行緒的工作負載，提高查詢的整體效能。</p>
+<p>Left Join … Is Null 查詢需要對主表（左表）的每一行在右表中尋找匹配的行。<br>如果右表中沒有匹配的行，則該行的右表列值為 NULL, 接著我們透過 Is Null 條件進行篩選。<br>這種查詢方式需要對主表和右表的資料進行廣泛的配對和比較，所以查詢優化器可能選擇使用 Repartition Stream 將資料重新分配到不同的執行執行緒上，以平衡工作負載和提高並行度。</p>
+<p>而 Not In 和 Not Exists 使用反向查詢的方式，即先在子查詢中找出不匹配的值，然後再與主查詢進行比較，因不需要對主查詢和子查詢的所有資料進行配對和比較，因此資料重新分配的需求較低。</p>
+<h2 id="精神能量分析"><a href="#精神能量分析" class="headerlink" title="精神能量分析"></a>精神能量分析</h2><p>精神能量 : 🍔</p>
+<p>在中興大學的摩斯漢堡站著工作其實也不錯呢(其實圖書館因為留給在學生備考，所以我被轟出來惹)</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2024/06/08/SQL-2/">https://chi-keke.github.io/2024/06/08/SQL-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SQL/">SQL</a></div><div class="post_share"><div class="social-share" data-image="https://i.imgur.com/NfCnwwU.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/08/SQL1/" title="STRING_AGG"><img class="cover" src="https://i.imgur.com/NfCnwwU.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">STRING_AGG</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/09/SQL-3/" title="Window Function"><img class="cover" src="https://i.imgur.com/NfCnwwU.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Window Function</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/06/08/SQL1/" title="STRING_AGG"><img class="cover" src="https://i.imgur.com/NfCnwwU.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-08</div><div class="title">STRING_AGG</div></div></a></div><div><a href="/2024/06/09/SQL-3/" title="Window Function"><img class="cover" src="https://i.imgur.com/NfCnwwU.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-09</div><div class="title">Window Function</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/CHI-KEKE"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/CHI-KEKE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:chilly37647@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">推code推到六親不認</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%AC%E8%A9%A6-1"><span class="toc-number">1.</span> <span class="toc-text">測試 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%B7%E8%A1%8C%E8%A8%88%E7%95%AB-1"><span class="toc-number">2.</span> <span class="toc-text">執行計畫 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%90%E8%AB%96-1"><span class="toc-number">3.</span> <span class="toc-text">結論 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%AC%E8%A9%A6-2"><span class="toc-number">4.</span> <span class="toc-text">測試 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%B7%E8%A1%8C%E8%A8%88%E7%95%AB-2"><span class="toc-number">5.</span> <span class="toc-text">執行計畫 2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NOT-IN"><span class="toc-number">5.1.</span> <span class="toc-text">NOT IN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NOT-EXIST"><span class="toc-number">5.2.</span> <span class="toc-text">NOT EXIST</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LEFT-JOIN%E2%80%A6ISNULL"><span class="toc-number">5.3.</span> <span class="toc-text">LEFT JOIN…ISNULL</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B2%BE%E7%A5%9E%E8%83%BD%E9%87%8F%E5%88%86%E6%9E%90"><span class="toc-number">6.</span> <span class="toc-text">精神能量分析</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/06/09/SQL-3/" title="Window Function"><img src="https://i.imgur.com/NfCnwwU.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Window Function"/></a><div class="content"><a class="title" href="/2024/06/09/SQL-3/" title="Window Function">Window Function</a><time datetime="2024-06-09T08:02:34.000Z" title="Created 2024-06-09 16:02:34">2024-06-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/06/08/SQL-2/" title="LEFT JOIN...IS NULL vs NOT EXISTS vs NOT IN"><img src="https://i.imgur.com/NfCnwwU.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LEFT JOIN...IS NULL vs NOT EXISTS vs NOT IN"/></a><div class="content"><a class="title" href="/2024/06/08/SQL-2/" title="LEFT JOIN...IS NULL vs NOT EXISTS vs NOT IN">LEFT JOIN...IS NULL vs NOT EXISTS vs NOT IN</a><time datetime="2024-06-08T15:50:34.000Z" title="Created 2024-06-08 23:50:34">2024-06-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/06/08/SQL1/" title="STRING_AGG"><img src="https://i.imgur.com/NfCnwwU.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="STRING_AGG"/></a><div class="content"><a class="title" href="/2024/06/08/SQL1/" title="STRING_AGG">STRING_AGG</a><time datetime="2024-06-08T03:49:34.000Z" title="Created 2024-06-08 11:49:34">2024-06-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/06/06/LINQ-4/" title="Query Expression Syntax vs Method Chaining Syntax"><img src="https://i.imgur.com/cBfeEDY.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Query Expression Syntax vs Method Chaining Syntax"/></a><div class="content"><a class="title" href="/2024/06/06/LINQ-4/" title="Query Expression Syntax vs Method Chaining Syntax">Query Expression Syntax vs Method Chaining Syntax</a><time datetime="2024-06-06T15:59:34.000Z" title="Created 2024-06-06 23:59:34">2024-06-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/06/05/URL-Encode/" title="UrlEncode"><img src="https://i.imgur.com/ltxqyEt.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="UrlEncode"/></a><div class="content"><a class="title" href="/2024/06/05/URL-Encode/" title="UrlEncode">UrlEncode</a><time datetime="2024-06-05T03:24:11.000Z" title="Created 2024-06-05 11:24:11">2024-06-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2024 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">What you'll find out there is boundless freedom !</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'CHI-KEKE/CHI-KEKE.github.io')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'photon-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !true) {
+    if (true) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
