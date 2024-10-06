@@ -1,0 +1,228 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>.NET CORE 環境變數 | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="將 APIKey 存進環境變數參考 : https:&#x2F;&#x2F;blog.darkthread.net&#x2F;blog&#x2F;secure-apikey-for-console-app&#x2F; 1234567891011121314151617181920212223242526byte[] additionalEntropy &#x3D; &#123; 9, 8, 7, 6, 5 &#125;;Func&lt;string, st">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".NET CORE 環境變數">
+<meta property="og:url" content="https://chi-keke.github.io/2024/09/22/APIKey-Protected/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="將 APIKey 存進環境變數參考 : https:&#x2F;&#x2F;blog.darkthread.net&#x2F;blog&#x2F;secure-apikey-for-console-app&#x2F; 1234567891011121314151617181920212223242526byte[] additionalEntropy &#x3D; &#123; 9, 8, 7, 6, 5 &#125;;Func&lt;string, st">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.imgur.com/f2eWUWv.png">
+<meta property="article:published_time" content="2024-09-22T02:24:34.000Z">
+<meta property="article:modified_time" content="2024-10-06T13:16:56.302Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/f2eWUWv.png"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2024/09/22/APIKey-Protected/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: 'days',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '.NET CORE 環境變數',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-10-06 21:16:56'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">55</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">20</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.imgur.com/f2eWUWv.png')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">.NET CORE 環境變數</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-09-22T02:24:34.000Z" title="Created 2024-09-22 10:24:34">2024-09-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-10-06T13:16:56.302Z" title="Updated 2024-10-06 21:16:56">2024-10-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Tools/">Tools</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=".NET CORE 環境變數"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="將-APIKey-存進環境變數"><a href="#將-APIKey-存進環境變數" class="headerlink" title="將 APIKey 存進環境變數"></a>將 APIKey 存進環境變數</h1><p>參考 : <a target="_blank" rel="noopener" href="https://blog.darkthread.net/blog/secure-apikey-for-console-app/">https://blog.darkthread.net/blog/secure-apikey-for-console-app/</a></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">byte</span>[] additionalEntropy = &#123; <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span> &#125;;</span><br><span class="line">Func&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; GetSecureEnvVar = (varName) =&gt; &#123;</span><br><span class="line">    <span class="keyword">var</span> val = Environment.GetEnvironmentVariable(varName, EnvironmentVariableTarget.User);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">string</span>.IsNullOrEmpty(val))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            val = Encoding.UTF8.GetString(</span><br><span class="line">                ProtectedData.Unprotect(Convert.FromBase64String(val), additionalEntropy, DataProtectionScope.CurrentUser));</span><br><span class="line">            <span class="keyword">return</span> val;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span></span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;非有效加密格式，請重新輸入&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Console.Write(<span class="string">$&quot;請設定[<span class="subst">&#123;varName&#125;</span>]：&quot;</span>);</span><br><span class="line">    val = Console.ReadLine() ?? <span class="built_in">string</span>.Empty;</span><br><span class="line">    <span class="comment">//加密後存入環境變數</span></span><br><span class="line">    <span class="keyword">var</span> enc =</span><br><span class="line">        Convert.ToBase64String(</span><br><span class="line">            ProtectedData.Protect(Encoding.UTF8.GetBytes(val), additionalEntropy, DataProtectionScope.CurrentUser));</span><br><span class="line">    Environment.SetEnvironmentVariable(varName, enc, EnvironmentVariableTarget.User);</span><br><span class="line">    <span class="keyword">return</span> val;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>拷貝了作法實際跑了一次確實可以 Work，缺點是 ProtectedData 這個 Class 是 Windows Data Protection API (DPAPI) 的一個封裝，專門為 Windows 設計。它使用 Windows 用戶帳戶相關的加密密鑰，因此在其他操作系統上不可用，並且 EnvironmentVariableTarget.User 在所有主要操作系統上都存在，但 User 級別的環境變量主要是 Windows 的概念。</p>
+<p><img src="https://i.imgur.com/On4yApi.png" alt="Image"></p>
+<p>因此自己這邊也實作了一次跨平台可以用的 AES 加解密，但 Key 還要再另外存</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Func&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; GetAllPlatformSecureEnvVar = (varName) =&gt; &#123;</span><br><span class="line">    <span class="keyword">var</span> val = Environment.GetEnvironmentVariable(varName, EnvironmentVariableTarget.User);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">string</span>.IsNullOrEmpty(val))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            val = Decrypt(val);</span><br><span class="line">            <span class="keyword">return</span> val;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span></span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;非有效加密格式，請重新輸入&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Console.Write(<span class="string">$&quot;請設定[<span class="subst">&#123;varName&#125;</span>]：&quot;</span>);</span><br><span class="line">    val = Console.ReadLine() ?? <span class="built_in">string</span>.Empty;</span><br><span class="line">    <span class="keyword">var</span> enc = Encrypt(val);</span><br><span class="line">    Environment.SetEnvironmentVariable(varName, enc, EnvironmentVariableTarget.User);</span><br><span class="line">    <span class="keyword">return</span> val;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myApiKey2 = GetAllPlatformSecureEnvVar(<span class="string">&quot;MY_API_KEY_2&quot;</span>);</span><br><span class="line">Console.WriteLine(<span class="string">$&quot;ApiKey 讀取測試成功 - <span class="subst">&#123;myApiKey2&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="built_in">string</span> <span class="title">Encrypt</span>(<span class="params"><span class="built_in">string</span> plainText</span>)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">using</span> (<span class="keyword">var</span> aes = Aes.Create())</span><br><span class="line">&#123;</span><br><span class="line">    aes.Key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable(<span class="string">&quot;AESSecretTest&quot;</span>, EnvironmentVariableTarget.User));</span><br><span class="line">    aes.IV = <span class="keyword">new</span> <span class="built_in">byte</span>[<span class="number">16</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> encryptor = aes.CreateEncryptor(aes.Key, aes.IV))</span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> ms = <span class="keyword">new</span> System.IO.MemoryStream())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> cs = <span class="keyword">new</span> CryptoStream(ms, encryptor, CryptoStreamMode.Write))</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> sw = <span class="keyword">new</span> System.IO.StreamWriter(cs))</span><br><span class="line">        &#123;</span><br><span class="line">            sw.Write(plainText);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Convert.ToBase64String(ms.ToArray());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="built_in">string</span> <span class="title">Decrypt</span>(<span class="params"><span class="built_in">string</span> cipherText</span>)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">using</span> (<span class="keyword">var</span> aes = Aes.Create())</span><br><span class="line">&#123;</span><br><span class="line">    aes.Key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable(<span class="string">&quot;AESSecretTest&quot;</span>, EnvironmentVariableTarget.User));</span><br><span class="line">    aes.IV = <span class="keyword">new</span> <span class="built_in">byte</span>[<span class="number">16</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> decryptor = aes.CreateDecryptor(aes.Key, aes.IV))</span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> ms = <span class="keyword">new</span> System.IO.MemoryStream(Convert.FromBase64String(cipherText)))</span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> cs = <span class="keyword">new</span> CryptoStream(ms, decryptor, CryptoStreamMode.Read))</span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> sr = <span class="keyword">new</span> System.IO.StreamReader(cs))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> sr.ReadToEnd();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>比較 AES 和 ProtectedData 的使用，兩者各有優缺點。讓我們深入分析一下：<br>AES（Advanced Encryption Standard）：</p>
+<p>優點：</p>
+<p>跨平台：可以在任何支持 .NET 的平台上使用。<br>靈活性：可以自定義密鑰和初始化向量（IV），適用於各種場景。<br>性能：通常比 ProtectedData 快。<br>廣泛支持：在需要跨系統或跨應用程序共享加密資料時更方便。</p>
+<p>缺點：</p>
+<p>密鑰管理：需要自行管理加密密鑰，這可能成為安全隱患。<br>實現複雜性：正確實現 AES 加密需要考慮多個安全因素，如 IV 管理、填充模式等。</p>
+<p>ProtectedData：</p>
+<p>優點：</p>
+<p>簡單易用：API 簡單，不需要管理密鑰。<br>操作系統級別的安全性：利用 Windows 的內建安全機制。<br>用戶或機器特定：加密數據與特定用戶或機器綁定，增加了安全性。</p>
+<p>缺點：</p>
+<p>平台限制：主要適用於 Windows 系統。<br>可移植性差：加密資料難以在不同機器或用戶間移動。<br>有限的控制：無法自定義加密參數。</p>
+<p>如果 App 只在 Windows 上運行，並且主要關注易用性和操作系統級別的安全性，使用 ProtectedData 是個好選擇。<br>如果需要跨平台兼容性，或者需要更多對加密過程的控制，那麼 AES 會更合適。</p>
+<h1 id="ASPNETCORE-ENVIRONMENT"><a href="#ASPNETCORE-ENVIRONMENT" class="headerlink" title="ASPNETCORE_ENVIRONMENT"></a>ASPNETCORE_ENVIRONMENT</h1><p>文件 : <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-8.0&WT.mc_id=DT-MVP-4015686">https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-8.0&amp;WT.mc_id=DT-MVP-4015686</a></p>
+<p>設定環境變數有幾種方式，有以下優先順序</p>
+<ol>
+<li><p>.NET CLI 命令列參數:<br>使用 .NET CLI 執行 ASP.NET Core 應用程式時，例如使用 dotnet run 命令，可以使用命令列參數覆蓋環境變數。這些參數的優先順序高於任何其他設定方式，包括環境變數本身和 launchSettings.json 檔案。</p>
+</li>
+<li><p>程式碼設定: 在程式碼中使用 WebApplicationOptions.EnvironmentName 設定環境變數，這將會覆蓋其他設定方式，例如環境變數和 launchSettings.json 檔案。</p>
+</li>
+<li><p>launchSettings.json: 在本機開發環境中， launchSettings.json 檔案中的環境變數設定會覆蓋系統環境變數。</p>
+</li>
+<li><p>作業系統環境變數: 您可以設定系統或使用者級別的環境變數，這些設定會影響所有使用該環境變數的應用程式。</p>
+</li>
+<li><p>Azure 應用程式服務設定: 如果您將 ASP.NET Core 應用程式部署到 Azure 應用程式服務，則可以在 Azure 入口網站中設定應用程式設定，這些設定相當於環境變數。</p>
+</li>
+</ol>
+<p>另外 ASPNETCORE_ENVIRONMENT vs. DOTNET_ENVIRONMENT 的情況</p>
+<p>在大多數情況下， ASPNETCORE_ENVIRONMENT 環境變數的優先順序高於 DOTNET_ENVIRONMENT。<br>但是，當使用 WebApplicationBuilder 建立主機時， DOTNET_ENVIRONMENT 的優先順序會高於 ASPNETCORE_ENVIRONMENT。</p>
+<h1 id="環境變數說明、CLI-設定環境變數"><a href="#環境變數說明、CLI-設定環境變數" class="headerlink" title="環境變數說明、CLI 設定環境變數"></a>環境變數說明、CLI 設定環境變數</h1><p>參考 : <a target="_blank" rel="noopener" href="https://blog.miniasp.com/post/2022/05/28/Sum-up-ASPNETCORE-Environment-Variables">https://blog.miniasp.com/post/2022/05/28/Sum-up-ASPNETCORE-Environment-Variables</a></p>
+<h2 id="精神能量分析"><a href="#精神能量分析" class="headerlink" title="精神能量分析"></a>精神能量分析</h2><p>精神能量 : 😺🐕</p>
+<p>最近要買圍欄圍住毛吉</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2024/09/22/APIKey-Protected/">https://chi-keke.github.io/2024/09/22/APIKey-Protected/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Tools/">Tools</a></div><div class="post_share"><div class="social-share" data-image="https://i.imgur.com/f2eWUWv.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/09/21/Config/" title="Configuration"><img class="cover" src="https://i.imgur.com/7vuFRiG.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">Configuration</div></div></a></div><div class="next-post pull-right"><a href="/2024/09/26/async6/" title="Asynchronous Programming (六. 執行緒的發展與概念筆記)"><img class="cover" src="https://i.imgur.com/ptNmOOD.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Asynchronous Programming (六. 執行緒的發展與概念筆記)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/10/03/qrcode/" title="QR Code 與 短網址 筆記"><img class="cover" src="https://i.imgur.com/LT9w6rH.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-03</div><div class="title">QR Code 與 短網址 筆記</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">55</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">20</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/CHI-KEKE"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/CHI-KEKE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:chilly37647@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">推code推到六親不認</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%87-APIKey-%E5%AD%98%E9%80%B2%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8"><span class="toc-number">1.</span> <span class="toc-text">將 APIKey 存進環境變數</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ASPNETCORE-ENVIRONMENT"><span class="toc-number">2.</span> <span class="toc-text">ASPNETCORE_ENVIRONMENT</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8%E8%AA%AA%E6%98%8E%E3%80%81CLI-%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8"><span class="toc-number">3.</span> <span class="toc-text">環境變數說明、CLI 設定環境變數</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B2%BE%E7%A5%9E%E8%83%BD%E9%87%8F%E5%88%86%E6%9E%90"><span class="toc-number">3.1.</span> <span class="toc-text">精神能量分析</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/10/03/async8/" title="Asynchronous Programming (八. ThreadPool.QueueUserWorkItem () 改用 Task.Run() 與 Task.Delay)"><img src="https://i.imgur.com/ptNmOOD.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Asynchronous Programming (八. ThreadPool.QueueUserWorkItem () 改用 Task.Run() 與 Task.Delay)"/></a><div class="content"><a class="title" href="/2024/10/03/async8/" title="Asynchronous Programming (八. ThreadPool.QueueUserWorkItem () 改用 Task.Run() 與 Task.Delay)">Asynchronous Programming (八. ThreadPool.QueueUserWorkItem () 改用 Task.Run() 與 Task.Delay)</a><time datetime="2024-10-03T09:55:05.000Z" title="Created 2024-10-03 17:55:05">2024-10-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/03/async9/" title="Asynchronous Programming (九. 不是任何運算用 ThreadPool 執行都會加速)"><img src="https://i.imgur.com/ptNmOOD.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Asynchronous Programming (九. 不是任何運算用 ThreadPool 執行都會加速)"/></a><div class="content"><a class="title" href="/2024/10/03/async9/" title="Asynchronous Programming (九. 不是任何運算用 ThreadPool 執行都會加速)">Asynchronous Programming (九. 不是任何運算用 ThreadPool 執行都會加速)</a><time datetime="2024-10-03T09:55:05.000Z" title="Created 2024-10-03 17:55:05">2024-10-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/03/qrcode/" title="QR Code 與 短網址 筆記"><img src="https://i.imgur.com/LT9w6rH.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QR Code 與 短網址 筆記"/></a><div class="content"><a class="title" href="/2024/10/03/qrcode/" title="QR Code 與 短網址 筆記">QR Code 與 短網址 筆記</a><time datetime="2024-10-03T09:55:05.000Z" title="Created 2024-10-03 17:55:05">2024-10-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/10/01/async7/" title="Asynchronous Programming (七. Thread Pool &amp; 什麼時候要自行建立執行緒)"><img src="https://i.imgur.com/ptNmOOD.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Asynchronous Programming (七. Thread Pool &amp; 什麼時候要自行建立執行緒)"/></a><div class="content"><a class="title" href="/2024/10/01/async7/" title="Asynchronous Programming (七. Thread Pool &amp; 什麼時候要自行建立執行緒)">Asynchronous Programming (七. Thread Pool &amp; 什麼時候要自行建立執行緒)</a><time datetime="2024-10-01T01:08:05.000Z" title="Created 2024-10-01 09:08:05">2024-10-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/26/async6/" title="Asynchronous Programming (六. 執行緒的發展與概念筆記)"><img src="https://i.imgur.com/ptNmOOD.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Asynchronous Programming (六. 執行緒的發展與概念筆記)"/></a><div class="content"><a class="title" href="/2024/09/26/async6/" title="Asynchronous Programming (六. 執行緒的發展與概念筆記)">Asynchronous Programming (六. 執行緒的發展與概念筆記)</a><time datetime="2024-09-26T01:22:05.000Z" title="Created 2024-09-26 09:22:05">2024-09-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2024 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">What you'll find out there is boundless freedom !</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'CHI-KEKE/CHI-KEKE.github.io')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'photon-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !true) {
+    if (true) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
