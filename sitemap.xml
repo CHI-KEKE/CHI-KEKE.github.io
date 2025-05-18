@@ -346,13 +346,6 @@
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/SQL/</loc>
-    <lastmod>2025-05-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://chi-keke.github.io/tags/JSON/</loc>
     <lastmod>2025-05-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -361,6 +354,13 @@
   
   <url>
     <loc>https://chi-keke.github.io/tags/LINQ/</loc>
+    <lastmod>2025-05-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/tags/SQL/</loc>
     <lastmod>2025-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
