@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://chi-keke.github.io/2025/05/28/NEW-EFCORE-DbUpdateConcurrencyException/</loc>
+    
+    <lastmod>2025-06-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://chi-keke.github.io/2025/05/28/NEW-EFCORE-TimeoutException-part2/</loc>
     
     <lastmod>2025-06-08</lastmod>
@@ -385,14 +394,14 @@
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/Cache/</loc>
+    <loc>https://chi-keke.github.io/tags/Delegate/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/Delegate/</loc>
+    <loc>https://chi-keke.github.io/tags/Cache/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -434,14 +443,14 @@
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/JSON/</loc>
+    <loc>https://chi-keke.github.io/tags/LINQ/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/LINQ/</loc>
+    <loc>https://chi-keke.github.io/tags/JSON/</loc>
     <lastmod>2025-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
