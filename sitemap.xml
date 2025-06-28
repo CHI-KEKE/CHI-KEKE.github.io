@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://chi-keke.github.io/2024/05/07/Asynchronous-%E7%AC%AC%E4%B8%80%E7%AB%A0/</loc>
+    
+    <lastmod>2025-06-28</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://chi-keke.github.io/2024/10/26/Asynchronous-%E7%AC%AC%E4%B8%83%E7%AB%A0/</loc>
     
     <lastmod>2025-06-28</lastmod>
@@ -75,15 +84,6 @@
   
   <url>
     <loc>https://chi-keke.github.io/2025/05/23/NEW-EFCORE-Dapper/</loc>
-    
-    <lastmod>2025-06-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/2025/05/23/Asynchronous-%E7%AC%AC%E4%B8%80%E7%AB%A0/</loc>
     
     <lastmod>2025-06-16</lastmod>
     
@@ -535,14 +535,14 @@
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/HttpClient/</loc>
+    <loc>https://chi-keke.github.io/tags/Http/</loc>
     <lastmod>2025-06-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/Http/</loc>
+    <loc>https://chi-keke.github.io/tags/HttpClient/</loc>
     <lastmod>2025-06-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
