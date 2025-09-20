@@ -2,6 +2,213 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://chi-keke.github.io/2025/08/31/Overload/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2024/11/03/Deepclone/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/08/Config-ConfigBuilder/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/02/Config-OptionsPattern/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/07/13/Code-JsonEncode/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/08/Dependency-Injection-Autofac1/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/17/Design-Interface-Segregation-Principle-ISP/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/17/Design-Dependency-Inversion-Principle-DIP/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/17/Design-LSP/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/17/Design-SRP/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/16/Design-Polymorphism/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/15/Design-Encapsulation/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/14/Design-internal/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/13/Design-sealed/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/09/12/Design-OCP/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2024/06/22/Design-AOP/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2024/07/16/Design-Composition/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2024/07/16/Design-Inheritance/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2024/03/17/LINQ-1/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2024/10/23/LINQ-2/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2024/11/10/Delegate-3/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2024/11/10/Delegate-2/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2024/11/07/Delegate-1/</loc>
+    
+    <lastmod>2025-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://chi-keke.github.io/2025/09/20/Exception-%E8%AA%B0%E4%BE%86%E6%8E%A5%E4%BD%8F%E5%A4%9C%E8%A3%A1%E7%9A%84%E9%8C%AF%E8%AA%A4%EF%BC%9F/</loc>
     
     <lastmod>2025-09-20</lastmod>
@@ -488,61 +695,7 @@
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/2024/11/10/Delegate-3/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/2024/11/10/Delegate-2/</loc>
-    
-    <lastmod>2025-04-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://chi-keke.github.io/2024/05/11/Json-JsonIgnore/</loc>
-    
-    <lastmod>2025-04-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/2024/11/07/Delegate-1/</loc>
-    
-    <lastmod>2025-04-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/2024/07/16/Design-Composition/</loc>
-    
-    <lastmod>2025-04-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/2024/07/16/Design-Inheritance/</loc>
-    
-    <lastmod>2025-04-26</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/2024/06/22/Design-AOP/</loc>
     
     <lastmod>2025-04-26</lastmod>
     
@@ -570,24 +723,6 @@
   
   <url>
     <loc>https://chi-keke.github.io/2024/04/29/Enum-2/</loc>
-    
-    <lastmod>2025-04-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/2024/10/23/LINQ-2/</loc>
-    
-    <lastmod>2025-04-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/2024/03/17/LINQ-1/</loc>
     
     <lastmod>2025-04-13</lastmod>
     
@@ -653,6 +788,41 @@
   </url>
   
   <url>
+    <loc>https://chi-keke.github.io/tags/Encode/</loc>
+    <lastmod>2025-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/tags/JSON/</loc>
+    <lastmod>2025-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/tags/Unicode/</loc>
+    <lastmod>2025-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/tags/ASP-NET-Core/</loc>
+    <lastmod>2025-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/tags/C/</loc>
+    <lastmod>2025-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://chi-keke.github.io/tags/Delegate/</loc>
     <lastmod>2025-09-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -674,14 +844,21 @@
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/Delegate-x-Observer-Pattern/</loc>
+    <loc>https://chi-keke.github.io/tags/Plugin-Pattern%EF%BC%88%E5%A4%96%E6%8E%9B%E6%A8%A1%E5%BC%8F%EF%BC%89x-Factory-Method-Pattern%EF%BC%88%E5%B7%A5%E5%BB%A0%E6%96%B9%E6%B3%95%EF%BC%89x-Strategy-Pattern%EF%BC%88%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%EF%BC%89/</loc>
     <lastmod>2025-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/Plugin-Pattern%EF%BC%88%E5%A4%96%E6%8E%9B%E6%A8%A1%E5%BC%8F%EF%BC%89x-Factory-Method-Pattern%EF%BC%88%E5%B7%A5%E5%BB%A0%E6%96%B9%E6%B3%95%EF%BC%89x-Strategy-Pattern%EF%BC%88%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%EF%BC%89/</loc>
+    <loc>https://chi-keke.github.io/tags/SOLID/</loc>
+    <lastmod>2025-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/tags/Delegate-x-Observer-Pattern/</loc>
     <lastmod>2025-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -723,7 +900,7 @@
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/JSON/</loc>
+    <loc>https://chi-keke.github.io/tags/Code/</loc>
     <lastmod>2025-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -731,13 +908,6 @@
   
   <url>
     <loc>https://chi-keke.github.io/tags/SQL/</loc>
-    <lastmod>2025-09-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/tags/Code/</loc>
     <lastmod>2025-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -767,7 +937,28 @@
   </url>
   
   <url>
+    <loc>https://chi-keke.github.io/categories/%E6%9A%97%E5%8F%B7%E8%80%85%E3%81%AE%E7%A7%98%E5%AF%86%E3%81%AE%E9%83%A8%E5%B1%8B/</loc>
+    <lastmod>2025-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/categories/Config/</loc>
+    <lastmod>2025-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://chi-keke.github.io/categories/%E7%A8%8B%E6%80%9D%E8%88%9E%E6%83%B3/</loc>
+    <lastmod>2025-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/categories/%E9%A2%A8%E9%9F%B3%E5%AD%90/</loc>
     <lastmod>2025-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -796,6 +987,13 @@
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E7%A9%BF%E8%B6%8A%E9%9B%B2%E5%B1%A4%E7%9A%84%E4%BF%A1%E4%BD%BF/</loc>
+    <lastmod>2025-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/categories/%E8%A8%80%E8%91%89%E7%B9%94%E3%82%8A/</loc>
     <lastmod>2025-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
