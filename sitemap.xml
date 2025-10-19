@@ -2,6 +2,69 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://chi-keke.github.io/2025/10/15/SQL-Sequence/</loc>
+    
+    <lastmod>2025-10-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/10/15/SQL-Performance/</loc>
+    
+    <lastmod>2025-10-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/10/14/SQL-Cheetsheet/</loc>
+    
+    <lastmod>2025-10-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/10/09/SQL-datetime/</loc>
+    
+    <lastmod>2025-10-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/10/09/SQL-string/</loc>
+    
+    <lastmod>2025-10-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/10/06/SQL-GroupBy-%E7%9A%84%E9%99%B7%E9%98%B1%E5%88%B0-Window-Function/</loc>
+    
+    <lastmod>2025-10-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/2025/10/07/SQL-JOIN/</loc>
+    
+    <lastmod>2025-10-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://chi-keke.github.io/2025/10/13/SQL-field/</loc>
     
     <lastmod>2025-10-13</lastmod>
@@ -38,34 +101,7 @@
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/2025/10/09/SQL-datetime/</loc>
-    
-    <lastmod>2025-10-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/2025/10/09/SQL-string/</loc>
-    
-    <lastmod>2025-10-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://chi-keke.github.io/2025/10/06/SQL-TempTable/</loc>
-    
-    <lastmod>2025-10-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/2025/10/06/SQL-JOIN/</loc>
     
     <lastmod>2025-10-13</lastmod>
     
@@ -335,7 +371,7 @@
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/2025/09/23/Hosting-CRUD/</loc>
+    <loc>https://chi-keke.github.io/2025/09/23/Hosting-Routing/</loc>
     
     <lastmod>2025-09-30</lastmod>
     
@@ -344,7 +380,7 @@
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/2025/09/23/Hosting-Routing/</loc>
+    <loc>https://chi-keke.github.io/2025/09/23/Hosting-CRUD/</loc>
     
     <lastmod>2025-09-30</lastmod>
     
@@ -1102,7 +1138,7 @@
 
   <url>
     <loc>https://chi-keke.github.io/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -1110,182 +1146,182 @@
   
   <url>
     <loc>https://chi-keke.github.io/tags/EF-CORE/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Asynchronous-Programming/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/C/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Code/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Cache/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Encode/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/JSON/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Unicode/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/ASP-NET-Core/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Delegate/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/%E9%A2%A8%E9%9F%B3%E5%AD%90/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Dependency-Injection/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Design/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/SOLID/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Plugin-Pattern%EF%BC%88%E5%A4%96%E6%8E%9B%E6%A8%A1%E5%BC%8F%EF%BC%89x-Factory-Method-Pattern%EF%BC%88%E5%B7%A5%E5%BB%A0%E6%96%B9%E6%B3%95%EF%BC%89x-Strategy-Pattern%EF%BC%88%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%EF%BC%89/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Delegate-x-Observer-Pattern/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Enum/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/Exception-Handling/</loc>
-    <lastmod>2025-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/tags/MVC/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/WebAPI/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/Http/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <loc>https://chi-keke.github.io/tags/MVC/</loc>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/HttpClient/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://chi-keke.github.io/tags/%E8%A8%80%E8%91%89%E7%B9%94%E3%82%8A/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <loc>https://chi-keke.github.io/tags/Http/</loc>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/LINQ/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/tags/%E8%A8%80%E8%91%89%E7%B9%94%E3%82%8A/</loc>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/SQL-%E8%81%B7%E5%A0%B4%E6%AD%B7%E9%9A%AA%E8%A8%98/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/tags/SQL/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -1294,105 +1330,105 @@
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E8%B3%87%E6%96%99%E7%96%86%E7%95%8C%E7%9A%84%E8%88%AA%E5%9C%96/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E6%9C%AA%E6%9D%A5%E3%82%88%E3%82%8A%E3%81%AE%E8%BF%94%E6%AD%8C/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E7%A8%8B%E6%80%9D%E8%88%9E%E6%83%B3/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E8%90%BD%E8%91%89%E4%B8%8B%E7%9A%84%E5%AD%98%E6%AA%94/</loc>
-    <lastmod>2025-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/categories/Config/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E6%9A%97%E5%8F%B7%E8%80%85%E3%81%AE%E7%A7%98%E5%AF%86%E3%81%AE%E9%83%A8%E5%B1%8B/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/categories/Config/</loc>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E9%A2%A8%E9%9F%B3%E5%AD%90/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E6%B3%A8%E5%85%A5%E4%B9%8B%E6%A3%AE/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E8%A8%AD%E8%A8%88%E5%9B%B3%E9%91%91%E7%89%A9%E8%AA%9E/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E6%B7%B1%E5%A4%9C%E5%AE%88%E8%AD%B7%E8%80%85/</loc>
-    <lastmod>2025-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://chi-keke.github.io/categories/MVC/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/WebAPI/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://chi-keke.github.io/categories/MVC/</loc>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E7%A9%BF%E8%B6%8A%E9%9B%B2%E5%B1%A4%E7%9A%84%E4%BF%A1%E4%BD%BF/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/%E8%A8%80%E8%91%89%E7%B9%94%E3%82%8A/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://chi-keke.github.io/categories/SQL-%E8%81%B7%E5%A0%B4%E6%AD%B7%E9%9A%AA%E8%A8%98/</loc>
-    <lastmod>2025-10-13</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
