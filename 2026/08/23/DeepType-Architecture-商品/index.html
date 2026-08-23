@@ -1,0 +1,522 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>商品 | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="三層關係Listing與Selling時間欄位SalePageGiftProductStock庫存商品怎麼寫進購物車組合商品Bundle 資料模型基礎 SalePage／SaleProduct／SaleProductSKU：一頁、多商品、多規格的三層結構 加入購物車之所以要join三張表才能判斷一個SKU能不能加入，是因為商品資料本身就是分三層設計的：SalePage（商品頁）管頁面層級的銷售條件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="商品">
+<meta property="og:url" content="https://allenlin000.github.io.git/2026/08/23/DeepType-Architecture-%E5%95%86%E5%93%81/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="三層關係Listing與Selling時間欄位SalePageGiftProductStock庫存商品怎麼寫進購物車組合商品Bundle 資料模型基礎 SalePage／SaleProduct／SaleProductSKU：一頁、多商品、多規格的三層結構 加入購物車之所以要join三張表才能判斷一個SKU能不能加入，是因為商品資料本身就是分三層設計的：SalePage（商品頁）管頁面層級的銷售條件">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.imgur.com/f2eWUWv.png">
+<meta property="article:published_time" content="2026-08-23T02:48:11.000Z">
+<meta property="article:modified_time" content="2026-08-23T03:08:53.343Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="商品">
+<meta property="article:tag" content="SalePage">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/f2eWUWv.png"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://allenlin000.github.io.git/2026/08/23/DeepType-Architecture-%E5%95%86%E5%93%81/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: 'days',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '商品',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2026-08-23 11:08:53'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">267</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">57</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.imgur.com/f2eWUWv.png')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">商品</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2026-08-23T02:48:11.000Z" title="Created 2026-08-23 10:48:11">2026-08-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-08-23T03:08:53.343Z" title="Updated 2026-08-23 11:08:53">2026-08-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9E%B6%E6%A7%8B%E3%81%AE%E6%B5%B7%E3%81%AB%E7%81%AF%E3%82%8B%E6%98%9F/">架構の海に灯る星</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="商品"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="tabs" id="商品"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="商品-1">三層關係</button><button type="button" class="tab " data-href="商品-2">Listing與Selling時間欄位</button><button type="button" class="tab " data-href="商品-3">SalePageGift</button><button type="button" class="tab " data-href="商品-4">ProductStock庫存</button><button type="button" class="tab " data-href="商品-5">商品怎麼寫進購物車</button><button type="button" class="tab " data-href="商品-6">組合商品Bundle</button></ul><div class="tab-contents"><div class="tab-item-content active" id="商品-1"><div class="hl-hero">
+<div class="hh-tag">資料模型基礎</div>
+<div class="hh-title">SalePage／SaleProduct／SaleProductSKU：一頁、多商品、多規格的三層結構</div>
+<div class="hh-desc">加入購物車之所以要join三張表才能判斷一個SKU能不能加入，是因為商品資料本身就是分三層設計的：<code>SalePage</code>（商品頁）管頁面層級的銷售條件，<code>SaleProduct</code>（商品）管「這是主件還是贈品」的角色，<code>SaleProductSKU</code>（規格）管實際可購買、有獨立庫存與售價的最小單位。</div>
+</div>
+
+<div class="hl-erd">
+<div class="erd-main">
+<div class="erd-node lav">商品主分身類目<em>ShopCategorySalePage</em></div>
+<div class="erd-edge"><div class="erd-card">n:1</div><div class="erd-line"></div></div>
+<div class="erd-node gold">商品頁<em>SalePage</em></div>
+<div class="erd-edge"><div class="erd-card">1:n</div><div class="erd-line"></div></div>
+<div class="erd-branch-stack">
+<div class="erd-node lav">商品頁配送方式<em>SalePageDeliverType</em></div>
+<div class="erd-node lav">商品頁付款方式<em>SalePagePayType</em></div>
+</div>
+</div>
+<div class="erd-branch">
+<div class="erd-edge"><div class="erd-card">1:1</div><div class="erd-line"></div></div>
+<div class="erd-node gold">商品<em>SaleProduct</em></div>
+<div class="erd-edge"><div class="erd-card">1:n</div><div class="erd-line"></div></div>
+<div class="erd-node gold">商品頁SKU<em>SaleProductSKU</em></div>
+<div class="erd-edge"><div class="erd-card">1:1</div><div class="erd-line"></div></div>
+<div class="erd-node lav">庫存<em>ProductStock</em></div>
+</div>
+</div>
+
+<div class="hl-layer-flow">
+<div class="ml-row">
+<div class="ml-badge">頁</div>
+<div class="ml-body">
+<div class="ml-title"><code>SalePage</code> 商品頁<span class="ml-io-badge cpu">1 筆</span></div>
+<div class="ml-desc">掌管頁面層級的銷售條件：<code>ListingStartDateTime</code>／<code>ListingEndDateTime</code>（上下架時間）、<code>SellingStartDateTime</code>／<code>SellingEndDateTime</code>（銷售起訖日期）、<code>SellingStartTime</code>／<code>SellingEndTime</code>（每日銷售時段）、<code>IsClosed</code>（是否關閉）、<code>Modes</code>（顯示模式，例如是否為組合商品）、運費與付款方式設定。一個商品頁只有一筆。</div>
+</div>
+</div>
+<div class="ml-connector"><div class="ml-line"></div></div>
+<div class="ml-row">
+<div class="ml-badge">商品</div>
+<div class="ml-body">
+<div class="ml-title"><code>SaleProduct</code> 商品／角色<span class="ml-io-badge cpu">1 對 1</span></div>
+<div class="ml-desc"><code>SaleProduct</code> 與 <code>SalePage</code> 是<strong>一對一</strong>關係，一個 <code>SalePageId</code> 底下只會對應到一筆 <code>SaleProduct</code>。這一筆用 <code>IsMajor</code>（是否為主件）、<code>IsGift</code>（滿額贈贈品）、<code>IsSalePageGift</code>（買就送贈品）、<code>IsExtra</code>（加價購）等布林欄位標記這個商品頁對應商品的角色，也帶著 <code>IsExpress</code>（快閃商品）欄位。真正「同一頁掛多個商品」的情境（例如贈品），是靠 <code>SalePageGift</code> 這張獨立的買就送贈品主檔搭配另一個 <code>SalePage_Id</code> 來實現，而不是同一個 <code>SalePageId</code> 掛多筆 <code>SaleProduct</code>。</div>
+</div>
+</div>
+<div class="ml-connector"><div class="ml-line"></div></div>
+<div class="ml-row">
+<div class="ml-badge">規格</div>
+<div class="ml-body">
+<div class="ml-title"><code>SaleProductSKU</code> 規格／庫存單位<span class="ml-io-badge io">1 對多</span></div>
+<div class="ml-desc">同一個 <code>SaleProductId</code> 底下可以掛多筆 <code>SaleProductSKU</code>，每一筆是真正可被購買的最小單位，各自有獨立的 <code>Price</code>（售價）、<code>OuterId</code>（供應商料號）、<code>IsShow</code>（是否顯示），並關聯到 <code>ProductStock</code> 取得實際庫存量。加入購物車時傳入的 <code>SkuId</code> 鎖定的就是這一層。</div>
+</div>
+</div>
+</div>
+
+<table class="hl-table">
+<tr><th>層級</th><th>關聯鍵</th><th>這一層決定什麼</th></tr>
+<tr><td><code>SalePage</code></td><td><code>SalePage_Id</code></td><td>頁面能不能賣：上下架時間、銷售時段、運費付款方式設定、是否為組合商品</td></tr>
+<tr><td><code>SaleProduct</code></td><td><code>SaleProduct_SalePageId</code> → <code>SalePage_Id</code>（1:1）</td><td>這個商品頁對應商品的角色：主件、滿額贈贈品、買就送贈品、加價購</td></tr>
+<tr><td><code>SaleProductSKU</code></td><td><code>SaleProductSKU_SaleProductId</code> → <code>SaleProduct_Id</code>（1:n）</td><td>實際被購買的規格：售價、庫存、供應商料號、是否顯示</td></tr>
+</table>
+
+
+<div class="hl-callout info">
+<span class="hc-icon">🧩</span>
+<p><strong>實際舉例：</strong>主件與贈品是兩個各自獨立、卻靠 <code>SalePageGift</code> 綁在一起的商品頁，以下用小型關聯圖、卡片對照、SKU 對照表、加入購物車結果分支四個角度拆解同一個案例。</p>
+</div>
+
+<div class="hl-erd">
+<div class="erd-main">
+<div class="erd-node gold">主件商品頁<em>SalePage（Id=1001）</em></div>
+<div class="erd-edge"><div class="erd-card">1:1</div><div class="erd-line"></div></div>
+<div class="erd-node lav">SalePageGift<em>SalePageId=1001</em></div>
+<div class="erd-edge"><div class="erd-card">記錄</div><div class="erd-line"></div></div>
+<div class="erd-node gold">贈品商品頁<em>SalePage（Id=1002）</em></div>
+</div>
+</div>
+
+<div class="hl-card-grid">
+<div class="hc-card">
+<div class="hc-badge">主</div>
+<div class="hc-title">主件：Nike 運動鞋</div>
+<div class="hc-desc">商品頁 <code>SalePage_Id=1001</code>，對應唯一一筆 <code>SaleProduct</code>（<code>IsMajor=true</code>，<code>SaleProduct_Id=5001</code>），底下掛兩筆 <code>SaleProductSKU</code>：黑色 42 號與白色 40 號。</div>
+</div>
+<div class="hc-card tan">
+<div class="hc-badge">贈</div>
+<div class="hc-title">贈品：運動襪</div>
+<div class="hc-desc">另一個獨立商品頁 <code>SalePage_Id=1002</code>，對應另一筆 <code>SaleProduct</code>（<code>IsGift=true</code>，<code>SaleProduct_Id=5002</code>），庫存與售價各自獨立管理，不掛在主件底下。</div>
+</div>
+</div>
+
+<table class="hl-table">
+<tr><th>SkuId</th><th>規格</th><th>庫存</th><th>來源商品頁</th></tr>
+<tr><td><code>9001</code></td><td>黑色 42 號</td><td>20 雙</td><td>主件 <code>SalePage_Id=1001</code></td></tr>
+<tr><td><code>9002</code></td><td>白色 40 號</td><td>0 雙</td><td>主件 <code>SalePage_Id=1001</code></td></tr>
+<tr><td>（贈品規格）</td><td>運動襪</td><td>各自獨立管理</td><td>贈品 <code>SalePage_Id=1002</code></td></tr>
+</table>
+
+<ul class="hl-checklist">
+<li>帶 <code>SkuId=9001</code> 加入購物車：庫存足夠，驗證全數通過，成功加入。</li>
+<li>帶 <code>SkuId=9002</code> 加入購物車：庫存為 0，在庫存驗證這一關被擋下。</li>
+<li>誤帶贈品商品頁（<code>SalePage_Id=1002</code>）底下任一 SkuId：在角色驗證直接被擋下，因為贈品只能透過自動預選機制進入購物車，不能走一般的加入購物車入口。</li>
+</ul>
+
+<details class="ml-detail">
+<summary>展開：SalePageGift 怎麼把兩者串起來</summary>
+<p>兩個商品頁透過 <code>SalePageGift</code> 記錄串起關聯：<code>SalePageGift_SalePageId=1001</code> 指向鞋子頁面，代表買鞋子送這個贈品。這筆記錄只負責標記「誰跟誰綁在一起送」，不會讓兩個商品頁共用同一份庫存或規格資料。</p>
+</details></div><div class="tab-item-content" id="商品-2"><div class="hl-hero">
+<div class="hh-tag">時間欄位設計</div>
+<div class="hh-title">為什麼會有 Listing 與 Selling 兩組時間欄位</div>
+</div>
+
+<div class="hl-decision">
+<div class="dc-gate">
+<div class="dc-diamond">Listing（上下架）<br>vs<br>Selling（銷售）</div>
+<div class="dc-branches">
+<div class="dc-branch yes"><span class="dc-tag">Listing</span><span class="dc-text"><strong><code>SalePage_ListingStartDateTime</code>／<code>SalePage_ListingEndDateTime</code>：</strong>控制商品頁在前台看不看得到，也就是是否出現在商品列表、搜尋結果、分類頁。這是給營運人員排程上下架用的可見性開關，跟能不能結帳無關。</span></div>
+<div class="dc-branch no"><span class="dc-tag">Selling</span><span class="dc-text"><strong><code>SalePage_SellingStartDateTime</code>／<code>SalePage_SellingEndDateTime</code>（加上每日 <code>SalePage_SellingStartTime</code>／<code>SalePage_SellingEndTime</code>）：</strong>控制商品能不能被下單，也就是是否可以加入購物車、送出訂單。這是給促銷檔期、限時搶購用的交易開關，跟頁面看不看得到無關。</span></div>
+</div>
+</div>
+</div>
+
+<table class="hl-table">
+<tr><th>判斷結果</th><th>條件公式</th></tr>
+<tr><td>看得到商品（上架中）</td><td><code>now &gt;= SalePage_ListingStartDateTime &amp;&amp; now &lt; SalePage_ListingEndDateTime</code></td></tr>
+<tr><td>買得到商品（開賣中）</td><td><code>now &gt;= SalePage_SellingStartDateTime &amp;&amp; now &lt; SalePage_SellingEndDateTime</code>（另外每日 <code>SalePage_SellingStartTime</code>／<code>SalePage_SellingEndTime</code> 還要疊加判斷當下時段）</td></tr>
+<tr><td>搶先曝光</td><td><code>SalePage_ListingStartDateTime == now</code>（上架起始時間點當下，商品剛好開始被看見）</td></tr>
+<tr><td>商品頁關閉（總開關）</td><td><code>SalePage_IsClosed == true</code>，一旦成立會直接蓋過上面所有判斷</td></tr>
+</table>
+
+<div class="hl-callout warn">
+<span class="hc-icon">⚠️</span>
+<p><strong>兩者可以不同步，這是刻意設計：</strong>常見情境是預告型商品頁，商品頁已經上架（<code>SalePage_ListingStartDateTime</code> 已過，看得到頁面、看得到介紹圖文），但銷售時間還沒到（<code>SalePage_SellingStartDateTime</code> 是未來時間），此時會回傳尚未開賣，頁面顯示即將開賣但無法加入購物車。反過來也可能發生：頁面已經下架（<code>SalePage_ListingEndDateTime</code> 已過，不再出現在列表或搜尋），但如果透過直接連結或收藏連到頁面，仍以 <code>Selling</code> 時間為準決定能不能加入購物車。</p>
+</div>
+
+<div class="hl-callout info">
+<span class="hc-icon">🧩</span>
+<p><strong>驗證順序：</strong>先檢查 <code>SalePage_IsClosed</code>，一旦為 <code>true</code> 直接判定此商品頁已關閉，不再往下比對任何時間欄位；接著才檢查 <code>SalePage_ListingStartDateTime</code> 與 <code>SalePage_SellingStartDateTime</code>／<code>SellingStartTime</code>／<code>SellingEndTime</code>，任一未到就回傳尚未開賣；最後檢查 <code>SalePage_SellingEndDateTime</code> 是否已過，過了就回傳過銷售時間。可加入購物車的判斷只吃 <code>Selling</code> 系列時間與 <code>IsClosed</code>，<code>Listing</code> 時間本身不直接卡加入購物車，只影響前台是否顯示這個商品頁。</p>
+</div></div><div class="tab-item-content" id="商品-3"><div class="hl-hero">
+<div class="hh-tag">贈品怎麼跟主件綁在一起</div>
+<div class="hh-title">SalePageGift：主件與贈品怎麼關聯</div>
+<div class="hh-desc">贈品不是掛在主件同一個 <code>SalePage</code> 底下的另一筆 <code>SaleProduct</code>，而是它自己完整的一套 <code>SalePage</code>／<code>SaleProduct</code>／<code>SaleProductSKU</code>，透過 <code>SalePageGift</code> 這張獨立主檔表做誰跟誰綁在一起送的邏輯關聯，庫存、售價、上下架時間全部各自獨立管理。</div>
+</div>
+
+<div class="hl-erd">
+<div class="erd-main">
+<div class="erd-node gold">主件商品頁<em>SalePage（Id=1001）</em></div>
+<div class="erd-edge"><div class="erd-card">1:1</div><div class="erd-line"></div></div>
+<div class="erd-node lav">買就送贈品主檔<em>SalePageGift</em></div>
+<div class="erd-edge"><div class="erd-card">記錄</div><div class="erd-line"></div></div>
+<div class="erd-node gold">贈品商品頁<em>SalePage（Id=1002）</em></div>
+</div>
+</div>
+
+<table class="hl-table">
+<tr><th>欄位</th><th>說明</th></tr>
+<tr><td><code>SalePageGift_Id</code></td><td>買就送贈品主檔序號（唯一鍵建在這個欄位上）</td></tr>
+<tr><td><code>SalePageGift_SalePageId</code></td><td>外鍵，指回<strong>主件</strong>商品頁的 <code>SalePage_Id</code></td></tr>
+<tr><td><code>SalePageGift_ValidFlag</code></td><td>是否生效</td></tr>
+</table>
+
+<div class="hl-callout warn">
+<span class="hc-icon">⚠️</span>
+<p><strong>關聯粒度：</strong><code>SalePageGift</code> 唯一索引建在 <code>SalePageGift_Id</code> 本身，不是建在 <code>SalePageGift_SalePageId</code> 上，代表資料表結構本身沒有強制一個主件商品頁只能有一筆買就送設定；實務上一個主件商品頁能否掛多筆買就送規則，要以商品維運後台的業務邏輯為準，不能只靠這張表的索引推論。</p>
+</div>
+
+<div class="hl-callout info">
+<span class="hc-icon">🧩</span>
+<p><strong>舉例：</strong>「Nike 運動鞋」主件商品頁 <code>SalePage_Id=1001</code>（對應 <code>SaleProduct_Id=5001</code>，<code>IsMajor=true</code>）與贈品「運動襪」商品頁 <code>SalePage_Id=1002</code>（對應 <code>SaleProduct_Id=5002</code>，<code>IsGift=true</code>）是兩個完全獨立、各自一對一對應 <code>SaleProduct</code> 的商品頁，也各自有自己的 <code>SaleProductSKU</code> 與庫存。<code>SalePageGift</code> 表裡會有一筆 <code>SalePageGift_SalePageId=1001</code> 的紀錄，代表 1001 這支主件商品頁有買就送活動；實際送哪一個贈品商品頁，則由更細的贈品明細層級進一步指定。</p>
+</div>
+
+<div class="hl-callout success">
+<span class="hc-icon">✅</span>
+<p><strong>小結：</strong><code>SalePageGift</code> 只回答這個主件商品頁有沒有買就送活動這個開關性問題，不是把贈品塞進主件的 <code>SaleProduct</code> 清單裡。贈品永遠是它自己獨立的商品頁、商品、規格，只是邏輯上被 <code>SalePageGift</code>（以及更細的贈品明細）標記成跟某個主件綁在一起送。加入購物車時如果誤帶到贈品商品頁的 SkuId，會在角色驗證直接被擋下，因為贈品只能透過自動預選機制進入購物車，不能走一般的加入購物車入口。</p>
+</div></div><div class="tab-item-content" id="商品-4"><div class="hl-hero">
+<div class="hh-tag">庫存資料模型</div>
+<div class="hh-title">ProductStock 與 SaleProductSKU：規格定義賣什麼，庫存定義還剩多少</div>
+<div class="hh-desc"><code>SaleProductSKU</code> 與 <code>ProductStock</code> 是<strong>一對一</strong>關係，跟 <code>SaleProduct</code>／<code>SaleProductSKU</code> 那種一對多不同。<code>SaleProductSKU</code> 負責這個規格怎麼賣（售價、料號、顯示狀態），<code>ProductStock</code> 負責這個規格還剩多少能賣（庫存數字本身），兩張表刻意拆開維護。</div>
+<div class="hh-badges">
+<span class="hh-badge">1 對 1 關聯</span>
+<span class="hh-badge">外鍵：ProductStock_SaleProductSKUId</span>
+<span class="hh-badge">唯一索引保證不會一對多</span>
+</div>
+</div>
+
+<div class="hl-tabs">
+<div class="ht-bar">
+<button class="ht-btn on" data-tab="ps-model">兩表分工</button>
+<button class="ht-btn" data-tab="ps-why">為什麼拆表</button>
+</div>
+<div class="ht-panel on" id="ps-model">
+<ul>
+<li><strong><code>SaleProductSKU</code>（規格主體）：</strong>售價 <code>Price</code>、供應商料號 <code>OuterId</code>、是否顯示 <code>IsShow</code>、單次限購量 <code>OnceQty</code>，這些是商品目錄概念，變動頻率低。</li>
+<li><strong><code>ProductStock</code>（庫存帳）：</strong>上架總量 <code>TotalQty</code>、累積訂單量 <code>RegQty</code>、取消量 <code>CancelQty</code>、目前可賣量 <code>SellingQty</code>，這些是庫存帳務概念，會隨每一筆下單或取消頻繁異動。</li>
+</ul>
+</div>
+<div class="ht-panel" id="ps-why">
+<ul>
+<li><strong>更新頻率差異巨大：</strong>庫存數字高頻寫入，規格資料低頻異動，分表避免互相鎖等待、拖慢彼此。</li>
+<li><strong>語意單一職責：</strong>商品目錄（規格）與庫存帳務（數量），本來就是兩個業務子領域。</li>
+<li><strong>可延伸性：</strong><code>ProductStock_GoodsStockId</code> 指向更底層貨品庫存池，多個 SKU 可能共用同一批貨的庫存，拆開才能讓庫存邏輯獨立演進。</li>
+</ul>
+</div>
+</div>
+
+<div class="hl-swimlane">
+<div class="sl-head">呼叫端</div>
+<div class="sl-head">Repository</div>
+<div class="sl-head red">DB：csp_GetProductStockList</div>
+<div class="sl-head tan">回傳結果</div>
+<div class="sl-lane"><div class="sl-node">驗證可售庫存</div></div>
+<div class="sl-lane"><div class="sl-node">1 秒記憶體快取</div><div class="sl-step">未命中 →</div></div>
+<div class="sl-lane"><div class="sl-node">2 JOIN 兩表 + 限購封頂運算</div></div>
+<div class="sl-lane"><div class="sl-node dim">－</div><div class="sl-node">3 SellingQty 供驗證使用</div></div>
+</div>
+
+<div class="hl-card-grid">
+<div class="hc-card">
+<div class="hc-badge">①</div>
+<div class="hc-title">JOIN 條件</div>
+<div class="hc-desc">以 <code>ProductStock_SaleProductSKUId = SaleProductSKU_Id</code> 一對一關聯，並限定兩表都要 <code>ValidFlag = 1</code>（有效）。</div>
+</div>
+<div class="hc-card tan">
+<div class="hc-badge">②</div>
+<div class="hc-title">可售量怎麼算</div>
+<div class="hc-desc"><code>IsShow = 0</code> 直接回傳 <code>0</code>；<code>IsShow = 1</code> 時取庫存量與單次限購量 <code>OnceQty</code> 兩者較小值，除非是定期購自動建單模式則不封頂。</div>
+</div>
+<div class="hc-card red">
+<div class="hc-badge">③</div>
+<div class="hc-title">最終怎麼用</div>
+<div class="hc-desc">驗證只看這個計算後的 <code>SellingQty &lt; 1</code> 就擋下，不是直接看原始庫存欄位。</div>
+</div>
+</div>
+
+<div class="hl-callout success">
+<span class="hc-icon">✅</span>
+<p><strong>小結：</strong>庫存資料在被拿來驗證之前，已經在資料庫層先做過顯示狀態與單次限購的運算，取到的 <code>SellingQty</code> 是這次可以買多少而非倉庫裡實際還有多少，兩者是不同層次的數字。</p>
+</div></div><div class="tab-item-content" id="商品-5"><div class="hl-hero">
+<div class="hh-tag">寫入流程</div>
+<div class="hh-title">商品怎麼寫進購物車：加入購物車 API 的四道驗證</div>
+<div class="hh-desc">加入購物車這支 API 收到請求後，會依序跑過四道驗證，全數通過才會真正把商品寫進 <code>ShoppingCart</code> 表。</div>
+</div>
+
+<div class="hl-steps">
+<div class="hs-card">
+<div class="hs-num">1</div>
+<div class="hs-title">驗證商品頁</div>
+<p class="hs-desc">檢查商品是否存在、是否為贈品、商品頁是否已停售。</p>
+</div>
+<div class="hs-card">
+<div class="hs-num">2</div>
+<div class="hs-title">驗證容量上限</div>
+<p class="hs-desc">檢查商店設定的商品種類上限與總數量上限。</p>
+</div>
+<div class="hs-card">
+<div class="hs-num">3</div>
+<div class="hs-title">驗證可售庫存</div>
+<p class="hs-desc">確認商品剩餘可售數量足夠這次加入的數量。</p>
+</div>
+<div class="hs-card">
+<div class="hs-num">4</div>
+<div class="hs-title">驗證組合商品</div>
+<p class="hs-desc">確認加購品或組合商品的子項設定正確。</p>
+</div>
+<div class="hs-card warn">
+<div class="hs-num">✓</div>
+<div class="hs-title">寫入 <code>ShoppingCart</code> 表</div>
+<p class="hs-desc">四道驗證全數通過後，組裝購物車項目清單（主商品與加購品或組合商品子項各帶擴充資訊，標記主件或子件與分組編號），真正寫進資料庫。若開啟數量累加設定，加入前會先查出現有同商品數量做累加，否則直接覆蓋成請求的數量。</p>
+</div>
+</div>
+
+<table class="hl-table">
+<tr><th>判斷情境</th><th>依據</th><th>結果</th></tr>
+<tr><td>同一 <code>SalePageId</code>／<code>SkuId</code> 已存在於 <code>ShoppingCart</code> 表</td><td>依商店代碼、會員或訪客識別、有效旗標篩選既有紀錄</td><td>走更新：覆蓋或累加既有數量</td></tr>
+<tr><td>尚未存在於 <code>ShoppingCart</code> 表</td><td>同上篩選條件查無紀錄</td><td>走新增：插入新的一筆</td></tr>
+<tr><td>兩種情況的識別鍵</td><td>登入會員用會員編號，未登入訪客用未登入識別碼</td><td>與後續讀取購物車時使用的識別鍵完全一致</td></tr>
+</table>
+
+<div class="hl-callout info">
+<span class="hc-icon">ℹ️</span>
+<p><strong>與讀取購物車的關係：</strong>加入購物車（寫入 <code>ShoppingCart</code> 表）與讀取購物車（讀取該表並試算金物流）是分工明確的兩支 API。每次點擊加入購物車都會即時寫入資料庫，之後任何時間點讀取購物車，都是拿同一組識別鍵去查詢當下資料庫裡實際存在的商品，而不是靠前端把商品清單傳過來。</p>
+</div></div><div class="tab-item-content" id="商品-6"><div class="hl-hero">
+<div class="hh-tag">規則層設計</div>
+<div class="hh-title">組合商品：不是一支商品，是一套規則</div>
+<div class="hh-desc">組合商品不會改變 <code>SalePage</code>／<code>SaleProduct</code>／<code>SaleProductSKU</code> 的資料結構，主商品與子商品都是各自真實存在、可獨立查詢的商品頁。組合商品只是在這些真實商品頁上疊加一層誰能跟誰綁、要買幾件、算多少錢的規則，這層規則由外部規則服務提供，加入購物車當下逐項核對。</div>
+</div>
+
+<div class="hl-tabs">
+<div class="ht-bar">
+<button class="ht-btn on" data-tab="bd-main">主商品 vs 子商品</button>
+<button class="ht-btn" data-tab="bd-block">Block 是什麼</button>
+</div>
+<div class="ht-panel on" id="bd-main">
+<p>一次加入購物車呼叫的外層 <code>SalePageId</code>／<code>SkuId</code> 就是主商品（組合套餐本身）的真實商品頁；子商品清單裡每一筆的 <code>SalePageId</code>／<code>SaleProductSKUId</code> 則是各個子商品各自真實的商品頁，兩者都不是虛擬編號。驗證通過後，購物車裡實際會產生主商品加上 N 個子商品共 N+1 筆項目，靠主商品的擴充資訊指向子商品建立父子關係，結帳只收主商品價格。</p>
+</div>
+<div class="ht-panel" id="bd-block">
+<p>Block（區塊）是組合規則裡一個可替換選擇的商品分類槽位，不是指某個特定商品。例如早餐超值組合可以有 Block A（主餐：漢堡或三明治擇一）、Block B（飲料：紅茶或奶茶擇一）。每個 Block 各自定義必買與限購件數，以及這格允許哪些商品頁或規格。子商品宣告自己屬於哪個 Block，加入購物車時再拿這個 Block 的規則去核對範圍與數量。</p>
+</div>
+</div>
+
+<div class="hl-swimlane">
+<div class="sl-head">前端</div>
+<div class="sl-head">購物車服務</div>
+<div class="sl-head red">組合規則服務</div>
+<div class="sl-head tan">寫入購物車</div>
+<div class="sl-lane"><div class="sl-node">傳入主商品 SalePageId/SkuId + 子商品清單</div></div>
+<div class="sl-lane"><div class="sl-node">判定組合模式</div><div class="sl-step">欄位檢查 →</div><div class="sl-node">驗證組合子項</div></div>
+<div class="sl-lane"><div class="sl-node">取得組合規則</div><div class="sl-step">回傳規則 →</div><div class="sl-node">逐項核對</div></div>
+<div class="sl-lane"><div class="sl-node">主商品 + N 個子商品各成一筆</div><div class="sl-step">父子關聯</div><div class="sl-node">排序後寫入</div></div>
+</div>
+
+<table class="hl-table">
+<thead><tr><th>角色</th><th>SalePageId</th><th>SkuId</th><th>商品名稱</th><th>售價</th></tr></thead>
+<tbody>
+<tr><td>主商品（組合套餐頁）</td><td>8001</td><td>90001</td><td>早餐超值組合</td><td>199</td></tr>
+<tr><td>Block A 子商品</td><td>3001</td><td>30011</td><td>牛肉漢堡</td><td>89（單買參考價）</td></tr>
+<tr><td>Block B 子商品</td><td>3002</td><td>30021</td><td>中杯奶茶</td><td>45（單買參考價）</td></tr>
+</tbody>
+</table>
+
+<div class="hl-callout info">
+<span class="hc-icon">ℹ️</span>
+<p><strong>驗證重點：</strong>子商品總數量需等於必買件數乘以購買組數，每個子商品需對得上某個 Block，該 Block 允許的範圍需包含這個子商品的商品頁（若限定規格清單還需包含規格編號），數量需落在該 Block 的必買與限購區間內，最後主商品價格需小於等於子商品原價總和，任一項不符即擋下。</p>
+</div>
+
+<div class="hl-callout success">
+<span class="hc-icon">✅</span>
+<p><strong>小結：</strong>組合商品是規則驅動的商品綁定，判斷依據不在購物車自己的資料庫，而是外部規則服務提供的規則。購物車只負責把前端傳入的子商品清單，拿去對規則逐項驗證與排序，資料庫裡看到的仍是主商品與子商品各自獨立的購物車列。</p>
+</div></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://allenlin000.github.io.git">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://allenlin000.github.io.git/2026/08/23/DeepType-Architecture-%E5%95%86%E5%93%81/">https://allenlin000.github.io.git/2026/08/23/DeepType-Architecture-%E5%95%86%E5%93%81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%95%86%E5%93%81/">商品</a><a class="post-meta__tags" href="/tags/SalePage/">SalePage</a></div><div class="post_share"><div class="social-share" data-image="https://i.imgur.com/f2eWUWv.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/08/23/DeepType-Architecture-%E5%95%86%E5%93%81-pure/" title="商品"><img class="cover" src="https://i.imgur.com/f2eWUWv.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">商品</div></div></a></div><div class="next-post pull-right"><a href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img class="cover" src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Hallucination</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2026/08/23/DeepType-Architecture-%E5%95%86%E5%93%81-pure/" title="商品"><img class="cover" src="https://i.imgur.com/f2eWUWv.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-23</div><div class="title">商品</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">267</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">57</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/CHI-KEKE"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/CHI-KEKE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:chilly37647@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">世界上總會有一些溫暖的小角落</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/08/23/DeepType-Architecture-%E5%95%86%E5%93%81/" title="商品"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="商品"/></a><div class="content"><a class="title" href="/2026/08/23/DeepType-Architecture-%E5%95%86%E5%93%81/" title="商品">商品</a><time datetime="2026-08-23T02:48:11.000Z" title="Created 2026-08-23 10:48:11">2026-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/08/23/DeepType-Architecture-%E5%95%86%E5%93%81-pure/" title="商品"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="商品"/></a><div class="content"><a class="title" href="/2026/08/23/DeepType-Architecture-%E5%95%86%E5%93%81-pure/" title="商品">商品</a><time datetime="2026-08-23T02:48:11.000Z" title="Created 2026-08-23 10:48:11">2026-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/08/21/DB-Postgres-pure/" title="Postgres - 1"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Postgres - 1"/></a><div class="content"><a class="title" href="/2026/08/21/DB-Postgres-pure/" title="Postgres - 1">Postgres - 1</a><time datetime="2026-08-21T00:13:00.000Z" title="Created 2026-08-21 08:13:00">2026-08-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/08/21/DB-Postgres/" title="Postgres - 1"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Postgres - 1"/></a><div class="content"><a class="title" href="/2026/08/21/DB-Postgres/" title="Postgres - 1">Postgres - 1</a><time datetime="2026-08-21T00:13:00.000Z" title="Created 2026-08-21 08:13:00">2026-08-21</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">What you'll find out there is boundless freedom !</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap, #article-container pre.mermaid')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const isMermaidWrap = item.classList.contains('mermaid-wrap')
+      const mermaidSrc = isMermaidWrap ? item.firstElementChild : item
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const insertSvg = (svg) => {
+        item.insertAdjacentHTML('afterend', svg)
+        if (!isMermaidWrap) item.style.display = 'none'
+      }
+
+      const renderV10 = () => {
+        renderFn.then(({ svg }) => insertSvg(svg))
+      }
+
+      const renderV9 = svg => insertSvg(svg)
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
