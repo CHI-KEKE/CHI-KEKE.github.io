@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>WebAPI | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="WebAPIControllerBase 與 ControllerControllerBase ReturnAttributes自訂 Controller 行為 - 加入 Logging停用自動 400Buffering IEnumerableStreaming IAsyncEnumerableIActionResultIResultTypedResults + Results格式特定的回傳sum">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebAPI">
+<meta property="og:url" content="https://chi-keke.github.io/2025/09/23/DeepType-Web-WebApi/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="WebAPIControllerBase 與 ControllerControllerBase ReturnAttributes自訂 Controller 行為 - 加入 Logging停用自動 400Buffering IEnumerableStreaming IAsyncEnumerableIActionResultIResultTypedResults + Results格式特定的回傳sum">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true">
+<meta property="article:published_time" content="2025-09-23T09:07:34.000Z">
+<meta property="article:modified_time" content="2026-09-05T02:55:05.097Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2025/09/23/DeepType-Web-WebApi/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'WebAPI',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-09-05 10:55:05'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">WebAPI</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-09-23T09:07:34.000Z" title="Created 2025-09-23 17:07:34">2025-09-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-09-05T02:55:05.097Z" title="Updated 2026-09-05 10:55:05">2026-09-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Web/">Web</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="WebAPI"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="tabs" id="webapi"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="webapi-1">WebAPI</button><button type="button" class="tab " data-href="webapi-2">ControllerBase 與 Controller</button><button type="button" class="tab " data-href="webapi-3">ControllerBase Return</button><button type="button" class="tab " data-href="webapi-4">Attributes</button><button type="button" class="tab " data-href="webapi-5">自訂 Controller 行為 - 加入 Logging</button><button type="button" class="tab " data-href="webapi-6">停用自動 400</button><button type="button" class="tab " data-href="webapi-7">Buffering IEnumerable<T></button><button type="button" class="tab " data-href="webapi-8">Streaming IAsyncEnumerable<T></button><button type="button" class="tab " data-href="webapi-9">IActionResult</button><button type="button" class="tab " data-href="webapi-10">IResult</button><button type="button" class="tab " data-href="webapi-11">TypedResults + Results<TResult1, TResultN></button><button type="button" class="tab " data-href="webapi-12">格式特定的回傳</button><button type="button" class="tab " data-href="webapi-13">summmary</button></ul><div class="tab-contents"><div class="tab-item-content active" id="webapi-1"><p>在我眼中，Web API 就像是一座小小的「橋樑」，一邊是使用者，他們可能透過手機、網頁，甚至 IoT 裝置提出需求，一邊則是我們的系統，安靜地等待著請求，準備回應。Controller 與 ControllerBase 就像這座橋樑的守門人，決定了資訊要如何被傳遞、如何被呈現</p>
+<p>而我們依據「交付介質」決定地基：HTML 畫面需要完整的 View 引擎支援，而純數據傳輸應保持輕量無負擔，有些橋樑華麗，鋪上了燈飾與雕花（Controller，帶著 View 的世界），適合人群來往、熱鬧非凡；有些橋樑則簡單而純粹（ControllerBase，專注於 API），只管讓資料穩穩地走過去，沒有多餘的裝飾</p>
+<p>我們現在散步在 WebApi 的世界中。走過這些橋樑，一邊看風景，一邊理解它們的職責與差異。會發現，無論是繁華還是簡約，Web API 的核心，始終是讓兩端能夠順暢而真誠地溝通</p></div><div class="tab-item-content" id="webapi-2"><p>在 ASP.NET Core 裡，Controller 與 ControllerBase 的差別是</p>
+<ul>
+<li>Controller：繼承自 ControllerBase，並且加入「View 支援」。適合用在 MVC，有畫面需要回傳 View 的情境</li>
+<li>ControllerBase：只有處理 Web API 要求 所需的功能，不包含 View。適合純粹的 API 專案</li>
+</ul>
+<p>如果同一個控制器需要同時支援 View + API，就用 Controller。如果只寫 API，就用 ControllerBase</p>
+<p><img src="https://github.com/CHI-KEKE/pics/blob/main/Web/API/mvc_api______controllerbase.png?raw=true" alt="view"></p>
+<h2 id="公司形象官網"><a href="#公司形象官網" class="headerlink" title="公司形象官網"></a>公司形象官網</h2><p>使用者點擊「關於我們」，伺服器需要回傳一個包含 CSS 與圖片佈局的 About.cshtml 頁面，因此選擇了 <code>Controller</code></p>
+<h2 id="手機-App-後端"><a href="#手機-App-後端" class="headerlink" title="手機 App 後端"></a>手機 App 後端</h2><p>App 發送請求查詢「最新商品列表」，伺服器只需要回傳一個純文字的 JSON 陣列，不需要任何 HTML 標籤。因此選擇 <code>ControllerBase</code></p></div><div class="tab-item-content" id="webapi-3"><ul>
+<li>CreatedAtAction() → 回傳 201 Created 狀態碼，常用在新增成功後回傳新資源。</li>
+<li>BadRequest() → 回傳 400 Bad Request。</li>
+<li>NotFound() → 回傳 404 Not Found。</li>
+<li>PhysicalFile() → 回傳實體檔案。</li>
+<li>TryUpdateModelAsync() → 嘗試更新模型並做 Model Binding。</li>
+<li>TryValidateModel() → 嘗試做 Model 驗證。</li>
+</ul>
+<p>📦 範例</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> CreatedAtAction(<span class="keyword">nameof</span>(GetById), <span class="keyword">new</span> &#123; id = pet.Id &#125;, pet);</span><br></pre></td></tr></table></figure>
+
+<p>回傳 201 Created告訴呼叫端「這個資源已建立，你可以用 GetById + id 來取得它」，Response Body 直接帶回剛建立好的 pet，前端拿到後可以直接顯示資料或用回傳的 location 再打一次 API</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Web/API/returncode____standard.png" alt="v"></p>
+<h2 id="NotFound"><a href="#NotFound" class="headerlink" title="NotFound"></a>NotFound</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (pet == <span class="literal">null</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> NotFound();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://tools.ietf.org/html/rfc7231#section-6.5.4&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Not Found&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="number">404</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;traceId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0HLHLV31KRN83:00000001&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Web/API/returncode______404.png" alt="v"></p></div><div class="tab-item-content" id="webapi-4"><p>在 WebAPI 裡，我們常用 Attributes 來修飾 Action 方法，指定它如何處理 HTTP 要求</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">HttpPost</span>]</span><br><span class="line">[<span class="meta">ProducesResponseType(StatusCodes.Status201Created)</span>]</span><br><span class="line">[<span class="meta">ProducesResponseType(StatusCodes.Status400BadRequest)</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> ActionResult&lt;Pet&gt; <span class="title">Create</span>(<span class="params">Pet pet</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    pet.Id = _petsInMemoryStore.Any() ? </span><br><span class="line">             _petsInMemoryStore.Max(p =&gt; p.Id) + <span class="number">1</span> : <span class="number">1</span>;</span><br><span class="line">    _petsInMemoryStore.Add(pet);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> CreatedAtAction(<span class="keyword">nameof</span>(GetById), <span class="keyword">new</span> &#123; id = pet.Id &#125;, pet);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>[HttpPost] → 指定這個方法只處理 POST 請求<br>[ProducesResponseType] → 文件化 API，說明可能回傳的狀態碼與內容。Swagger &#x2F; OpenAPI 文件就會根據這些資訊，產生更清楚的 API 規格</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Web/API/attribute____on_endpoint.png" alt="a"></p>
+<p>[ApiController] → 會自動幫你做一些常見處理</p>
+<h2 id="ApiController-自動驗證-ModelState"><a href="#ApiController-自動驗證-ModelState" class="headerlink" title="ApiController - 自動驗證 ModelState"></a>ApiController - 自動驗證 ModelState</h2><p>如果模型驗證失敗，系統會自動回傳 400 Bad Request，不用自己寫</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!ModelState.IsValid)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> BadRequest(ModelState);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自動產生錯誤回應"><a href="#自動產生錯誤回應" class="headerlink" title="自動產生錯誤回應"></a>自動產生錯誤回應</h2><p>回傳格式會是 ValidationProblemDetails，例如</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://tools.ietf.org/html/rfc7231#section-6.5.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;One or more validation errors occurred.&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="number">400</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;traceId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;|7fb5e16a-4c8f23bbfc974667.&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;errors&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="string">&quot;A non-empty request body is required.&quot;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Web/API/attribute___apicontroller.png" alt="v"></p></div><div class="tab-item-content" id="webapi-5"><p>自訂 ASP.NET Core Controller 在「Model 驗證失敗」時的回應行為（InvalidModelStateResponseFactory），在不破壞預設行為的前提下，把該留下的線索留下來（例如 logging）</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);</span><br><span class="line"></span><br><span class="line">builder.Services.AddControllers()</span><br><span class="line">    .ConfigureApiBehaviorOptions(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment"><span class="doctag">///</span>/ 當 Model 驗證失敗（例如 [Required] 沒過），所有 API 都會先進到這裡。</span></span><br><span class="line">        <span class="keyword">var</span> builtInFactory = options.InvalidModelStateResponseFactory;</span><br><span class="line"></span><br><span class="line">        options.InvalidModelStateResponseFactory = context =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> logger = context.HttpContext.RequestServices</span><br><span class="line">                                .GetRequiredService&lt;ILogger&lt;Program&gt;&gt;();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Perform logging here.</span></span><br><span class="line">            <span class="comment">// 到這裡你已經能：</span></span><br><span class="line">            <span class="comment">// 記錄錯誤欄位</span></span><br><span class="line">            <span class="comment">// 記錄 Request Path</span></span><br><span class="line">            <span class="comment">// 記錄使用者資訊</span></span><br><span class="line">            <span class="comment">// 串監控或告警系統</span></span><br><span class="line">            <span class="keyword">return</span> builtInFactory(context); <span class="comment"><span class="doctag">///</span>/ 預設會回傳 ValidationProblemDetails (400)</span></span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = builder.Build();</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/CHI-KEKE/pics/blob/main/Web/API/invalidmodeulstate______factory.png?raw=true" alt="c"></p></div><div class="tab-item-content" id="webapi-6"><p>關掉的是「框架替你做決定的那一刻」，把「什麼是錯、要怎麼回」的主導權，從 ASP.NET Core 手上拿回來</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);</span><br><span class="line"></span><br><span class="line">builder.Services.AddControllers()</span><br><span class="line">    .ConfigureApiBehaviorOptions(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.SuppressConsumesConstraintForFormFileParameters = <span class="literal">true</span>;</span><br><span class="line">        options.SuppressInferBindingSourcesForParameters = <span class="literal">true</span>;</span><br><span class="line">        options.SuppressModelStateInvalidFilter = <span class="literal">true</span>; <span class="comment"><span class="doctag">///</span>/ 關閉 ModelState Invalid 時的自動 Filter</span></span><br><span class="line">        options.SuppressMapClientErrors = <span class="literal">true</span>;</span><br><span class="line">        options.ClientErrorMapping[StatusCodes.Status404NotFound].Link =</span><br><span class="line">            <span class="string">&quot;https://httpstatuses.com/404&quot;</span>; <span class="comment"><span class="doctag">///</span>/ 自訂 Client Error Mapping（404 連結）</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = builder.Build();</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Web/API/invalidmodulestate_____manual.png" alt="g"></p></div><div class="tab-item-content" id="webapi-7"><p>Buffer (緩衝區) 本質上就是一塊記憶體，用來存放「還沒送出的資料」。某些序列化器（Newtonsoft.Json &#x2F; XML Formatter）需要知道完整集合的大小或結構，才能正確輸出。所以 ASP.NET Core 只能等全部資料都準備好，才能送</p>
+<ul>
+<li><code>Controller</code> 開始執行</li>
+<li>把所有 <code>yield return</code> 的資料收集到一個清單</li>
+<li>JSON 序列化器把清單轉成完整 JSON 字串</li>
+<li>一次性把完整 JSON 寫進 Response</li>
+<li>前端才收到資料</li>
+</ul>
+<p>➡️ 前端必須等「最後一刻」，才會拿到任何東西</p>
+<p>假設你寫了這樣的 API</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> IEnumerable&lt;<span class="built_in">int</span>&gt; <span class="title">GetNumbers</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="keyword">return</span> i;</span><br><span class="line">        Thread.Sleep(<span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以為會第 1 秒前端收到 0、第 2 秒收到 1看起來像 streaming，而實際前 5 秒：前端完全沒資料、第 5 秒結束後：一次收到 [0,1,2,3,4]，它被強制「跑完一整輪」才准輸出<br>JSON 不是流水帳，而是有頭有尾的格式，沒看到結尾就沒辦法安心開頭，「正確性優先」，不是「即時性優先」</p>
+<p><img src="https://github.com/CHI-KEKE/pics/blob/main/Web/API/response______buffer.png?raw=true" alt="s"></p></div><div class="tab-item-content" id="webapi-8"><p>ASP.NET Core 使用 <code>IAsyncEnumerable&lt;T&gt;</code> 進行 <code>Streaming</code>（逐筆序列化、逐筆輸出）</p>
+<ul>
+<li>Controller 開始執行</li>
+<li>第一筆資料產生，馬上被序列化</li>
+<li>立刻寫進 Response，前端可以收到這筆資料</li>
+<li>下一筆資料出來，再寫進 Response</li>
+<li>重複，直到所有資料傳送完畢</li>
+</ul>
+<p>➡️ 前端可以「邊等邊收到資料」，不用等全部完成</p>
+<p><code>System.Text.Json</code> + <code>IAsyncEnumerable&lt;T&gt;</code> 支援逐筆序列化與輸出，所以能邊跑邊送，不需要 Buffering。</p>
+<ul>
+<li><code>Buffering</code>：一定要等電影全拍好、全剪好，打包成一整部電影檔案，才能播放。觀眾要等完整影片檔才看到第一個畫面</li>
+<li><code>Streaming</code>：邊拍邊直播，攝影機一拍馬上送到螢幕，你可以即時看到</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Web/API/response_____streaming.png" alt="cc"></p></div><div class="tab-item-content" id="webapi-9"><p>一個 Action 方法可能有「多種可能回應」</p>
+<p>例如：</p>
+<ul>
+<li>找到資料 → 回傳 200 OK 和資料。</li>
+<li>找不到資料 → 回傳 404 Not Found。</li>
+<li>請求內容不正確 → 回傳 400 Bad Request。</li>
+</ul>
+<p>因為回傳結果不只一種，所以用 ActionResult&#x2F;IActionResult 來彈性表示「任何合法的 HTTP 狀態回應」。IActionResult 是介面（interface），代表一個結果。ActionResult 是一個實作類別，它支援更多功能，也能讓你直接回傳模型物件，例如 ActionResult<Product>。習慣上，如果會同時回傳不同型別（像 200 帶物件 + 404 沒東西），就用 ActionResult<T>。如果單純只有狀態碼，就用 IActionResult</p>
+<p>IActionResult 比較舊、在 MVC 和 Web API Controller 常用，需要手動補 Swagger metadata</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">ApiController</span>]</span><br><span class="line">[<span class="meta">Route(<span class="string">&quot;api/[controller]&quot;</span>)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ProductsController</span> : <span class="title">ControllerBase</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">HttpGet(<span class="string">&quot;&#123;id&#125;&quot;</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> IActionResult <span class="title">GetById</span>(<span class="params"><span class="built_in">int</span> id</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> product = _productContext.Products.Find(id);</span><br><span class="line">        <span class="keyword">return</span> product == <span class="literal">null</span> ? NotFound() : Ok(product);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Web/API/responsetype____iacion_action.png" alt="a"></p></div><div class="tab-item-content" id="webapi-10"><p>Minimal API 引進的簡化方式，但沒有型別資訊</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">app.MapGet(<span class="string">&quot;/products/&#123;id&#125;&quot;</span>, (<span class="built_in">int</span> id, ProductContext db) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> product = db.Products.Find(id);</span><br><span class="line">    <span class="keyword">return</span> product == <span class="literal">null</span> ? Results.NotFound() : Results.Ok(product);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div><div class="tab-item-content" id="webapi-11"><p>新一代做法，結合強型別與 API 文件自動產生，讓 回應更嚴謹、Swagger 更正確</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">HttpGet(<span class="string">&quot;&#123;id&#125;&quot;</span>)</span>]</span><br><span class="line"><span class="keyword">public</span> Results&lt;NotFound, Ok&lt;Product&gt;&gt; GetById(<span class="built_in">int</span> id)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> product = _productContext.Products.Find(id);</span><br><span class="line">    <span class="keyword">return</span> product == <span class="literal">null</span> ? TypedResults.NotFound() : TypedResults.Ok(product);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Web/API/responsetype_____imporve.png" alt="c"></p></div><div class="tab-item-content" id="webapi-12"><p>一些 ActionResult 是「綁定特定格式」的，例如：</p>
+<ul>
+<li>JsonResult → 永遠回傳 JSON 格式</li>
+<li>ContentResult → 永遠回傳純文字（text&#x2F;plain）</li>
+</ul>
+<p>即使用戶端要求不同的格式（透過 Accept header），這些結果也會堅持回傳固定格式</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Web/API/returntype____force_type.png" alt="c"></p></div><div class="tab-item-content" id="webapi-13"><p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Web/API/decision___table.png" alt="d"></p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Web/API/summ___pic.png" alt="c"></p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2025/09/23/DeepType-Web-WebApi/">https://chi-keke.github.io/2025/09/23/DeepType-Web-WebApi/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Web/">Web</a></div><div class="post_share"><div class="social-share" data-image="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/09/23/DeepType-Web-WebApi-ModelBiding/" title="MODEL Binding"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">MODEL Binding</div></div></a></div><div class="next-post pull-right"><a href="/2025/09/23/DeepType-Web-RateLimit/" title="RateLimit"><img class="cover" src="https://i.imgur.com/f2eWUWv.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">RateLimit</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2025/09/26/Hosting-Web-WebApi-Swagger/" title="Swagger"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-26</div><div class="title">Swagger</div></div></a></div><div><a href="/2025/09/22/Hosting-Web-Model/" title="Model"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/MVC/pumpkin.png?raw=true" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-22</div><div class="title">Model</div></div></a></div><div><a href="/2025/09/23/DeepType-Web-ActionFilter/" title="WebApi - ActionFilter"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-23</div><div class="title">WebApi - ActionFilter</div></div></a></div><div><a href="/2025/09/25/DeepType-Web-Cert/" title="Cert"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-25</div><div class="title">Cert</div></div></a></div><div><a href="/2024/08/10/DeepType-Web-Hosting/" title="Host"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-08-10</div><div class="title">Host</div></div></a></div><div><a href="/2024/06/24/DeepType-Web-Vlidation-1/" title="Data Validation"><img class="cover" src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Codesss/Validation/1/1_landing.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-24</div><div class="title">Data Validation</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E5%8F%B8%E5%BD%A2%E8%B1%A1%E5%AE%98%E7%B6%B2"><span class="toc-number">1.</span> <span class="toc-text">公司形象官網</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E6%A9%9F-App-%E5%BE%8C%E7%AB%AF"><span class="toc-number">2.</span> <span class="toc-text">手機 App 後端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NotFound"><span class="toc-number">3.</span> <span class="toc-text">NotFound</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ApiController-%E8%87%AA%E5%8B%95%E9%A9%97%E8%AD%89-ModelState"><span class="toc-number">4.</span> <span class="toc-text">ApiController - 自動驗證 ModelState</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8B%95%E7%94%A2%E7%94%9F%E9%8C%AF%E8%AA%A4%E5%9B%9E%E6%87%89"><span class="toc-number">5.</span> <span class="toc-text">自動產生錯誤回應</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/Docker-redis/" title="redis"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Random/Whale.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis"/></a><div class="content"><a class="title" href="/2026/09/05/Docker-redis/" title="redis">redis</a><time datetime="2026-09-05T03:56:05.000Z" title="Created 2026-09-05 11:56:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="金流異常處理"/></a><div class="content"><a class="title" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理">金流異常處理</a><time datetime="2026-09-05T02:55:05.341Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="購物車 uniqueKey"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey">購物車 uniqueKey</a><time datetime="2026-09-05T02:55:05.339Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Untitled"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled">Untitled</a><time datetime="2026-09-05T02:55:05.334Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

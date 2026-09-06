@@ -1,0 +1,399 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>MVC - View | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在茂密的森林中，鳥兒會築巢 🐦，蜜蜂會傳花粉 🐝，松鼠會儲存堅果 🐿️。 其實網站開發也一樣，每一個畫面（View）就像是一個生命體，它有自己的「家」（Layout）、需要不同的「資訊傳遞方式」（ViewData &#x2F; ViewBag），甚至還要有準備完善的「儲藏糧食系統」（ViewModel）。 這篇文章，我們就從自然界的角度，帶你用全新的視角理解：  🐦 Layout 是如何">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MVC - View">
+<meta property="og:url" content="https://chi-keke.github.io/2025/09/22/Hosting-Web-View/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="在茂密的森林中，鳥兒會築巢 🐦，蜜蜂會傳花粉 🐝，松鼠會儲存堅果 🐿️。 其實網站開發也一樣，每一個畫面（View）就像是一個生命體，它有自己的「家」（Layout）、需要不同的「資訊傳遞方式」（ViewData &#x2F; ViewBag），甚至還要有準備完善的「儲藏糧食系統」（ViewModel）。 這篇文章，我們就從自然界的角度，帶你用全新的視角理解：  🐦 Layout 是如何">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/CHI-KEKE/pics/blob/main/MVC/pumpkin.png?raw=true">
+<meta property="article:published_time" content="2025-09-22T13:41:34.000Z">
+<meta property="article:modified_time" content="2026-09-05T02:55:05.116Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="MVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/CHI-KEKE/pics/blob/main/MVC/pumpkin.png?raw=true"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2025/09/22/Hosting-Web-View/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MVC - View',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-09-05 10:55:05'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://github.com/CHI-KEKE/pics/blob/main/MVC/pumpkin.png?raw=true')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MVC - View</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-09-22T13:41:34.000Z" title="Created 2025-09-22 21:41:34">2025-09-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-09-05T02:55:05.116Z" title="Updated 2026-09-05 10:55:05">2026-09-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/MVC/">MVC</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MVC - View"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="https://github.com/CHI-KEKE/pics/blob/main/MVC/pumpkin.png?raw=true" alt="Image"></p>
+<p>在茂密的森林中，鳥兒會築巢 🐦，蜜蜂會傳花粉 🐝，松鼠會儲存堅果 🐿️。</p>
+<p>其實網站開發也一樣，每一個畫面（View）就像是一個生命體，它有自己的「家」（Layout）、需要不同的「資訊傳遞方式」（ViewData &#x2F; ViewBag），甚至還要有準備完善的「儲藏糧食系統」（ViewModel）。</p>
+<p>這篇文章，我們就從自然界的角度，帶你用全新的視角理解：</p>
+<ul>
+<li>🐦 Layout 是如何像鳥巢一樣包住每個頁面</li>
+<li>🐝 ViewData &#x2F; ViewBag 如何像蜜蜂快速傳遞資訊</li>
+<li>🐿️ ViewModel 為什麼像松鼠預先打包好資料，確保整潔與安全</li>
+</ul>
+<p>MVC 的 View，是一個「純粹負責呈現資料的角色」，它不處理邏輯、不處理資料，只專注「怎麼顯示」。</p>
+<br>
+
+<h2 id="MVC-vs-Razor-Pages（-NET-內建）"><a href="#MVC-vs-Razor-Pages（-NET-內建）" class="headerlink" title="MVC vs Razor Pages（.NET 內建）"></a>MVC vs Razor Pages（.NET 內建）</h2><table>
+<thead>
+<tr>
+<th>MVC View</th>
+<th>Razor Page</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>View 是獨立的、由 Controller 控制</td>
+<td>View 和處理邏輯寫在一起（PageModel）</td>
+</tr>
+<tr>
+<td>較適合大型應用程式分層設計</td>
+<td>較適合小型頁面導向開發</td>
+</tr>
+<tr>
+<td>分離更清楚：Controller&#x2F;Model&#x2F;View 各有職責</td>
+<td>合併邏輯與畫面，開發速度快但職責模糊</td>
+</tr>
+<tr>
+<td>像是「三人分工合作」</td>
+<td>像是「一人包辦全部」</td>
+</tr>
+</tbody></table>
+<p>✅ MVC 更有結構與彈性、適合多人開發與模組化系統。</p>
+<br>
+<br>
+
+<h2 id="MVC-vs-SPA-框架（React-Vue-Angular）"><a href="#MVC-vs-SPA-框架（React-Vue-Angular）" class="headerlink" title="MVC vs SPA 框架（React &#x2F; Vue &#x2F; Angular）"></a>MVC vs SPA 框架（React &#x2F; Vue &#x2F; Angular）</h2><table>
+<thead>
+<tr>
+<th>MVC View</th>
+<th>SPA View</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>伺服器產生 HTML</td>
+<td>前端產生 HTML（Client-side rendering）</td>
+</tr>
+<tr>
+<td>資料先經 Controller 再進 View</td>
+<td>資料通常從 API 取得直接渲染</td>
+</tr>
+<tr>
+<td>適合傳統網站架構</td>
+<td>適合高度互動式應用</td>
+</tr>
+<tr>
+<td>SEO 友好、初始載入快</td>
+<td>互動性高、體驗滑順</td>
+</tr>
+</tbody></table>
+<p>✅ MVC View 適合「頁面導向、穩定、分層清晰」的 Web 系統，而 SPA 則更注重使用者體驗與互動性。</p>
+<br>
+<br>
+
+<h2 id="🎃-Layout-cshtml"><a href="#🎃-Layout-cshtml" class="headerlink" title="🎃 _Layout.cshtml"></a>🎃 _Layout.cshtml</h2><p>Layout 是一種「共用版型模板」，負責網站頁面中重複出現的外觀與結構，例如：頁首、頁尾、導覽列等等。</p>
+<br>
+<br>
+
+<h2 id="🧩-RenderBody"><a href="#🧩-RenderBody" class="headerlink" title="🧩 @RenderBody()"></a>🧩 @RenderBody()</h2><p>這是一個「插槽（Placeholder）」，用來顯示每個頁面自己的內容（View 內容）。當你開啟某個 View 頁面時，它的 HTML 就會被塞進這裡。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">&quot;zh-Hant&quot;</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">&quot;utf-8&quot;</span> /&gt;</span><br><span class="line">    &lt;meta name=<span class="string">&quot;viewport&quot;</span> content=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span><br><span class="line">    &lt;title&gt;@ViewData[<span class="string">&quot;Title&quot;</span>] - MyWebsite&lt;/title&gt;</span><br><span class="line">    &lt;link rel=<span class="string">&quot;stylesheet&quot;</span> href=<span class="string">&quot;...&quot;</span> /&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;header&gt;網站標題/導覽列&lt;/header&gt;</span><br><span class="line"></span><br><span class="line">    &lt;main&gt;</span><br><span class="line">        @RenderBody()</span><br><span class="line">    &lt;/main&gt;</span><br><span class="line"></span><br><span class="line">    &lt;footer&gt;網站版權&lt;/footer&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>區塊</th>
+<th>本質與功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;!DOCTYPE html&gt;</code></td>
+<td>告訴瀏覽器「這是一份 HTML5」文件。</td>
+</tr>
+<tr>
+<td><code>&lt;html lang=&quot;zh-Hant&quot;&gt;</code></td>
+<td>指定語言為繁體中文，有助於搜尋引擎與語音朗讀器。</td>
+</tr>
+<tr>
+<td><code>&lt;head&gt;</code></td>
+<td>儲存「網站的設定資訊」：字元集、樣式表、標題等。</td>
+</tr>
+<tr>
+<td><code>&lt;meta name=&quot;viewport&quot;&gt;</code></td>
+<td>讓網站能夠在手機上適應不同寬度（響應式設計）。</td>
+</tr>
+<tr>
+<td><code>&lt;title&gt;</code></td>
+<td>設定瀏覽器標籤的文字，可由 Controller 傳入動態資料。</td>
+</tr>
+</tbody></table>
+<br>
+<br>
+
+<h2 id="🎃-ViewData-vs-ViewBag-vs-ViewModel：傳資料到-View-的各種方式"><a href="#🎃-ViewData-vs-ViewBag-vs-ViewModel：傳資料到-View-的各種方式" class="headerlink" title="🎃 ViewData vs ViewBag vs ViewModel：傳資料到 View 的各種方式"></a>🎃 ViewData vs ViewBag vs ViewModel：傳資料到 View 的各種方式</h2><p>這兩個工具都是讓 Controller 把資料「暫時傳給 View 使用」的方式。</p>
+<table>
+<thead>
+<tr>
+<th>比喻</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ViewData</td>
+<td>就像一張小紙條（字典），你寫好資料貼上 key，傳給小朋友（View）看。</td>
+</tr>
+<tr>
+<td>ViewBag</td>
+<td>就像你直接跟小朋友講：「這個資料叫什麼」；口語但沒保障。</td>
+</tr>
+</tbody></table>
+<br>
+
+<h3 id="簡易實作"><a href="#簡易實作" class="headerlink" title="簡易實作"></a>簡易實作</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> IActionResult <span class="title">Index</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 用 ViewData 傳值（像字典）</span></span><br><span class="line">        ViewData[<span class="string">&quot;Title&quot;</span>] = <span class="string">&quot;這是首頁&quot;</span>;</span><br><span class="line">        ViewData[<span class="string">&quot;Message&quot;</span>] = <span class="string">&quot;Hello from ViewData&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 用 ViewBag 傳值（像屬性）</span></span><br><span class="line">        ViewBag.Note = <span class="string">&quot;Hello from ViewBag&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> View();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;h1&gt;@ViewData[<span class="string">&quot;Title&quot;</span>]&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;@ViewData[<span class="string">&quot;Message&quot;</span>]&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">&lt;hr /&gt;</span><br><span class="line"></span><br><span class="line">&lt;p&gt;@ViewBag.Note&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ViewData</strong></p>
+<ul>
+<li>Dictionary&lt;string, object&gt; → 一張小紙條，存 key&#x2F;value。</li>
+<li>缺點是要轉型，要記得 key。</li>
+</ul>
+<p><strong>ViewBag</strong></p>
+<ul>
+<li>本質是 dynamic 動態物件。</li>
+<li>底層其實就是<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="built_in">dynamic</span> ViewBag =&gt; <span class="keyword">new</span> DynamicViewData(() =&gt; ViewData);</span><br></pre></td></tr></table></figure>
+所以它其實只是 ViewData 的「語法糖」</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>ViewData</th>
+<th>ViewBag</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>類型</td>
+<td>Dictionary&lt;string, object&gt;</td>
+<td>dynamic</td>
+</tr>
+<tr>
+<td>語法</td>
+<td><code>ViewData[&quot;Key&quot;]</code></td>
+<td><code>ViewBag.Key</code></td>
+</tr>
+<tr>
+<td>型別安全</td>
+<td>❌ 需要轉型</td>
+<td>❌ 編譯時無檢查</td>
+</tr>
+<tr>
+<td>智慧提示</td>
+<td>❌ 沒有 IntelliSense</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>本質</td>
+<td>明確鍵值對</td>
+<td>ViewData 的動態包裝</td>
+</tr>
+<tr>
+<td>推薦用法</td>
+<td>控制精準與強型別使用</td>
+<td>快速開發測試時可用</td>
+</tr>
+</tbody></table>
+<br>
+
+<h3 id="🧳-ViewModel"><a href="#🧳-ViewModel" class="headerlink" title="🧳 ViewModel"></a>🧳 ViewModel</h3><p>ViewModel 是為 View 客製的資料模型，只裝 View 要的東西，乾淨、精簡、型別安全</p>
+<ul>
+<li>ViewData &#x2F; ViewBag 是「便條紙」：隨手記、容易搞錯、不好維護</li>
+<li>ViewModel 是「整齊打包的禮盒」：資料乾淨、欄位明確，方便交給畫面顯示</li>
+</ul>
+<p><strong>實作</strong></p>
+<p>Step 1：建立 ViewModel</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Models/ViewModels/StudentViewModel.cs</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">StudentViewModel</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Email &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Step 2：Controller 傳 ViewModel 給 View</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">StudentsController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> IActionResult <span class="title">Index</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> students = <span class="keyword">new</span> List&lt;StudentViewModel&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> StudentViewModel &#123; Name = <span class="string">&quot;小明&quot;</span>, Email = <span class="string">&quot;ming@example.com&quot;</span> &#125;,</span><br><span class="line">            <span class="keyword">new</span> StudentViewModel &#123; Name = <span class="string">&quot;小美&quot;</span>, Email = <span class="string">&quot;mei@example.com&quot;</span> &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> View(students);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Step 3：View 接收並顯示 ViewModel</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@model List&lt;StudentViewModel&gt;</span><br><span class="line"></span><br><span class="line">&lt;h2&gt;學生列表&lt;/h2&gt;</span><br><span class="line">&lt;table <span class="keyword">class</span>=<span class="string">&quot;table&quot;</span>&gt;</span><br><span class="line">    &lt;thead&gt;</span><br><span class="line">        &lt;tr&gt;</span><br><span class="line">            &lt;th&gt;姓名&lt;/th&gt;</span><br><span class="line">            &lt;th&gt;Email&lt;/th&gt;</span><br><span class="line">        &lt;/tr&gt;</span><br><span class="line">    &lt;/thead&gt;</span><br><span class="line">    &lt;tbody&gt;</span><br><span class="line">        @foreach (<span class="keyword">var</span> student <span class="keyword">in</span> Model)</span><br><span class="line">        &#123;</span><br><span class="line">            &lt;tr&gt;</span><br><span class="line">                &lt;td&gt;@student.Name&lt;/td&gt;</span><br><span class="line">                &lt;td&gt;@student.Email&lt;/td&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/tbody&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>優點</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>✅ 強型別</td>
+<td>有 IntelliSense、自動補齊</td>
+</tr>
+<tr>
+<td>✅ 型別安全</td>
+<td>編譯時檢查，減少錯誤</td>
+</tr>
+<tr>
+<td>✅ 結構清楚</td>
+<td>View 需要什麼資料就提供什麼</td>
+</tr>
+<tr>
+<td>✅ 易於測試</td>
+<td>可以獨立測試，不綁資料庫</td>
+</tr>
+<tr>
+<td>✅ MVC 架構清晰</td>
+<td>維持「分工明確」：資料（Model）與畫面（View）分離</td>
+</tr>
+</tbody></table>
+<p>為什麼不能直接用 Entity Model？</p>
+<table>
+<thead>
+<tr>
+<th>問題</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>太多不必要欄位</td>
+<td>Entity 通常會含一堆不會顯示的資料</td>
+</tr>
+<tr>
+<td>效能與安全疑慮</td>
+<td>若包含關聯資料或敏感欄位，可能外洩</td>
+</tr>
+<tr>
+<td>格式轉換不便</td>
+<td>像日期、地址等常要轉格式</td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2025/09/22/Hosting-Web-View/">https://chi-keke.github.io/2025/09/22/Hosting-Web-View/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MVC/">MVC</a></div><div class="post_share"><div class="social-share" data-image="https://github.com/CHI-KEKE/pics/blob/main/MVC/pumpkin.png?raw=true" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/09/22/Hosting-Web-Model/" title="Model"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/MVC/pumpkin.png?raw=true" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">Model</div></div></a></div><div class="next-post pull-right"><a href="/2025/09/22/LINQ-Except/" title="Except"><img class="cover" src="https://i.imgur.com/cBfeEDY.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Except</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2025/09/26/Hosting-Web-CRUD/" title="MVC - CRUD"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/MVC/pumpkin.png?raw=true" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-26</div><div class="title">MVC - CRUD</div></div></a></div><div><a href="/2025/09/23/DeepType-Web-Routing/" title="Routing"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/MVC/pumpkin.png?raw=true" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-23</div><div class="title">Routing</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC-vs-Razor-Pages%EF%BC%88-NET-%E5%85%A7%E5%BB%BA%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">MVC vs Razor Pages（.NET 內建）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC-vs-SPA-%E6%A1%86%E6%9E%B6%EF%BC%88React-Vue-Angular%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">MVC vs SPA 框架（React &#x2F; Vue &#x2F; Angular）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%83-Layout-cshtml"><span class="toc-number">3.</span> <span class="toc-text">🎃 _Layout.cshtml</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A7%A9-RenderBody"><span class="toc-number">4.</span> <span class="toc-text">🧩 @RenderBody()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%83-ViewData-vs-ViewBag-vs-ViewModel%EF%BC%9A%E5%82%B3%E8%B3%87%E6%96%99%E5%88%B0-View-%E7%9A%84%E5%90%84%E7%A8%AE%E6%96%B9%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">🎃 ViewData vs ViewBag vs ViewModel：傳資料到 View 的各種方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B0%A1%E6%98%93%E5%AF%A6%E4%BD%9C"><span class="toc-number">5.1.</span> <span class="toc-text">簡易實作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%A7%B3-ViewModel"><span class="toc-number">5.2.</span> <span class="toc-text">🧳 ViewModel</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/Docker-redis/" title="redis"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Random/Whale.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis"/></a><div class="content"><a class="title" href="/2026/09/05/Docker-redis/" title="redis">redis</a><time datetime="2026-09-05T03:56:05.000Z" title="Created 2026-09-05 11:56:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="金流異常處理"/></a><div class="content"><a class="title" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理">金流異常處理</a><time datetime="2026-09-05T02:55:05.341Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="購物車 uniqueKey"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey">購物車 uniqueKey</a><time datetime="2026-09-05T02:55:05.339Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Untitled"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled">Untitled</a><time datetime="2026-09-05T02:55:05.334Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

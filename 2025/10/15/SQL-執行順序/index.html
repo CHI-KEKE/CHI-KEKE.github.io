@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>執行順序 | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Help Desk 說：「使用者回報登入錯誤，你幫我修一下。」RD 回：「我先看 log，嗯…沒看到錯誤」Help Desk：「我不是叫你看 log，我是要你先試著登錄看看啊！」RD：「那我得先知道帳號」Help Desk：「我剛不是說了嗎？就是那個登入錯誤的使用者啊！」 SQL 的執行順序，理性、結構化，你說「先 SELECT 再篩資料」，它說「不行，我得先把資料來源 JOIN 起來再說」 了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="執行順序">
+<meta property="og:url" content="https://chi-keke.github.io/2025/10/15/SQL-%E5%9F%B7%E8%A1%8C%E9%A0%86%E5%BA%8F/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="Help Desk 說：「使用者回報登入錯誤，你幫我修一下。」RD 回：「我先看 log，嗯…沒看到錯誤」Help Desk：「我不是叫你看 log，我是要你先試著登錄看看啊！」RD：「那我得先知道帳號」Help Desk：「我剛不是說了嗎？就是那個登入錯誤的使用者啊！」 SQL 的執行順序，理性、結構化，你說「先 SELECT 再篩資料」，它說「不行，我得先把資料來源 JOIN 起來再說」 了">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.imgur.com/NfCnwwU.png">
+<meta property="article:published_time" content="2025-10-15T00:57:05.000Z">
+<meta property="article:modified_time" content="2026-09-05T02:55:05.143Z">
+<meta property="article:author" content="Allen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/NfCnwwU.png"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2025/10/15/SQL-%E5%9F%B7%E8%A1%8C%E9%A0%86%E5%BA%8F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '執行順序',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-09-05 10:55:05'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.imgur.com/NfCnwwU.png')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">執行順序</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-10-15T00:57:05.000Z" title="Created 2025-10-15 08:57:05">2025-10-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-09-05T02:55:05.143Z" title="Updated 2026-09-05 10:55:05">2026-09-05</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="執行順序"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="https://i.imgur.com/NfCnwwU.png" alt="ocean"></p>
+<p>Help Desk 說：「使用者回報登入錯誤，你幫我修一下。」<br>RD 回：「我先看 log，嗯…沒看到錯誤」<br>Help Desk：「我不是叫你看 log，我是要你先試著登錄看看啊！」<br>RD：「那我得先知道帳號」<br>Help Desk：「我剛不是說了嗎？就是那個登入錯誤的使用者啊！」</p>
+<p>SQL 的執行順序，理性、結構化，你說「先 SELECT 再篩資料」，它說「不行，我得先把資料來源 JOIN 起來再說」</p>
+<p>了解 SQL 的邏輯執行順序，  當你懂它的思考邏輯，你就不會再覺得它「不聽話」，  反而能跟它合作無間，讓查詢更快、更準、更漂亮</p>
+<br>
+<br>
+
+<h2 id="💼-邏輯執行順序"><a href="#💼-邏輯執行順序" class="headerlink" title="💼 邏輯執行順序"></a>💼 邏輯執行順序</h2><p>SQL 查詢的邏輯執行順序，並不是你「寫」的順序，而是資料庫「想」的順序</p>
+<table>
+<thead>
+<tr>
+<th>步驟</th>
+<th>關鍵字</th>
+<th>意義</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>FROM &#x2F; JOIN</td>
+<td>先決定資料來源（要用哪些表）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ON</td>
+<td>決定 JOIN 的配對條件</td>
+</tr>
+<tr>
+<td>3</td>
+<td>WHERE</td>
+<td>過濾出你想要的資料</td>
+</tr>
+<tr>
+<td>4</td>
+<td>GROUP BY</td>
+<td>把資料分組（分類）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>HAVING</td>
+<td>過濾掉不符合條件的群組</td>
+</tr>
+<tr>
+<td>6</td>
+<td>SELECT</td>
+<td>挑出你想顯示的欄位</td>
+</tr>
+<tr>
+<td>7</td>
+<td>UNION 等集合運算</td>
+<td>合併多個查詢結果</td>
+</tr>
+<tr>
+<td>8</td>
+<td>ORDER BY</td>
+<td>排序結果</td>
+</tr>
+<tr>
+<td>9</td>
+<td>OFFSET &#x2F; FETCH</td>
+<td>取出指定筆數（分頁）</td>
+</tr>
+</tbody></table>
+<p>首先，FROM 和 JOIN 是 SQL 語句執行的第一步。它們的邏輯結果是一個笛卡爾積，決定了接下來要操作的資料集，但要注意的是，邏輯執行順序並不代表物理執行順序，實際上資料庫在獲取表中的資料之前會使用 ON 和 WHERE 過濾條件進行最佳化查詢!</p>
+<p>其次，應用 ON 條件對上一步的結果進行過濾並生成新的資料集；然後，執行 WHERE 子句對上一步的資料集再次進行過濾</p>
+<p>接著，基於 GROUP BY 子句指定的表示式進行分組；同時，對於每個分組計算聚合函式 agg_func 的結果。經過 GROUP BY 處理之後，<strong>資料集的結構就發生了變化，只保留了分組欄位和聚合函式的結果</strong>；如果存在 GROUP BY 子句，可以利用 HAVING 針對分組後的結果進一步進行過濾，通常是針對聚合函式的結果進行過濾；</p>
+<p>接下來，SELECT 可以指定要拿的欄位；如果指定了 DISTINCT 關鍵字，需要對結果集進行去重複操作。另外還會為指定了 AS 的欄位生成別名；</p>
+<p>如果還有集合運算子（UNION、INTERSECT、EXCEPT）和其他的 SELECT 語句，執行該查詢並且合併兩個結果集。對於集合操作中的多個 SELECT 語句，資料庫通常可以支援併發執行；</p>
+<p>然後，應用 ORDER BY 子句對結果進行排序。如果存在 GROUP BY 子句或者 DISTINCT 關鍵字，只能使用分組欄位和聚合函式進行排序；否則，可以使用 FROM 和 JOIN 表中的任何欄位排序；最後，OFFSET 和 FETCH（LIMIT、TOP）限定了最終返回的行數。例如 WHERE 子句在 HAVING 子句之前執行，因此我們應該儘量使用 WHERE 進行資料過濾，避免無謂的操作；除非業務需要針對聚合函式的結果進行過濾</p>
+<br>
+<br>
+
+<h2 id="💼-在-WHERE-條件中使用別名的錯誤"><a href="#💼-在-WHERE-條件中使用別名的錯誤" class="headerlink" title="💼 在 WHERE 條件中使用別名的錯誤"></a>💼 在 WHERE 條件中使用別名的錯誤</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> emp_name <span class="keyword">AS</span> empname</span><br><span class="line"><span class="keyword">FROM</span> employee</span><br><span class="line"><span class="keyword">WHERE</span> empname <span class="operator">=</span><span class="string">&#x27;張飛&#x27;</span>; <span class="comment">-- 只能使用 emp_name</span></span><br></pre></td></tr></table></figure>
+<p>這段 SQL 會出錯，因為 WHERE 子句執行時，SELECT 子句還沒被執行。換句話說，此時 empname 這個別名「還不存在」。</p>
+<br>
+<br>
+
+<h2 id="💼-GROUP-BY-之後欄位的變化"><a href="#💼-GROUP-BY-之後欄位的變化" class="headerlink" title="💼 GROUP BY 之後欄位的變化"></a>💼 GROUP BY 之後欄位的變化</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> dept_id, emp_name, <span class="built_in">AVG</span>(salary)</span><br><span class="line"><span class="keyword">FROM</span> employee</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> dept_id;</span><br></pre></td></tr></table></figure>
+
+<p>這段 SQL 也會出錯，因為在 GROUP BY 之後，結果集只保留了分組欄位（dept_id）和聚合函式結果（AVG(salary)），非分組欄位（這裡是 emp_name）就「不再存在」於結果集裡。<br>如果想同時看到員工與部門平均薪資，可以用「視窗函式（Window Function）」</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    emp_name,</span><br><span class="line">    dept_id,</span><br><span class="line">    <span class="built_in">AVG</span>(salary) <span class="keyword">OVER</span>(<span class="keyword">PARTITION</span> <span class="keyword">BY</span> dept_id) <span class="keyword">AS</span> dept_avg_salary</span><br><span class="line"><span class="keyword">FROM</span> employee;</span><br></pre></td></tr></table></figure>
+
+<br>
+<br>
+
+<h2 id="💼-篩選條件放在-on-和-where-後的區別"><a href="#💼-篩選條件放在-on-和-where-後的區別" class="headerlink" title="💼 篩選條件放在 on 和 where 後的區別"></a>💼 篩選條件放在 on 和 where 後的區別</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.emp_name, d.dept_name</span><br><span class="line"><span class="keyword">FROM</span> employee e</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> department d <span class="keyword">ON</span> (e.dept_id <span class="operator">=</span> d.dept_id)</span><br><span class="line"><span class="keyword">WHERE</span> e.emp_name <span class="operator">=</span><span class="string">&#x27;張飛&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>emp_name</th>
+<th>dept_name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>張飛</td>
+<td>行政管理部</td>
+</tr>
+</tbody></table>
+<p>第一個查詢（WHERE）：WHERE 是在 JOIN 完成之後過濾結果。因此，只留下 emp_name &#x3D; ‘張飛’ 的那筆資料</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.emp_name, d.dept_name</span><br><span class="line"><span class="keyword">FROM</span> employee e</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> department d <span class="keyword">ON</span> (e.dept_id <span class="operator">=</span> d.dept_id <span class="keyword">AND</span> e.emp_name <span class="operator">=</span><span class="string">&#x27;張飛&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>emp_name</th>
+<th>dept_name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>劉備</td>
+<td>[NULL]</td>
+</tr>
+<tr>
+<td>關羽</td>
+<td>[NULL]</td>
+</tr>
+<tr>
+<td>張飛</td>
+<td>行政管理部</td>
+</tr>
+<tr>
+<td>諸葛亮</td>
+<td>[NULL]</td>
+</tr>
+<tr>
+<td>…</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>第二個查詢（ON）：ON 是在 JOIN 過程中 決定「哪些資料可以匹配」。因為這是 LEFT JOIN，左表（employee）的所有資料都會被保留，但只有符合 e.emp_name &#x3D; ‘張飛’ 的那一筆會配到右表（department）的資料，其他的員工因為不符合 ON 條件，右表的資料欄位就會是 NULL。</p>
+<br>
+<br>
+
+<h2 id="💼-一個電商平台想分析每個用戶的首單情況"><a href="#💼-一個電商平台想分析每個用戶的首單情況" class="headerlink" title="💼 一個電商平台想分析每個用戶的首單情況"></a>💼 一個電商平台想分析每個用戶的首單情況</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    user_id, </span><br><span class="line">    <span class="built_in">MIN</span>(order_date) <span class="keyword">as</span> first_order_date,</span><br><span class="line">    order_amount</span><br><span class="line"><span class="keyword">FROM</span> orders</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> user_id</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>雖然 MIN (order_date) 可以找出首單日期，但 order_amount 不在聚合函數內，且不在 GROUP BY 中，這會導致拿到的 order_amount 是不確定的，因此 SQL 會噴錯<br>SQL 的執行順序是先 GROUP BY，然後執行聚合函數，最後選擇非聚合列。要修正這個問題，可以使用子查詢 &amp; Window Function：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    user_id, </span><br><span class="line">    first_order_date,</span><br><span class="line">    order_amount</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> </span><br><span class="line">        user_id, </span><br><span class="line">        order_date,</span><br><span class="line">        order_amount,</span><br><span class="line">        <span class="built_in">ROW_NUMBER</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> user_id <span class="keyword">ORDER</span> <span class="keyword">BY</span> order_date) <span class="keyword">as</span> rn</span><br><span class="line">    <span class="keyword">FROM</span> orders</span><br><span class="line">) sub</span><br><span class="line"><span class="keyword">WHERE</span> rn <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br>
+<br>
+
+<h2 id="💼-公司要給每個部門薪資排名前三的員工發放獎金"><a href="#💼-公司要給每個部門薪資排名前三的員工發放獎金" class="headerlink" title="💼 公司要給每個部門薪資排名前三的員工發放獎金"></a>💼 公司要給每個部門薪資排名前三的員工發放獎金</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    department,</span><br><span class="line">    employee_name,</span><br><span class="line">    salary,</span><br><span class="line">    <span class="built_in">RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> department <span class="keyword">ORDER</span> <span class="keyword">BY</span> salary <span class="keyword">DESC</span>) <span class="keyword">as</span> salary_rank</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> salary_rank <span class="operator">&lt;=</span> <span class="number">3</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>WHERE 比 SELECT 早執行，因此在 WHERE 中不能引用在 SELECT 中定義的別名（這裡是 salary_rank）。<br>正確的方法是使用子查詢或 CTE</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">WITH</span> RankedEmployees <span class="keyword">AS</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> </span><br><span class="line">        department,</span><br><span class="line">        employee_name,</span><br><span class="line">        salary,</span><br><span class="line">        <span class="built_in">RANK</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> department <span class="keyword">ORDER</span> <span class="keyword">BY</span> salary <span class="keyword">DESC</span>) <span class="keyword">as</span> salary_rank</span><br><span class="line">    <span class="keyword">FROM</span> employees</span><br><span class="line">)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> RankedEmployees</span><br><span class="line"><span class="keyword">WHERE</span> salary_rank <span class="operator">&lt;=</span> <span class="number">3</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br>
+<br>
+
+<h2 id="💼-遊戲公司想找出連續登錄三天或以上的用戶"><a href="#💼-遊戲公司想找出連續登錄三天或以上的用戶" class="headerlink" title="💼 遊戲公司想找出連續登錄三天或以上的用戶"></a>💼 遊戲公司想找出連續登錄三天或以上的用戶</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">WITH</span> UserLoginDates <span class="keyword">AS</span> (</span><br><span class="line">    <span class="comment">-- 轉換日期 &amp; 移除當天重複登入資料</span></span><br><span class="line">    <span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span></span><br><span class="line">        User_Id,</span><br><span class="line">        <span class="keyword">CONVERT</span>(<span class="type">date</span>, Login_Date) <span class="keyword">AS</span> LoginDate</span><br><span class="line">    <span class="keyword">FROM</span> #User_Login</span><br><span class="line">),</span><br><span class="line">LoginStreaks <span class="keyword">AS</span> (</span><br><span class="line">    <span class="comment">-- 計算登入串流</span></span><br><span class="line">    <span class="keyword">SELECT</span></span><br><span class="line">        User_Id,</span><br><span class="line">        LoginDate,</span><br><span class="line">        DATEADD(<span class="keyword">day</span>, <span class="operator">-</span><span class="built_in">ROW_NUMBER</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> User_Id <span class="keyword">ORDER</span> <span class="keyword">BY</span> LoginDate), LoginDate) <span class="keyword">AS</span> StreakGroup</span><br><span class="line">    <span class="keyword">FROM</span> UserLoginDates</span><br><span class="line">)</span><br><span class="line"><span class="comment">-- 找出連續登入至少三天的用戶</span></span><br><span class="line"><span class="keyword">SELECT</span> User_Id</span><br><span class="line"><span class="keyword">FROM</span> LoginStreaks</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> User_Id, StreakGroup</span><br><span class="line"><span class="keyword">HAVING</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="operator">&gt;=</span> <span class="number">3</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在第一個 CTE 中使用 DISTINCT 是為了確保每個用戶每天只計算一次登錄。<br>通過日期減去列號來創建連續日期的組，連續日期會得到相同的 StreakGroup 值。</p>
+<br>
+<br>
+
+<h2 id="💼-有一個銷售數據表，需要動態生成每個產品在不同月份的銷售額報表。"><a href="#💼-有一個銷售數據表，需要動態生成每個產品在不同月份的銷售額報表。" class="headerlink" title="💼 有一個銷售數據表，需要動態生成每個產品在不同月份的銷售額報表。"></a>💼 有一個銷售數據表，需要動態生成每個產品在不同月份的銷售額報表。</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    Product_Id,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">1</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> Jan_sales,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">2</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> Feb_sales,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">3</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> Mar_sales,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">4</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> Apr_sales,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">5</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> May_sales,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">6</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> Jun_sales,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">7</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> Jul_sales,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">8</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> Aug_sales,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">9</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> Sep_sales,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">10</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> Oct_sales,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">11</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> Nov_sales,</span><br><span class="line">    <span class="built_in">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> <span class="keyword">MONTH</span>(Sale_Date) <span class="operator">=</span> <span class="number">12</span> <span class="keyword">THEN</span> Amount <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>) <span class="keyword">as</span> Dec_sales</span><br><span class="line"><span class="keyword">FROM</span> #Sales</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> Product_Id</span><br><span class="line"><span class="keyword">HAVING</span> <span class="built_in">SUM</span>(Amount) <span class="operator">&gt;</span> <span class="number">10000</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>GROUPBY &gt;&gt; 聚合函数 &gt;&gt; HAVING</p>
+<br>
+<br>
+
+<h2 id="💼-金融應用需要計算每個用戶的交易累計總和，並標記首次超過-1000-的交易"><a href="#💼-金融應用需要計算每個用戶的交易累計總和，並標記首次超過-1000-的交易" class="headerlink" title="💼 金融應用需要計算每個用戶的交易累計總和，並標記首次超過 1000 的交易"></a>💼 金融應用需要計算每個用戶的交易累計總和，並標記首次超過 1000 的交易</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">WITH</span> TransactionSums <span class="keyword">AS</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> </span><br><span class="line">        user_id,</span><br><span class="line">        transaction_date,</span><br><span class="line">        amount,</span><br><span class="line">        <span class="built_in">SUM</span>(amount) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> user_id <span class="keyword">ORDER</span> <span class="keyword">BY</span> transaction_date) <span class="keyword">as</span> cumulative_sum,</span><br><span class="line">        <span class="keyword">CASE</span> </span><br><span class="line">            <span class="keyword">WHEN</span> <span class="built_in">SUM</span>(amount) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> user_id <span class="keyword">ORDER</span> <span class="keyword">BY</span> transaction_date) <span class="operator">&gt;</span> <span class="number">1000</span> <span class="keyword">THEN</span> <span class="number">1</span> </span><br><span class="line">            <span class="keyword">ELSE</span> <span class="number">0</span> </span><br><span class="line">        <span class="keyword">END</span> <span class="keyword">as</span> exceed_1000</span><br><span class="line">    <span class="keyword">FROM</span> transactions</span><br><span class="line">),</span><br><span class="line">FirstExceed <span class="keyword">AS</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> <span class="operator">*</span>,</span><br><span class="line">        <span class="built_in">LAG</span>(cumulative_sum, <span class="number">1</span>, <span class="number">0</span>) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> user_id <span class="keyword">ORDER</span> <span class="keyword">BY</span> transaction_date) <span class="keyword">as</span> previous_cumulative_sum</span><br><span class="line">    <span class="keyword">FROM</span> TransactionSums</span><br><span class="line">)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> FirstExceed</span><br><span class="line"><span class="keyword">WHERE</span> exceed_1000 <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">AND</span> previous_cumulative_sum <span class="operator">&lt;=</span> <span class="number">1000</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>LAG(cumulative_sum, 1, 0)：往前取一筆的 cumulative_sum；第三個參數 0 代表如果沒有上一筆（第一筆資料），就給 0。這樣每一筆交易就同時知道當前累積金額（cumulative_sum）、前一筆累積金額（previous_cumulative_sum）</p>
+<p>_ exceed_1000 &#x3D; 1 → 這筆交易的累計金額已經超過 1000；</p>
+<ul>
+<li>previous_cumulative_sum &lt;&#x3D; 1000 → 但上一筆交易還沒超過。</li>
+</ul>
+<br>
+<br>
+
+<h2 id="💼-零售商想要顯示每個類別銷售額前-3-的產品，以及每個類別的總銷售額"><a href="#💼-零售商想要顯示每個類別銷售額前-3-的產品，以及每個類別的總銷售額" class="headerlink" title="💼 零售商想要顯示每個類別銷售額前 3 的產品，以及每個類別的總銷售額"></a>💼 零售商想要顯示每個類別銷售額前 3 的產品，以及每個類別的總銷售額</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">WITH</span> ByTotalPayTypeRank <span class="keyword">AS</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> </span><br><span class="line">		TradesOrderThirdPartyPayment_TypeDef,</span><br><span class="line">		TradesOrderThirdPartyPayment_TotalPayment,</span><br><span class="line">		<span class="built_in">SUM</span>(TradesOrderThirdPartyPayment_TotalPayment) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> TradesOrderThirdPartyPayment_TypeDef) <span class="keyword">AS</span> PayTypeSum,</span><br><span class="line">		<span class="built_in">ROW_NUMBER</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> TradesOrderThirdPartyPayment_TypeDef <span class="keyword">ORDER</span> <span class="keyword">BY</span> TradesOrderThirdPartyPayment_TotalPayment <span class="keyword">DESC</span>) <span class="keyword">AS</span> SaleRankByPayType</span><br><span class="line">	<span class="keyword">FROM</span> TradesOrderThirdPartyPayment(NOLOCK)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> ByTotalPayTypeRank</span><br><span class="line"><span class="keyword">WHERE</span> SaleRankByPayType <span class="operator">&lt;=</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> TradesOrderThirdPartyPayment_TypeDef, <span class="built_in">SUM</span>(TradesOrderThirdPartyPayment_TotalPayment) <span class="keyword">AS</span> PayTypeSum</span><br><span class="line"><span class="keyword">FROM</span> TradesOrderThirdPartyPayment(NOLOCK)</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> TradesOrderThirdPartyPayment_TypeDef</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br>
+<br>
+
+<h2 id="💼-股票分析師想計算每支股票的-7-天移動平均價格"><a href="#💼-股票分析師想計算每支股票的-7-天移動平均價格" class="headerlink" title="💼 股票分析師想計算每支股票的 7 天移動平均價格"></a>💼 股票分析師想計算每支股票的 7 天移動平均價格</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">WITH</span> MovingAverages <span class="keyword">AS</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> </span><br><span class="line">        stock_id, </span><br><span class="line">        trade_date, </span><br><span class="line">        price,</span><br><span class="line">        <span class="built_in">AVG</span>(price) <span class="keyword">OVER</span> (</span><br><span class="line">            <span class="keyword">PARTITION</span> <span class="keyword">BY</span> stock_id </span><br><span class="line">            <span class="keyword">ORDER</span> <span class="keyword">BY</span> trade_date </span><br><span class="line">            <span class="keyword">ROWS</span> <span class="keyword">BETWEEN</span> <span class="number">6</span> PRECEDING <span class="keyword">AND</span> <span class="keyword">CURRENT</span> <span class="type">ROW</span></span><br><span class="line">        ) <span class="keyword">AS</span> moving_avg</span><br><span class="line">    <span class="keyword">FROM</span> stock_prices</span><br><span class="line">)</span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    stock_id, </span><br><span class="line">    trade_date, </span><br><span class="line">    price, </span><br><span class="line">    moving_avg</span><br><span class="line"><span class="keyword">FROM</span> MovingAverages</span><br><span class="line"><span class="keyword">WHERE</span> moving_avg <span class="operator">&gt;</span> price;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="🔹-HAVING-不能直接用-CASE-結果欄位名稱，要包成子查詢"><a href="#🔹-HAVING-不能直接用-CASE-結果欄位名稱，要包成子查詢" class="headerlink" title="🔹 HAVING 不能直接用 CASE 結果欄位名稱，要包成子查詢"></a>🔹 HAVING 不能直接用 CASE 結果欄位名稱，要包成子查詢</h3><p>sql 執行順序如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY</span><br></pre></td></tr></table></figure>
+
+<p>HAVING 在 SELECT 之前執行，而 CASE WHEN … AS CustomerLevel 是在 SELECT 階段才產生的「暫時欄位名稱」，所以 HAVING 看不到 SELECT 的別名!</p>
+<p><strong>會出錯</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> CustomerId, <span class="built_in">SUM</span>(Total) <span class="keyword">AS</span> TotalSales,</span><br><span class="line">  <span class="keyword">CASE</span> </span><br><span class="line">    <span class="keyword">WHEN</span> <span class="built_in">SUM</span>(Total) <span class="operator">&lt;</span> <span class="number">40</span> <span class="keyword">THEN</span> <span class="string">&#x27;Normal&#x27;</span></span><br><span class="line">    <span class="keyword">WHEN</span> <span class="built_in">SUM</span>(Total) <span class="operator">&gt;=</span> <span class="number">40</span> <span class="keyword">THEN</span> <span class="string">&#x27;VIP&#x27;</span></span><br><span class="line">    <span class="keyword">ELSE</span> <span class="string">&#x27;Undefined&#x27;</span></span><br><span class="line">  <span class="keyword">END</span> <span class="keyword">AS</span> CustomerLevel</span><br><span class="line"><span class="keyword">FROM</span> invoices</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> CustomerId</span><br><span class="line"><span class="keyword">HAVING</span> CustomerLevel <span class="operator">=</span> <span class="string">&#x27;VIP&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>包成子查詢</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">  CustomerLevel,</span><br><span class="line">  <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> CustomerId) <span class="keyword">AS</span> CustomerCnt</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">SELECT</span></span><br><span class="line">    CustomerId,</span><br><span class="line">    <span class="keyword">CASE</span> </span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">SUM</span>(Total) <span class="operator">&lt;</span> <span class="number">40</span> <span class="keyword">THEN</span> <span class="string">&#x27;Normal&#x27;</span></span><br><span class="line">      <span class="keyword">WHEN</span> <span class="built_in">SUM</span>(Total) <span class="operator">&gt;=</span> <span class="number">40</span> <span class="keyword">THEN</span> <span class="string">&#x27;VIP&#x27;</span></span><br><span class="line">      <span class="keyword">ELSE</span> <span class="string">&#x27;Undefined&#x27;</span></span><br><span class="line">    <span class="keyword">END</span> <span class="keyword">AS</span> CustomerLevel</span><br><span class="line">  <span class="keyword">FROM</span> invoices</span><br><span class="line">  <span class="keyword">GROUP</span> <span class="keyword">BY</span> CustomerId</span><br><span class="line">) <span class="keyword">AS</span> SubQuery</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> CustomerLevel</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2025/10/15/SQL-%E5%9F%B7%E8%A1%8C%E9%A0%86%E5%BA%8F/">https://chi-keke.github.io/2025/10/15/SQL-%E5%9F%B7%E8%A1%8C%E9%A0%86%E5%BA%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.imgur.com/NfCnwwU.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/10/17/DeepType-EFCORE-Upsert/" title="Upsert"><img class="cover" src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Codesss/EF/UpSert/1_landing.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">Upsert</div></div></a></div><div class="next-post pull-right"><a href="/2025/10/13/SQL-field/" title="Field"><img class="cover" src="https://i.imgur.com/NfCnwwU.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Field</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-%E9%82%8F%E8%BC%AF%E5%9F%B7%E8%A1%8C%E9%A0%86%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">💼 邏輯執行順序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-%E5%9C%A8-WHERE-%E6%A2%9D%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%A5%E5%90%8D%E7%9A%84%E9%8C%AF%E8%AA%A4"><span class="toc-number">2.</span> <span class="toc-text">💼 在 WHERE 條件中使用別名的錯誤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-GROUP-BY-%E4%B9%8B%E5%BE%8C%E6%AC%84%E4%BD%8D%E7%9A%84%E8%AE%8A%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">💼 GROUP BY 之後欄位的變化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-%E7%AF%A9%E9%81%B8%E6%A2%9D%E4%BB%B6%E6%94%BE%E5%9C%A8-on-%E5%92%8C-where-%E5%BE%8C%E7%9A%84%E5%8D%80%E5%88%A5"><span class="toc-number">4.</span> <span class="toc-text">💼 篩選條件放在 on 和 where 後的區別</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-%E4%B8%80%E5%80%8B%E9%9B%BB%E5%95%86%E5%B9%B3%E5%8F%B0%E6%83%B3%E5%88%86%E6%9E%90%E6%AF%8F%E5%80%8B%E7%94%A8%E6%88%B6%E7%9A%84%E9%A6%96%E5%96%AE%E6%83%85%E6%B3%81"><span class="toc-number">5.</span> <span class="toc-text">💼 一個電商平台想分析每個用戶的首單情況</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-%E5%85%AC%E5%8F%B8%E8%A6%81%E7%B5%A6%E6%AF%8F%E5%80%8B%E9%83%A8%E9%96%80%E8%96%AA%E8%B3%87%E6%8E%92%E5%90%8D%E5%89%8D%E4%B8%89%E7%9A%84%E5%93%A1%E5%B7%A5%E7%99%BC%E6%94%BE%E7%8D%8E%E9%87%91"><span class="toc-number">6.</span> <span class="toc-text">💼 公司要給每個部門薪資排名前三的員工發放獎金</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-%E9%81%8A%E6%88%B2%E5%85%AC%E5%8F%B8%E6%83%B3%E6%89%BE%E5%87%BA%E9%80%A3%E7%BA%8C%E7%99%BB%E9%8C%84%E4%B8%89%E5%A4%A9%E6%88%96%E4%BB%A5%E4%B8%8A%E7%9A%84%E7%94%A8%E6%88%B6"><span class="toc-number">7.</span> <span class="toc-text">💼 遊戲公司想找出連續登錄三天或以上的用戶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-%E6%9C%89%E4%B8%80%E5%80%8B%E9%8A%B7%E5%94%AE%E6%95%B8%E6%93%9A%E8%A1%A8%EF%BC%8C%E9%9C%80%E8%A6%81%E5%8B%95%E6%85%8B%E7%94%9F%E6%88%90%E6%AF%8F%E5%80%8B%E7%94%A2%E5%93%81%E5%9C%A8%E4%B8%8D%E5%90%8C%E6%9C%88%E4%BB%BD%E7%9A%84%E9%8A%B7%E5%94%AE%E9%A1%8D%E5%A0%B1%E8%A1%A8%E3%80%82"><span class="toc-number">8.</span> <span class="toc-text">💼 有一個銷售數據表，需要動態生成每個產品在不同月份的銷售額報表。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-%E9%87%91%E8%9E%8D%E6%87%89%E7%94%A8%E9%9C%80%E8%A6%81%E8%A8%88%E7%AE%97%E6%AF%8F%E5%80%8B%E7%94%A8%E6%88%B6%E7%9A%84%E4%BA%A4%E6%98%93%E7%B4%AF%E8%A8%88%E7%B8%BD%E5%92%8C%EF%BC%8C%E4%B8%A6%E6%A8%99%E8%A8%98%E9%A6%96%E6%AC%A1%E8%B6%85%E9%81%8E-1000-%E7%9A%84%E4%BA%A4%E6%98%93"><span class="toc-number">9.</span> <span class="toc-text">💼 金融應用需要計算每個用戶的交易累計總和，並標記首次超過 1000 的交易</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-%E9%9B%B6%E5%94%AE%E5%95%86%E6%83%B3%E8%A6%81%E9%A1%AF%E7%A4%BA%E6%AF%8F%E5%80%8B%E9%A1%9E%E5%88%A5%E9%8A%B7%E5%94%AE%E9%A1%8D%E5%89%8D-3-%E7%9A%84%E7%94%A2%E5%93%81%EF%BC%8C%E4%BB%A5%E5%8F%8A%E6%AF%8F%E5%80%8B%E9%A1%9E%E5%88%A5%E7%9A%84%E7%B8%BD%E9%8A%B7%E5%94%AE%E9%A1%8D"><span class="toc-number">10.</span> <span class="toc-text">💼 零售商想要顯示每個類別銷售額前 3 的產品，以及每個類別的總銷售額</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-%E8%82%A1%E7%A5%A8%E5%88%86%E6%9E%90%E5%B8%AB%E6%83%B3%E8%A8%88%E7%AE%97%E6%AF%8F%E6%94%AF%E8%82%A1%E7%A5%A8%E7%9A%84-7-%E5%A4%A9%E7%A7%BB%E5%8B%95%E5%B9%B3%E5%9D%87%E5%83%B9%E6%A0%BC"><span class="toc-number">11.</span> <span class="toc-text">💼 股票分析師想計算每支股票的 7 天移動平均價格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-HAVING-%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E7%94%A8-CASE-%E7%B5%90%E6%9E%9C%E6%AC%84%E4%BD%8D%E5%90%8D%E7%A8%B1%EF%BC%8C%E8%A6%81%E5%8C%85%E6%88%90%E5%AD%90%E6%9F%A5%E8%A9%A2"><span class="toc-number">11.1.</span> <span class="toc-text">🔹 HAVING 不能直接用 CASE 結果欄位名稱，要包成子查詢</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/Docker-redis/" title="redis"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Random/Whale.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis"/></a><div class="content"><a class="title" href="/2026/09/05/Docker-redis/" title="redis">redis</a><time datetime="2026-09-05T03:56:05.000Z" title="Created 2026-09-05 11:56:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="金流異常處理"/></a><div class="content"><a class="title" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理">金流異常處理</a><time datetime="2026-09-05T02:55:05.341Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="購物車 uniqueKey"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey">購物車 uniqueKey</a><time datetime="2026-09-05T02:55:05.339Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Untitled"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled">Untitled</a><time datetime="2026-09-05T02:55:05.334Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

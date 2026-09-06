@@ -1,0 +1,260 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Socket | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在這個時代，我們打下一行簡單的程式碼，資料便能穿越海底電纜、飛越路由器之間的節點，抵達遙遠的伺服器。這一切對我們來說只是「一次 API 呼叫」，卻在背後上演著一段浩瀚的旅程。 想像有一位無聲的信使，他從你的程式出發，手中捧著訊息，沿著電纜與協定鋪展的道路一路前行。途中他會經過城市的路由器、跨越國界的骨幹網路、穿梭雲端的防護牆，最終抵達遙遠的伺服器大門。完成使命後，他又沿著相同的路徑回返，把遠方的回">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Socket">
+<meta property="og:url" content="https://chi-keke.github.io/2025/08/25/HttpClient-Socket/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="在這個時代，我們打下一行簡單的程式碼，資料便能穿越海底電纜、飛越路由器之間的節點，抵達遙遠的伺服器。這一切對我們來說只是「一次 API 呼叫」，卻在背後上演著一段浩瀚的旅程。 想像有一位無聲的信使，他從你的程式出發，手中捧著訊息，沿著電纜與協定鋪展的道路一路前行。途中他會經過城市的路由器、跨越國界的骨幹網路、穿梭雲端的防護牆，最終抵達遙遠的伺服器大門。完成使命後，他又沿著相同的路徑回返，把遠方的回">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.imgur.com/hZWviQz.png">
+<meta property="article:published_time" content="2025-08-25T01:45:01.000Z">
+<meta property="article:modified_time" content="2026-09-05T02:55:05.125Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="Http">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/hZWviQz.png"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2025/08/25/HttpClient-Socket/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Socket',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-09-05 10:55:05'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.imgur.com/hZWviQz.png')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Socket</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-08-25T01:45:01.000Z" title="Created 2025-08-25 09:45:01">2025-08-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-09-05T02:55:05.125Z" title="Updated 2026-09-05 10:55:05">2026-09-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A9%BF%E8%B6%8A%E9%9B%B2%E5%B1%A4%E7%9A%84%E4%BF%A1%E4%BD%BF/">穿越雲層的信使</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Socket"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>在這個時代，我們打下一行簡單的程式碼，資料便能穿越海底電纜、飛越路由器之間的節點，抵達遙遠的伺服器。這一切對我們來說只是「一次 API 呼叫」，卻在背後上演著一段浩瀚的旅程。</p>
+<p>想像有一位無聲的信使，他從你的程式出發，手中捧著訊息，沿著電纜與協定鋪展的道路一路前行。途中他會經過城市的路由器、跨越國界的骨幹網路、穿梭雲端的防護牆，最終抵達遙遠的伺服器大門。完成使命後，他又沿著相同的路徑回返，把遠方的回應帶回到你眼前。</p>
+<p>這位信使，就是 Socket。他是隱形的橋樑，是程式與世界的通道。在鍵盤與螢幕的另一端，他靜靜地，卻堅定地奔走於無形的網路之海。</p>
+<p><img src="https://i.imgur.com/hZWviQz.png" alt="message"></p>
+<br>
+
+<h2 id="📨-Socket-是什麼？"><a href="#📨-Socket-是什麼？" class="headerlink" title="📨 Socket 是什麼？"></a>📨 Socket 是什麼？</h2><p>Socket 可以理解為「程式」與「網路」之間的連接點（endpoint）。<br>它讓你的程式能透過 <strong>IP</strong> 和 <strong>Port</strong> 與外界通訊，發送或接收資料。</p>
+<p>舉例來說：  </p>
+<ul>
+<li>當你寫了一個 <strong>Web Server</strong>，你會讓它透過一個 Socket 在 <strong>80 port</strong> 上「監聽」(listen)。  </li>
+<li>瀏覽器想連到你的網站時，會建立一個 client socket，去「連線」你的 server socket。</li>
+</ul>
+<p>而 Port 是區分應用程式（Process）的編號，在網路世界，IP address 可以定位到「哪台機器」。<br>但一台機器可能同時有很多程式在跑（例如：Web Server、Database、Chat App…）。所以需要 Port 來分辨「要把資料交給哪個程式」。</p>
+<p>Socket 是「通訊的端點」，它的身份由 (IP, Port, Protocol) 唯一決定。</p>
+<p>例如：</p>
+<p>192.168.1.10:80&#x2F;TCP → 你的 Web Server<br>192.168.1.10:443&#x2F;TCP → 你的 HTTPS Server</p>
+<p>當程式建立 Socket 並綁定到某個 Port，OS 才知道「當這個 Port 有封包進來，要交給哪個 Socket（也就是哪個程式）」。</p>
+<br>
+<br>
+
+<h2 id="📨-Socket-在-API-系統的作用是甚麼"><a href="#📨-Socket-在-API-系統的作用是甚麼" class="headerlink" title="📨 Socket 在 API 系統的作用是甚麼"></a>📨 Socket 在 API 系統的作用是甚麼</h2><p>讓我們一層層剝洋蔥式的理解 Socket 的職責是甚麼</p>
+<br>
+
+<h3 id="🔹-第-1-層"><a href="#🔹-第-1-層" class="headerlink" title="🔹 第 1 層"></a>🔹 第 1 層</h3><p>Socket 是程式語言中一個「可以讓你傳送&#x2F;接收網路資料」的物件。在程式碼中，我們會寫：</p>
+<p>Socket s &#x3D; new Socket(…);</p>
+<p>這樣我們就拿到了一個「Socket 實體」，然後我們可以用它 .Connect()、.Send()、.Receive()。但這只是表層：這個物件本身其實只是呼叫作業系統提供的功能。</p>
+<br>
+
+<h3 id="🔹-第-2-層：Socket-是-OS-提供的「通訊機制」"><a href="#🔹-第-2-層：Socket-是-OS-提供的「通訊機制」" class="headerlink" title="🔹 第 2 層：Socket 是 OS 提供的「通訊機制」"></a>🔹 第 2 層：Socket 是 OS 提供的「通訊機制」</h3><p>本質上，Socket 是作業系統（OS）提供的一種抽象出來的溝通方式。它讓一個應用程式（例如 .NET 程式）可以透過「網路卡」去發資料。可以這樣想：Socket &#x3D; 程式 ↔ 作業系統 ↔ 網路卡 ↔ 網路世界</p>
+<br>
+
+<h3 id="🔹-第-3-層：Socket-就是一個「被記錄在-OS-裡的通訊狀態」"><a href="#🔹-第-3-層：Socket-就是一個「被記錄在-OS-裡的通訊狀態」" class="headerlink" title="🔹 第 3 層：Socket 就是一個「被記錄在 OS 裡的通訊狀態」"></a>🔹 第 3 層：Socket 就是一個「被記錄在 OS 裡的通訊狀態」</h3><p>在作業系統裡，其實會幫你 開一塊記憶體空間，儲存這個 Socket 的相關狀態，例如：</p>
+<ul>
+<li>對方 IP 和 Port 是誰</li>
+<li>本機的 IP 和 Port 是誰</li>
+<li>目前這個通訊是不是已連線</li>
+<li>Buffer 裡收到的資料</li>
+<li>有沒有發送錯誤、封包遺失…</li>
+</ul>
+<p>這塊記憶體就是 Socket 在系統層級的「本體」，我們透過 Socket 這個物件，只是在操作這塊系統資源而已。</p>
+<br>
+
+<h3 id="🔹-第-4-層"><a href="#🔹-第-4-層" class="headerlink" title="🔹 第 4 層"></a>🔹 第 4 層</h3><p>Socket 是作業系統內部 實作 TCP 或 UDP 協定的一個介面點（Interface）<br>網路傳輸其實是由底層的「協定」在操作（例如 TCP、UDP）。這些協定其實超級複雜，要處理：</p>
+<ul>
+<li>封包的拆解和重組</li>
+<li>順序處理</li>
+<li>重傳機制</li>
+<li>錯誤檢查</li>
+<li>握手（TCP 的三次握手）</li>
+<li>對方的確認訊息…</li>
+</ul>
+<p>這些東西我們人類程式設計師如果每次都要自己寫，根本寫不完！所以作業系統幫我們包裝好這一切，把這些底層細節都藏在一個「Socket API」的介面裡，我們透過這個介面就可以簡單的做網路通訊。</p>
+<p>因此，Socket 的本質是，作業系統中，為一段網路通訊所開的一個「溝通通道」與其狀態管理。</p>
+<ul>
+<li>它存在於 OS 的核心層</li>
+<li>它封裝了網路協定的實作（如 TCP）</li>
+<li>它提供 API 讓應用程式能「像寫檔案一樣」收送資料（.Send()、.Receive()）</li>
+</ul>
+<br>
+<br>
+
+<h2 id="📨-C-HttpClient-發送-Request-到-Stripe-的旅程"><a href="#📨-C-HttpClient-發送-Request-到-Stripe-的旅程" class="headerlink" title="📨 C# HttpClient 發送 Request 到 Stripe 的旅程"></a>📨 C# HttpClient 發送 Request 到 Stripe 的旅程</h2><h3 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> httpClient = <span class="keyword">new</span> HttpClient();</span><br><span class="line"><span class="keyword">var</span> response = <span class="keyword">await</span> httpClient.GetAsync(<span class="string">&quot;https://api.stripe.com/v1/charges&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>當你呼叫 GetAsync() 時，HttpClient 做了幾件事：</p>
+<ul>
+<li>解析網址 <a target="_blank" rel="noopener" href="https://api.stripe.com,查/">https://api.stripe.com，查</a> DNS 取得 IP，例如 104.18.11.84，</li>
+<li>透過內部的 SocketsHttpHandler 來建立連線（如果還沒連過），決定這是 HTTPS，所以要走 TLS 加密協定</li>
+</ul>
+<br>
+
+<h3 id="建立一個-TCP-Socket-TLS"><a href="#建立一個-TCP-Socket-TLS" class="headerlink" title="建立一個 TCP Socket + TLS"></a>建立一個 TCP Socket + TLS</h3><p>.NET 的內部是透過 Socket API 跟作業系統溝通：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Socket socket = <span class="keyword">new</span> Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);</span><br><span class="line">socket.Connect(stripeIP, port <span class="number">443</span>); <span class="comment">// HTTPS 預設 port</span></span><br></pre></td></tr></table></figure>
+
+<p>建立一個 TCP socket（也就是一個連線的「端點」）</p>
+<ul>
+<li>TCP 會開始三次握手（Three-way Handshake）：</li>
+<li>SYN → SYN-ACK → ACK</li>
+<li>然後在 TCP 上建立 TLS 連線（加密的溝通管道）</li>
+</ul>
+<br>
+
+<h3 id="作業系統封包處理-→-網卡傳送"><a href="#作業系統封包處理-→-網卡傳送" class="headerlink" title="作業系統封包處理 → 網卡傳送"></a>作業系統封包處理 → 網卡傳送</h3><p>電腦會將資料封裝成：</p>
+<ul>
+<li>TCP Segment → IP Packet → Ethernet Frame</li>
+<li>加上 MAC、IP Header、Port、Checksum、Sequence…</li>
+<li>送往「預設閘道」 → 你的家用路由器</li>
+</ul>
+<br>
+
+<h3 id="資料開始穿越網路（跳躍節點）"><a href="#資料開始穿越網路（跳躍節點）" class="headerlink" title="資料開始穿越網路（跳躍節點）"></a>資料開始穿越網路（跳躍節點）</h3><p>這部分稱為：「網際網路傳輸」，會經過許多跳點（Hop）：</p>
+<ul>
+<li>你家路由器</li>
+<li>ISP（中華電信、遠傳…）</li>
+<li>國際骨幹網路（Backbone routers）</li>
+<li>Cloudflare（Stripe 用它的 CDN）</li>
+<li>Stripe 的 Load Balancer</li>
+<li>Stripe 的後端 API 伺服器</li>
+</ul>
+<p>中間這些路由器會根據 目的 IP 把資料「轉送」給下一個節點，直到到達 Stripe 的伺服器。</p>
+<p>你的程式<br>   ↓<br>.NET 的 HttpClient<br>   ↓<br>Socket (開 TCP 連線 + TLS)<br>   ↓<br>作業系統封包<br>   ↓<br>網路卡送出 → 路由器 → ISP → 全球網路 → Stripe<br>                                           ↓<br>                                 Stripe Server 接收與處理<br>                                           ↓<br>                         回傳 Response（同路徑回來）<br>                                           ↓<br>你的程式收到 response → 繼續邏輯</p>
+<br>
+<br>
+
+<h2 id="📨-結語"><a href="#📨-結語" class="headerlink" title="📨 結語"></a>📨 結語</h2><p>每一次呼叫 API，看似只是 .GetAsync() 的一行程式，其實背後是一場跨越數千公里的旅程。<br>Socket 就像一位無聲的信使，在雲層、電纜與協定之間奔走，將你的訊息送往遠方伺服器，再帶著回應回到你手中。或許下次當你敲下一行簡單的程式碼時，能想起這位默默穿越世界的旅人，他替你連結起程式與宇宙，替你在看不見的黑暗裡，點亮了一條光的路徑。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2025/08/25/HttpClient-Socket/">https://chi-keke.github.io/2025/08/25/HttpClient-Socket/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Http/">Http</a></div><div class="post_share"><div class="social-share" data-image="https://i.imgur.com/hZWviQz.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/08/26/HttpClient-Socket-Exhustion/" title="Socket Exhaustion - 當臨時的港口被耗盡"><img class="cover" src="https://i.imgur.com/hZWviQz.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">Socket Exhaustion - 當臨時的港口被耗盡</div></div></a></div><div class="next-post pull-right"><a href="/2025/08/17/NEW-Cache-Redis-3/" title="Redis -"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/Cache/CacheSql.png?raw=true" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Redis -</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/05/20/HttpClient-BaseAddress/" title="BaseAddress - 那一撇，決定了命運的方向"><img class="cover" src="https://i.imgur.com/hZWviQz.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-20</div><div class="title">BaseAddress - 那一撇，決定了命運的方向</div></div></a></div><div><a href="/2025/08/30/HttpClient-HttpRequestMessage/" title="HttpRequestMessage"><img class="cover" src="https://i.imgur.com/hZWviQz.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-30</div><div class="title">HttpRequestMessage</div></div></a></div><div><a href="/2024/06/27/HttpClient-Context/" title="HttpContext 失效時，我們還能說什麼"><img class="cover" src="https://i.imgur.com/hZWviQz.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-27</div><div class="title">HttpContext 失效時，我們還能說什麼</div></div></a></div><div><a href="/2025/08/29/HttpClient-REFIT/" title="Refit"><img class="cover" src="https://i.imgur.com/hZWviQz.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-29</div><div class="title">Refit</div></div></a></div><div><a href="/2024/05/21/HttpClient-Header/" title="HttpClient - Header 都亂了，我還怎麼好好當人"><img class="cover" src="https://i.imgur.com/hZWviQz.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-21</div><div class="title">HttpClient - Header 都亂了，我還怎麼好好當人</div></div></a></div><div><a href="/2025/08/26/HttpClient-Socket-Exhustion/" title="Socket Exhaustion - 當臨時的港口被耗盡"><img class="cover" src="https://i.imgur.com/hZWviQz.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-26</div><div class="title">Socket Exhaustion - 當臨時的港口被耗盡</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%A8-Socket-%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">📨 Socket 是什麼？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%A8-Socket-%E5%9C%A8-API-%E7%B3%BB%E7%B5%B1%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E7%94%9A%E9%BA%BC"><span class="toc-number">2.</span> <span class="toc-text">📨 Socket 在 API 系統的作用是甚麼</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-%E7%AC%AC-1-%E5%B1%A4"><span class="toc-number">2.1.</span> <span class="toc-text">🔹 第 1 層</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-%E7%AC%AC-2-%E5%B1%A4%EF%BC%9ASocket-%E6%98%AF-OS-%E6%8F%90%E4%BE%9B%E7%9A%84%E3%80%8C%E9%80%9A%E8%A8%8A%E6%A9%9F%E5%88%B6%E3%80%8D"><span class="toc-number">2.2.</span> <span class="toc-text">🔹 第 2 層：Socket 是 OS 提供的「通訊機制」</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-%E7%AC%AC-3-%E5%B1%A4%EF%BC%9ASocket-%E5%B0%B1%E6%98%AF%E4%B8%80%E5%80%8B%E3%80%8C%E8%A2%AB%E8%A8%98%E9%8C%84%E5%9C%A8-OS-%E8%A3%A1%E7%9A%84%E9%80%9A%E8%A8%8A%E7%8B%80%E6%85%8B%E3%80%8D"><span class="toc-number">2.3.</span> <span class="toc-text">🔹 第 3 層：Socket 就是一個「被記錄在 OS 裡的通訊狀態」</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-%E7%AC%AC-4-%E5%B1%A4"><span class="toc-number">2.4.</span> <span class="toc-text">🔹 第 4 層</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%A8-C-HttpClient-%E7%99%BC%E9%80%81-Request-%E5%88%B0-Stripe-%E7%9A%84%E6%97%85%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">📨 C# HttpClient 發送 Request 到 Stripe 的旅程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="toc-number">3.1.</span> <span class="toc-text">程式碼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B-TCP-Socket-TLS"><span class="toc-number">3.2.</span> <span class="toc-text">建立一個 TCP Socket + TLS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1%E5%B0%81%E5%8C%85%E8%99%95%E7%90%86-%E2%86%92-%E7%B6%B2%E5%8D%A1%E5%82%B3%E9%80%81"><span class="toc-number">3.3.</span> <span class="toc-text">作業系統封包處理 → 網卡傳送</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B3%87%E6%96%99%E9%96%8B%E5%A7%8B%E7%A9%BF%E8%B6%8A%E7%B6%B2%E8%B7%AF%EF%BC%88%E8%B7%B3%E8%BA%8D%E7%AF%80%E9%BB%9E%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">資料開始穿越網路（跳躍節點）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%A8-%E7%B5%90%E8%AA%9E"><span class="toc-number">4.</span> <span class="toc-text">📨 結語</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/Docker-redis/" title="redis"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Random/Whale.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis"/></a><div class="content"><a class="title" href="/2026/09/05/Docker-redis/" title="redis">redis</a><time datetime="2026-09-05T03:56:05.000Z" title="Created 2026-09-05 11:56:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="金流異常處理"/></a><div class="content"><a class="title" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理">金流異常處理</a><time datetime="2026-09-05T02:55:05.341Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="購物車 uniqueKey"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey">購物車 uniqueKey</a><time datetime="2026-09-05T02:55:05.339Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Untitled"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled">Untitled</a><time datetime="2026-09-05T02:55:05.334Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

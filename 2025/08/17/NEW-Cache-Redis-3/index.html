@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Redis - | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="StackExchange.Redis它是由 Stack Exchange 團隊（就是經營 Stack Overflow 的那群人）開發維護的所以這個套件名字就叫做 StackExchange.Redis。 🧠 本質上，它就像是你（.NET 程式）跟 Redis 這個外部系統中間的一個翻譯官，透過這個翻譯官，對 Redis 下指令、讀寫資料、訂閱事件、操作快取。 🔧 StackExchang">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis -">
+<meta property="og:url" content="https://chi-keke.github.io/2025/08/17/NEW-Cache-Redis-3/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="StackExchange.Redis它是由 Stack Exchange 團隊（就是經營 Stack Overflow 的那群人）開發維護的所以這個套件名字就叫做 StackExchange.Redis。 🧠 本質上，它就像是你（.NET 程式）跟 Redis 這個外部系統中間的一個翻譯官，透過這個翻譯官，對 Redis 下指令、讀寫資料、訂閱事件、操作快取。 🔧 StackExchang">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/CHI-KEKE/pics/blob/main/Cache/CacheSql.png?raw=true">
+<meta property="article:published_time" content="2025-08-17T00:53:11.000Z">
+<meta property="article:modified_time" content="2026-09-05T02:55:04.920Z">
+<meta property="article:author" content="Allen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/CHI-KEKE/pics/blob/main/Cache/CacheSql.png?raw=true"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2025/08/17/NEW-Cache-Redis-3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Redis -',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-09-05 10:55:04'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://github.com/CHI-KEKE/pics/blob/main/Cache/CacheSql.png?raw=true')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Redis -</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-08-17T00:53:11.000Z" title="Created 2025-08-17 08:53:11">2025-08-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-09-05T02:55:04.920Z" title="Updated 2026-09-05 10:55:04">2026-09-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%90%BD%E8%91%89%E4%B8%8B%E7%9A%84%E5%AD%98%E6%AA%94/">落葉下的存檔</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Redis -"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="https://github.com/CHI-KEKE/pics/blob/main/Cache/CacheSql.png?raw=true" alt="&quot;&quot;"></p>
+<h2 id="StackExchange-Redis"><a href="#StackExchange-Redis" class="headerlink" title="StackExchange.Redis"></a>StackExchange.Redis</h2><p>它是由 Stack Exchange 團隊（就是經營 Stack Overflow 的那群人）開發維護的<br>所以這個套件名字就叫做 StackExchange.Redis。</p>
+<p>🧠 本質上，它就像是你（.NET 程式）跟 Redis 這個外部系統中間的一個翻譯官，透過這個翻譯官，對 Redis 下指令、讀寫資料、訂閱事件、操作快取。</p>
+<p>🔧 StackExchange.Redis 幫我們做了哪些事？</p>
+<ul>
+<li>建立連線（像 ConnectionMultiplexer.Connect(…)）</li>
+<li>存資料（像 db.StringSet(“key”, “value”)）</li>
+<li>取資料（像 db.StringGet(“key”)）</li>
+<li>訂閱&#x2F;發布消息（Pub&#x2F;Sub）</li>
+<li>效能最佳化（自動管理連線、批次處理、壓縮）</li>
+</ul>
+<h2 id="ConnectionMultiplexer"><a href="#ConnectionMultiplexer" class="headerlink" title="ConnectionMultiplexer"></a>ConnectionMultiplexer</h2><p>ConnectionMultiplexer 是一個管理 Redis 連線的「總管」，幫你處理所有連線、發送指令、接收資料、訂閱事件等等。它會幫你：</p>
+<ul>
+<li>建立一條或多條 TCP 連線到 Redis 伺服器</li>
+<li>管理這些連線（重試、斷線、重連）</li>
+<li>在你發出 Redis 指令時，自動選最適合的通道送出</li>
+<li>共用連線給不同的 .NET service 使用（不用每次都重連）</li>
+</ul>
+<p>對 Redis 發出一個指令 SET key value，這個指令是要透過「網路」傳送給 Redis Server。這就像：</p>
+<p>「你要把訊息裝進一台郵車，從你家送到 Redis 的倉庫」</p>
+<p>而這台郵車的控制中心，就是 ConnectionMultiplexer。</p>
+<p>Multiplexer 本意（多工器）是「把多個輸入合併到同一條輸出通道」</p>
+<p>在這裡的意思就是一個 Redis 連線（TCP 連線）可以同時處理多個指令、多個請求。<br>你整個系統的不同功能、不同 service 都可以共用這個連線，不用每次連 Redis 都重新開一條新連線，更有效率、更省資源，這也是為什麼 ConnectionMultiplexer 要設計成「共用一次就好（singleton）」</p>
+<p>本質上連線就與 SQL DB 有很大的不同</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>Redis (<code>ConnectionMultiplexer</code>)</th>
+<th>EF Core &#x2F; SQL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>連線方式</td>
+<td><strong>長時間常駐連線</strong>（常駐 TCP 連線）</td>
+<td><strong>短暫連線</strong>（每次查詢才開連線）</td>
+</tr>
+<tr>
+<td>幾時開連線？</td>
+<td>啟動時開，整個應用共用</td>
+<td>每次操作才開（lazy connect）</td>
+</tr>
+<tr>
+<td>幾時關連線？</td>
+<td>應用程式結束、或手動 Dispose</td>
+<td>查詢&#x2F;儲存完畢後立即關閉</td>
+</tr>
+<tr>
+<td>是否共用？</td>
+<td>✅ 整個系統共用一個 multiplexer</td>
+<td>❌ 每次 DbContext 獨立建立連線</td>
+</tr>
+<tr>
+<td>效能特性</td>
+<td>為極速設計，需要持久連線</td>
+<td>適合複雜查詢，不需長駐連線</td>
+</tr>
+</tbody></table>
+<p>Redis 是記憶體型「即時存取」服務，它預期你會不斷、快速、頻繁地跟它互動，所以設計就是讓你開一條連線一直保持連線，避免每次斷開再重連的開銷，所以使用 ConnectionMultiplexer 是「持久連線」，而且推薦全系統共用一個。</p>
+<h2 id="IDatabase"><a href="#IDatabase" class="headerlink" title="IDatabase"></a>IDatabase</h2><p>IDatabase 是 StackExchange.Redis 提供的一個介面（interface），代表你要操作的 Redis 資料庫（Database）。</p>
+<p>它的職責很簡單：</p>
+<p>✅ 提供你一組方法，讓你可以對 Redis 做：</p>
+<ul>
+<li>設定資料（Set）</li>
+<li>取得資料（Get）</li>
+<li>操作清單、集合、字典、過期時間、等等…</li>
+</ul>
+<p>常看到這段程式碼：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> db = connection.GetDatabase();</span><br></pre></td></tr></table></figure>
+
+<p>就是：</p>
+<p>從 ConnectionMultiplexer 拿到一個你要操作的「Redis 資料庫代理人」— 也就是 IDatabase。</p>
+<p>Redis 本身有支援多個 database（預設最多 16 個，從 0 到 15）。你可以把它想像成：</p>
+<p>Redis 是一整個資料倉庫，裡面有 16 間資料室。每間資料室都有自己的資料。而 GetDatabase() 就是在指定你要去哪一間房間。</p>
+<p>範例：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> db0 = redis.GetDatabase(<span class="number">0</span>);  <span class="comment">// 第 0 間</span></span><br><span class="line"><span class="keyword">var</span> db5 = redis.GetDatabase(<span class="number">5</span>);  <span class="comment">// 第 5 間</span></span><br></pre></td></tr></table></figure>
+
+<p>但現實中，大多數人都只用第 0 間（預設），因為 Redis 的多 DB 功能其實是很基礎的功能，不支援 cross-db operations，也不適合複雜管理。</p>
+<p>❓為什麼叫做「IDatabase」？</p>
+<p>雖然它名字叫 IDatabase，但它不是代表像 SQL Database 那麼複雜的概念，而是一個簡化的、針對 Redis 所設計的資料操作介面。</p>
+<p>它不是用來建表格、定 schema，而是：「我想跟 Redis 的某個區塊互動，幫我提供工具就好」</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2025/08/17/NEW-Cache-Redis-3/">https://chi-keke.github.io/2025/08/17/NEW-Cache-Redis-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://github.com/CHI-KEKE/pics/blob/main/Cache/CacheSql.png?raw=true" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/08/25/HttpClient-Socket/" title="Socket"><img class="cover" src="https://i.imgur.com/hZWviQz.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">Socket</div></div></a></div><div class="next-post pull-right"><a href="/2025/08/17/NEW-Cache-Redis-2/" title="Redis -"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/Cache/CacheSql.png?raw=true" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Redis -</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#StackExchange-Redis"><span class="toc-number">1.</span> <span class="toc-text">StackExchange.Redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ConnectionMultiplexer"><span class="toc-number">2.</span> <span class="toc-text">ConnectionMultiplexer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IDatabase"><span class="toc-number">3.</span> <span class="toc-text">IDatabase</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/Docker-redis/" title="redis"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Random/Whale.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis"/></a><div class="content"><a class="title" href="/2026/09/05/Docker-redis/" title="redis">redis</a><time datetime="2026-09-05T03:56:05.000Z" title="Created 2026-09-05 11:56:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="金流異常處理"/></a><div class="content"><a class="title" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理">金流異常處理</a><time datetime="2026-09-05T02:55:05.341Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="購物車 uniqueKey"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey">購物車 uniqueKey</a><time datetime="2026-09-05T02:55:05.339Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Untitled"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled">Untitled</a><time datetime="2026-09-05T02:55:05.334Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

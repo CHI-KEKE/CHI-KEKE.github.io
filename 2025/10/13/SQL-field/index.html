@@ -1,0 +1,370 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Field | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在 SQL 資料表設計時，「欄位型別的選擇」會直接影響到：  儲存空間（Database Size） 查詢效能（Index &#x2F; Join &#x2F; Sort） 可擴充性（是否足夠表示未來的資料量）  💼 char &#x2F; varchar &#x2F; nchar &#x2F; nvarchar「var」表示變長，「n」表示支援 Unicode   🔹 定長：char想">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Field">
+<meta property="og:url" content="https://chi-keke.github.io/2025/10/13/SQL-field/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="在 SQL 資料表設計時，「欄位型別的選擇」會直接影響到：  儲存空間（Database Size） 查詢效能（Index &#x2F; Join &#x2F; Sort） 可擴充性（是否足夠表示未來的資料量）  💼 char &#x2F; varchar &#x2F; nchar &#x2F; nvarchar「var」表示變長，「n」表示支援 Unicode   🔹 定長：char想">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.imgur.com/NfCnwwU.png">
+<meta property="article:published_time" content="2025-10-13T14:52:05.000Z">
+<meta property="article:modified_time" content="2026-09-05T02:55:05.142Z">
+<meta property="article:author" content="Allen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/NfCnwwU.png"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2025/10/13/SQL-field/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Field',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-09-05 10:55:05'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.imgur.com/NfCnwwU.png')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Field</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-10-13T14:52:05.000Z" title="Created 2025-10-13 22:52:05">2025-10-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-09-05T02:55:05.142Z" title="Updated 2026-09-05 10:55:05">2026-09-05</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Field"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="https://i.imgur.com/NfCnwwU.png" alt="SQL"></p>
+<br>
+
+<p>在 SQL 資料表設計時，「欄位型別的選擇」會直接影響到：</p>
+<ul>
+<li>儲存空間（Database Size）</li>
+<li>查詢效能（Index &#x2F; Join &#x2F; Sort）</li>
+<li>可擴充性（是否足夠表示未來的資料量）</li>
+</ul>
+<h2 id="💼-char-varchar-nchar-nvarchar"><a href="#💼-char-varchar-nchar-nvarchar" class="headerlink" title="💼 char &#x2F; varchar &#x2F; nchar &#x2F; nvarchar"></a>💼 char &#x2F; varchar &#x2F; nchar &#x2F; nvarchar</h2><p>「var」表示變長，「n」表示支援 Unicode</p>
+<br>
+
+<h3 id="🔹-定長：char"><a href="#🔹-定長：char" class="headerlink" title="🔹 定長：char"></a>🔹 定長：char</h3><p>想像你開一間餐廳，每張桌子都是固定 10 個座位 (char(10))，不管今天坐 2 個人還是 10 個人，桌子都占同樣的空間<br>也就是說，你設定 char(10)，即使只放 ‘Hi’，它還是佔 10 Bytes，系統會幫你在後面補空白（space），讓長度固定</p>
+<p>char 因為長度固定，SQL Server 可以「快速計算位置」，所以在大量查詢時效能較好。所以 char 比較「浪費空間但速度快」；varchar 比較「省空間但速度略慢一點」</p>
+<br>
+
+<h3 id="🔹-Unicode-vs-非Unicode（n-開頭的型別）"><a href="#🔹-Unicode-vs-非Unicode（n-開頭的型別）" class="headerlink" title="🔹 Unicode vs. 非Unicode（n 開頭的型別）"></a>🔹 Unicode vs. 非Unicode（n 開頭的型別）</h3><p>Unicode 是一種「萬國通用的文字編碼」，用來同時支援 中、英、日、韓、泰文 等不同語系，如果你用 varchar 來存中文，可能會變亂碼，因為 varchar 會根據語系（collation）去解讀每個字佔幾個 Byte。<br>但 nvarchar 則是固定每個字都用 2 Bytes 儲存，所以再也不會亂碼</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> RocketUnicode (</span><br><span class="line">    rocket1 <span class="type">VARCHAR</span>(<span class="number">50</span>),</span><br><span class="line">    rocket2 NVARCHAR(<span class="number">50</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> RocketUnicode <span class="keyword">VALUES</span> (<span class="string">&#x27;我愛TsungHua&#x27;</span>, N<span class="string">&#x27;我愛TsungHua&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>儲存方式</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rocket1</td>
+<td>會把中文「我愛」當成 4 Bytes、英文「TsungHua」當成 8 Bytes → 共 12 Bytes</td>
+<td>容易亂碼</td>
+</tr>
+<tr>
+<td>rocket2</td>
+<td>每個字固定 2 Bytes，共 10 個字 &#x3D; 20 Bytes</td>
+<td>安全、不亂碼</td>
+</tr>
+</tbody></table>
+<br>
+
+<h3 id="🔹-實際使用建議"><a href="#🔹-實際使用建議" class="headerlink" title="🔹 實際使用建議"></a>🔹 實際使用建議</h3><table>
+<thead>
+<tr>
+<th>型別</th>
+<th>長度特性</th>
+<th>語言特性</th>
+<th>適用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>char(n)</code></td>
+<td>固定長度</td>
+<td>僅英文</td>
+<td>會員編號、郵遞區號、固定格式代碼</td>
+</tr>
+<tr>
+<td><code>nchar(n)</code></td>
+<td>固定長度</td>
+<td>多語系</td>
+<td>固定長度但可能包含中文的代碼</td>
+</tr>
+<tr>
+<td><code>varchar(n)</code></td>
+<td>可變長度</td>
+<td>僅英文</td>
+<td>Email、網址、帳號等不含中文</td>
+</tr>
+<tr>
+<td><code>nvarchar(n)</code></td>
+<td>可變長度</td>
+<td>多語系</td>
+<td>姓名、地址、留言內容等含中文的資料</td>
+</tr>
+</tbody></table>
+<br>
+
+<h3 id="🔹-容量限制與差異"><a href="#🔹-容量限制與差異" class="headerlink" title="🔹 容量限制與差異"></a>🔹 容量限制與差異</h3><table>
+<thead>
+<tr>
+<th>型別</th>
+<th>最大長度</th>
+<th>儲存大小</th>
+<th>特性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>char(n)</code></td>
+<td>1～8000</td>
+<td>固定 n Bytes</td>
+<td>定長、英文最佳化</td>
+</tr>
+<tr>
+<td><code>nchar(n)</code></td>
+<td>1～4000</td>
+<td>固定 2n Bytes</td>
+<td>定長、Unicode</td>
+</tr>
+<tr>
+<td><code>varchar(n)</code></td>
+<td>1～8000</td>
+<td>依內容而定</td>
+<td>變長、英文最佳化</td>
+</tr>
+<tr>
+<td><code>nvarchar(n)</code></td>
+<td>1～4000</td>
+<td>依內容 * 2 Bytes</td>
+<td>變長、Unicode</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>~2GB</td>
+<td>可變</td>
+<td>舊型別（不建議再用）</td>
+</tr>
+<tr>
+<td><code>ntext</code></td>
+<td>~1GB</td>
+<td>可變</td>
+<td>舊型別（不建議再用）</td>
+</tr>
+</tbody></table>
+<h3 id="🔹-nvarchar-max"><a href="#🔹-nvarchar-max" class="headerlink" title="🔹 nvarchar(max)"></a>🔹 nvarchar(max)</h3><p>nvarchar(max) 最多可儲存 1,073,741,823 個字元，也就是大約 2GB 的資料量。(n) 這個數字的「單位」代表 字元（characters），<br>而不是 Bytes。你放中文或英文，都算 1 個「字元」；只是底層儲存時會佔用 2 Bytes。</p>
+<br>
+<br>
+
+<h2 id="💼-bigint、guid、int、tinyint、bit、bytes"><a href="#💼-bigint、guid、int、tinyint、bit、bytes" class="headerlink" title="💼 bigint、guid、int、tinyint、bit、bytes"></a>💼 bigint、guid、int、tinyint、bit、bytes</h2><br>
+
+<h3 id="🔹-概念總覽"><a href="#🔹-概念總覽" class="headerlink" title="🔹 概念總覽"></a>🔹 概念總覽</h3><table>
+<thead>
+<tr>
+<th>型別</th>
+<th>儲存大小</th>
+<th>數值範圍</th>
+<th>是否可排序</th>
+<th>常用用途</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>bit</code></td>
+<td>1 bit (但實際上 SQL Server 會以 1 byte 儲存多個 bit)</td>
+<td>0 或 1</td>
+<td>✅ 是</td>
+<td>布林值（true&#x2F;false）</td>
+<td>儲存空間最小</td>
+</tr>
+<tr>
+<td><code>tinyint</code></td>
+<td>1 byte</td>
+<td>0 ～ 255</td>
+<td>✅ 是</td>
+<td>小範圍的代號、狀態</td>
+<td>最小的整數型別</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td>4 bytes</td>
+<td>-2,147,483,648 ～ 2,147,483,647</td>
+<td>✅ 是</td>
+<td>主鍵 ID、一般數值欄位</td>
+<td>預設最常用</td>
+</tr>
+<tr>
+<td><code>bigint</code></td>
+<td>8 bytes</td>
+<td>-9,223,372,036,854,775,808 ～ 9,223,372,036,854,775,807</td>
+<td>✅ 是</td>
+<td>超大流水號、Log ID</td>
+<td>比 <code>int</code> 多一倍空間</td>
+</tr>
+<tr>
+<td><code>uniqueidentifier</code> (GUID)</td>
+<td>16 bytes</td>
+<td>不適用</td>
+<td>✅ 是（但排序成本高）</td>
+<td>全域唯一識別碼（UUID）</td>
+<td>適用分散式系統</td>
+</tr>
+<tr>
+<td><code>varbinary(n)</code> &#x2F; <code>binary(n)</code></td>
+<td>1～8000 bytes</td>
+<td>二進位資料</td>
+<td>❌ 不排序</td>
+<td>圖片、檔案、雜湊值</td>
+<td>不可直接比較內容</td>
+</tr>
+</tbody></table>
+<br>
+
+<h3 id="🔹-bit-——-真或假（Boolean）"><a href="#🔹-bit-——-真或假（Boolean）" class="headerlink" title="🔹 bit —— 真或假（Boolean）"></a>🔹 bit —— 真或假（Boolean）</h3><p>📦 儲存大小： 最小單位（1 bit，實際儲存時 SQL Server 會一組打包）<br>📊 用途： 用來儲存「是&#x2F;否」、「開啟&#x2F;關閉」、「有效&#x2F;無效」等狀態</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Users (</span><br><span class="line">    IsActive BIT</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Users <span class="keyword">VALUES</span> (<span class="number">1</span>);  <span class="comment">-- true</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Users <span class="keyword">VALUES</span> (<span class="number">0</span>);  <span class="comment">-- false</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h3 id="🔹-tinyint-——-小範圍的數字"><a href="#🔹-tinyint-——-小範圍的數字" class="headerlink" title="🔹 tinyint —— 小範圍的數字"></a>🔹 tinyint —— 小範圍的數字</h3><p>📦 儲存大小： 1 byte<br>📊 可儲存範圍： 0 ～ 255</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Product (</span><br><span class="line">    Status TINYINT</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 例如：</span></span><br><span class="line"><span class="comment">-- 0 = 下架</span></span><br><span class="line"><span class="comment">-- 1 = 上架</span></span><br><span class="line"><span class="comment">-- 2 = 預購</span></span><br></pre></td></tr></table></figure>
+
+<p>像是「等級」或「狀態代碼」的小盒子，只能裝少量數字。建議例如狀態、等級、分類代號、分數等有限範圍數值</p>
+<br>
+
+<h3 id="🔹-int-——-標準整數"><a href="#🔹-int-——-標準整數" class="headerlink" title="🔹 int —— 標準整數"></a>🔹 int —— 標準整數</h3><p>📦 儲存大小： 4 bytes<br>📊 範圍： -2,147,483,648 ～ 2,147,483,647</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Orders (</span><br><span class="line">    OrderId <span class="type">INT</span> <span class="keyword">IDENTITY</span>(<span class="number">1</span>,<span class="number">1</span>) <span class="keyword">PRIMARY</span> KEY</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h3 id="🔹-int-——-標準整數-1"><a href="#🔹-int-——-標準整數-1" class="headerlink" title="🔹 int —— 標準整數"></a>🔹 int —— 標準整數</h3><p>📦 儲存大小： 4 bytes<br>📊 範圍： -2,147,483,648 ～ 2,147,483,647</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Orders (</span><br><span class="line">    OrderId <span class="type">INT</span> <span class="keyword">IDENTITY</span>(<span class="number">1</span>,<span class="number">1</span>) <span class="keyword">PRIMARY</span> KEY</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>就像一個能裝「幾十億」的數字倉庫，容量夠大又效率高。這是大多數 ID 欄位的「黃金型別」。<br>建議使用情境包含主鍵流水號 (Identity)、數量、年齡、分數等一般整數</p>
+<br>
+
+<h3 id="🔹-bigint-——-超大號整數"><a href="#🔹-bigint-——-超大號整數" class="headerlink" title="🔹 bigint —— 超大號整數"></a>🔹 bigint —— 超大號整數</h3><p>📦 儲存大小： 8 bytes（是 int 的兩倍）<br>📊 範圍： 超級大（約 ±9 × 10¹⁸）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Logs (</span><br><span class="line">    LogId <span class="type">BIGINT</span> <span class="keyword">IDENTITY</span>(<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>就像一個「宇宙級倉庫」，能放下全球用戶的 ID。比 int 佔空間兩倍，但能撐更久。<br>建議極大量資料表（例如 Log、IoT 資料、交易紀錄）、分散式系統 ID，不想重複就選它</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2025/10/13/SQL-field/">https://chi-keke.github.io/2025/10/13/SQL-field/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.imgur.com/NfCnwwU.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/10/15/SQL-%E5%9F%B7%E8%A1%8C%E9%A0%86%E5%BA%8F/" title="執行順序"><img class="cover" src="https://i.imgur.com/NfCnwwU.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">執行順序</div></div></a></div><div class="next-post pull-right"><a href="/2025/10/12/DeepType-SQL-Index-2/" title="Index - 發揮作用...了嗎"><img class="cover" src="https://i.imgur.com/NfCnwwU.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Index - 發揮作用...了嗎</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-char-varchar-nchar-nvarchar"><span class="toc-number">1.</span> <span class="toc-text">💼 char &#x2F; varchar &#x2F; nchar &#x2F; nvarchar</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-%E5%AE%9A%E9%95%B7%EF%BC%9Achar"><span class="toc-number">1.1.</span> <span class="toc-text">🔹 定長：char</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-Unicode-vs-%E9%9D%9EUnicode%EF%BC%88n-%E9%96%8B%E9%A0%AD%E7%9A%84%E5%9E%8B%E5%88%A5%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">🔹 Unicode vs. 非Unicode（n 開頭的型別）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-%E5%AF%A6%E9%9A%9B%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AD%B0"><span class="toc-number">1.3.</span> <span class="toc-text">🔹 實際使用建議</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-%E5%AE%B9%E9%87%8F%E9%99%90%E5%88%B6%E8%88%87%E5%B7%AE%E7%95%B0"><span class="toc-number">1.4.</span> <span class="toc-text">🔹 容量限制與差異</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-nvarchar-max"><span class="toc-number">1.5.</span> <span class="toc-text">🔹 nvarchar(max)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-bigint%E3%80%81guid%E3%80%81int%E3%80%81tinyint%E3%80%81bit%E3%80%81bytes"><span class="toc-number">2.</span> <span class="toc-text">💼 bigint、guid、int、tinyint、bit、bytes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-%E6%A6%82%E5%BF%B5%E7%B8%BD%E8%A6%BD"><span class="toc-number">2.1.</span> <span class="toc-text">🔹 概念總覽</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-bit-%E2%80%94%E2%80%94-%E7%9C%9F%E6%88%96%E5%81%87%EF%BC%88Boolean%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">🔹 bit —— 真或假（Boolean）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-tinyint-%E2%80%94%E2%80%94-%E5%B0%8F%E7%AF%84%E5%9C%8D%E7%9A%84%E6%95%B8%E5%AD%97"><span class="toc-number">2.3.</span> <span class="toc-text">🔹 tinyint —— 小範圍的數字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-int-%E2%80%94%E2%80%94-%E6%A8%99%E6%BA%96%E6%95%B4%E6%95%B8"><span class="toc-number">2.4.</span> <span class="toc-text">🔹 int —— 標準整數</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-int-%E2%80%94%E2%80%94-%E6%A8%99%E6%BA%96%E6%95%B4%E6%95%B8-1"><span class="toc-number">2.5.</span> <span class="toc-text">🔹 int —— 標準整數</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%B9-bigint-%E2%80%94%E2%80%94-%E8%B6%85%E5%A4%A7%E8%99%9F%E6%95%B4%E6%95%B8"><span class="toc-number">2.6.</span> <span class="toc-text">🔹 bigint —— 超大號整數</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/Docker-redis/" title="redis"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Random/Whale.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis"/></a><div class="content"><a class="title" href="/2026/09/05/Docker-redis/" title="redis">redis</a><time datetime="2026-09-05T03:56:05.000Z" title="Created 2026-09-05 11:56:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="金流異常處理"/></a><div class="content"><a class="title" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理">金流異常處理</a><time datetime="2026-09-05T02:55:05.341Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="購物車 uniqueKey"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey">購物車 uniqueKey</a><time datetime="2026-09-05T02:55:05.339Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Untitled"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled">Untitled</a><time datetime="2026-09-05T02:55:05.334Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

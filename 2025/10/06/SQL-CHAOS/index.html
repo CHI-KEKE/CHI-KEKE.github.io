@@ -1,0 +1,321 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>SQL - Store Procedure | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="OFFSET 與 FETCH：分頁查詢（Paging）1234567891011-- 第 1 頁：顯示第 1~10 筆SELECT * FROM EmployeesORDER BY EmployeeIDOFFSET 0 ROWSFETCH NEXT 10 ROWS ONLY;-- 第 2 頁：顯示第 11~20 筆SELECT * FROM EmployeesORDER BY Employe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL - Store Procedure">
+<meta property="og:url" content="https://chi-keke.github.io/2025/10/06/SQL-CHAOS/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="OFFSET 與 FETCH：分頁查詢（Paging）1234567891011-- 第 1 頁：顯示第 1~10 筆SELECT * FROM EmployeesORDER BY EmployeeIDOFFSET 0 ROWSFETCH NEXT 10 ROWS ONLY;-- 第 2 頁：顯示第 11~20 筆SELECT * FROM EmployeesORDER BY Employe">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.imgur.com/NfCnwwU.png">
+<meta property="article:published_time" content="2025-10-06T14:52:05.000Z">
+<meta property="article:modified_time" content="2026-09-05T02:55:05.145Z">
+<meta property="article:author" content="Allen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/NfCnwwU.png"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2025/10/06/SQL-CHAOS/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SQL - Store Procedure',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-09-05 10:55:05'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.imgur.com/NfCnwwU.png')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SQL - Store Procedure</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-10-06T14:52:05.000Z" title="Created 2025-10-06 22:52:05">2025-10-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-09-05T02:55:05.145Z" title="Updated 2026-09-05 10:55:05">2026-09-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/SQL-%E8%81%B7%E5%A0%B4%E6%AD%B7%E9%9A%AA%E8%A8%98/">SQL 職場歷險記</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SQL - Store Procedure"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="https://i.imgur.com/NfCnwwU.png" alt="ocean"></p>
+<br>
+
+<h2 id="OFFSET-與-FETCH：分頁查詢（Paging）"><a href="#OFFSET-與-FETCH：分頁查詢（Paging）" class="headerlink" title="OFFSET 與 FETCH：分頁查詢（Paging）"></a>OFFSET 與 FETCH：分頁查詢（Paging）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 第 1 頁：顯示第 1~10 筆</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Employees</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> EmployeeID</span><br><span class="line"><span class="keyword">OFFSET</span> <span class="number">0</span> <span class="keyword">ROWS</span></span><br><span class="line"><span class="keyword">FETCH</span> NEXT <span class="number">10</span> <span class="keyword">ROWS</span> <span class="keyword">ONLY</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 第 2 頁：顯示第 11~20 筆</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Employees</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> EmployeeID</span><br><span class="line"><span class="keyword">OFFSET</span> <span class="number">10</span> <span class="keyword">ROWS</span></span><br><span class="line"><span class="keyword">FETCH</span> NEXT <span class="number">10</span> <span class="keyword">ROWS</span> <span class="keyword">ONLY</span>;</span><br></pre></td></tr></table></figure>
+
+<p>👉 可以想成像 Netflix：「往右滑 10 部影片，再顯示接下來的 10 部。」</p>
+<h2 id="在交易中進行分頁-Paging-with-Transaction"><a href="#在交易中進行分頁-Paging-with-Transaction" class="headerlink" title="在交易中進行分頁 (Paging with Transaction)"></a>在交易中進行分頁 (Paging with Transaction)</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> TRANSACTION ISOLATION LEVEL SNAPSHOT;</span><br><span class="line"><span class="keyword">BEGIN</span> TRANSACTION;</span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span></span><br><span class="line">    <span class="variable">@StartingRowNumber</span> <span class="type">INT</span> <span class="operator">=</span> <span class="number">1</span>,</span><br><span class="line">    <span class="variable">@RowCountPerPage</span> <span class="type">INT</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">WHILE (<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> HumanResources.Department) <span class="operator">&gt;=</span> <span class="variable">@StartingRowNumber</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">SELECT</span> DepartmentID, Name, GroupName</span><br><span class="line">    <span class="keyword">FROM</span> HumanResources.Department</span><br><span class="line">    <span class="keyword">ORDER</span> <span class="keyword">BY</span> DepartmentID <span class="keyword">ASC</span></span><br><span class="line">    <span class="keyword">OFFSET</span> <span class="variable">@StartingRowNumber</span> <span class="operator">-</span> <span class="number">1</span> <span class="keyword">ROWS</span></span><br><span class="line">    <span class="keyword">FETCH</span> NEXT <span class="variable">@RowCountPerPage</span> <span class="keyword">ROWS</span> <span class="keyword">ONLY</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">SET</span> <span class="variable">@StartingRowNumber</span> <span class="operator">=</span> <span class="variable">@StartingRowNumber</span> <span class="operator">+</span> <span class="variable">@RowCountPerPage</span>;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">COMMIT</span> TRANSACTION;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用運算式-Expressions"><a href="#使用運算式-Expressions" class="headerlink" title="使用運算式 (Expressions)"></a>使用運算式 (Expressions)</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span></span><br><span class="line">    <span class="variable">@StartingRowNumber</span> TINYINT <span class="operator">=</span> <span class="number">1</span>,</span><br><span class="line">    <span class="variable">@EndingRowNumber</span> TINYINT <span class="operator">=</span> <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> DepartmentID, Name, GroupName</span><br><span class="line"><span class="keyword">FROM</span> HumanResources.Department</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> DepartmentID <span class="keyword">ASC</span></span><br><span class="line"><span class="keyword">OFFSET</span> <span class="variable">@StartingRowNumber</span> <span class="operator">-</span> <span class="number">1</span> <span class="keyword">ROWS</span></span><br><span class="line"><span class="keyword">FETCH</span> NEXT <span class="variable">@EndingRowNumber</span> <span class="operator">-</span> <span class="variable">@StartingRowNumber</span> <span class="operator">+</span> <span class="number">1</span> <span class="keyword">ROWS</span> <span class="keyword">ONLY</span></span><br><span class="line">OPTION (OPTIMIZE <span class="keyword">FOR</span> (<span class="variable">@StartingRowNumber</span> <span class="operator">=</span> <span class="number">1</span>, <span class="variable">@EndingRowNumber</span> <span class="operator">=</span> <span class="number">20</span>));</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="💼-FK"><a href="#💼-FK" class="headerlink" title="💼 FK"></a>💼 FK</h2><p>外部索引鍵並不一定要唯一</p>
+<br>
+<br>
+
+<h2 id="💼-OLAP-OLTP"><a href="#💼-OLAP-OLTP" class="headerlink" title="💼 OLAP &#x2F; OLTP"></a>💼 OLAP &#x2F; OLTP</h2><p>OLTP 是為了「快速記錄真實世界的每一筆變動」<br>OLAP 是為了「快速分析這些變動的長期趨勢」</p>
+<p>換句話說：</p>
+<p>OLTP 重在「準確、即時、細節完整」<br>OLAP 重在「彙總、分析、決策支援」</p>
+<table>
+<thead>
+<tr>
+<th>類別</th>
+<th>比喻</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>OLTP 系統</strong></td>
+<td>就像你的「收銀系統」：每筆交易（客人買什麼、多少錢）都要即時登錄。</td>
+</tr>
+<tr>
+<td><strong>OLAP 系統</strong></td>
+<td>就像「財務報表或經營儀表板」：你要看出哪個月賣最多、哪個產品成長趨勢好。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>面向</th>
+<th>OLTP（Online Transaction Processing）</th>
+<th>OLAP（Online Analytical Processing）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>主要用途</strong></td>
+<td>處理日常交易（新增、修改、刪除）</td>
+<td>分析歷史資料（彙總、比較、統計）</td>
+</tr>
+<tr>
+<td><strong>資料設計目標</strong></td>
+<td>資料一致性、避免重複、確保交易完整</td>
+<td>查詢速度、聚合效能高</td>
+</tr>
+<tr>
+<td><strong>資料模型</strong></td>
+<td>正規化 (Normalized)</td>
+<td>維度模型 (Star Schema &#x2F; Snowflake)</td>
+</tr>
+<tr>
+<td><strong>資料範例</strong></td>
+<td>客戶訂單、庫存變化、付款紀錄</td>
+<td>每月銷售報表、年度趨勢分析</td>
+</tr>
+<tr>
+<td><strong>查詢型態</strong></td>
+<td>單筆交易、短查詢</td>
+<td>大量彙總、複雜計算</td>
+</tr>
+<tr>
+<td><strong>典型 SQL</strong></td>
+<td><code>INSERT / UPDATE / DELETE / SELECT TOP 1</code></td>
+<td><code>SELECT SUM(), AVG(), GROUP BY, CUBE</code></td>
+</tr>
+<tr>
+<td><strong>交易數量</strong></td>
+<td>高頻率、筆數多、單筆小</td>
+<td>低頻率、批次處理、資料量大</td>
+</tr>
+<tr>
+<td><strong>使用者角色</strong></td>
+<td>一線系統（前台、客服、ERP）</td>
+<td>管理層、分析師、BI 系統</td>
+</tr>
+<tr>
+<td><strong>設計考量</strong></td>
+<td>ACID、鎖定策略、索引查詢</td>
+<td>ETL、資料倉儲、快取彙總</td>
+</tr>
+</tbody></table>
+<h2 id="連接鏈條"><a href="#連接鏈條" class="headerlink" title="連接鏈條"></a>連接鏈條</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> </span><br><span class="line">    SalesOrderData_SalesOrderSlaveId</span><br><span class="line"><span class="keyword">FROM</span> #tmpSalesOrderDataResponse </span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> dbo.SalesOrderSlavePayProfileType <span class="keyword">WITH</span> (NOLOCK) </span><br><span class="line">    <span class="keyword">ON</span> SalesOrderSlavePayProfileType_SalesOrderSlaveId <span class="operator">=</span> SalesOrderData_SalesOrderSlaveId</span><br><span class="line">    <span class="keyword">AND</span> SalesOrderSlavePayProfileType_ValidFlag <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> dbo.PayProfile <span class="keyword">WITH</span> (NOLOCK) </span><br><span class="line">    <span class="keyword">ON</span> PayProfile_TypeDef <span class="operator">=</span> SalesOrderSlavePayProfileType_PayProfileTypeDef </span><br><span class="line">    <span class="keyword">AND</span> PayProfile_ValidFlag <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">WHERE</span> PayProfile_StatisticsTypeDef <span class="operator">=</span> <span class="variable">@PayProfileStatisticsTypeDef</span>;</span><br></pre></td></tr></table></figure>
+
+
+<p>PayProfile 能不能連上去，完全取決於 SalesOrderSlavePayProfileType 那層有沒有東西。<br>若該訂單沒有對應的 SalesOrderSlavePayProfileType，那 ppt.* 欄位全是 NULL，<br>進而 PayProfile_TypeDef &#x3D; NULL → 這條 JOIN 對不到任何 PayProfile → p.* 全部 NULL。</p>
+<table>
+<thead>
+<tr>
+<th>情況</th>
+<th>SalesOrderSlavePayProfileType</th>
+<th>PayProfile</th>
+<th>最終結果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>✅ 有資料，且對應 PayProfile 符合條件</td>
+<td>有</td>
+<td>有且符合</td>
+<td>✅ 出現在結果</td>
+</tr>
+<tr>
+<td>⚠️ 有資料，但對應 PayProfile 不符合條件</td>
+<td>有</td>
+<td>有但不符</td>
+<td>❌ 被 WHERE 過濾</td>
+</tr>
+<tr>
+<td>❌ 完全沒有 SalesOrderSlavePayProfileType</td>
+<td>無</td>
+<td>不會被 JOIN</td>
+<td>❌ 被 WHERE 過濾</td>
+</tr>
+</tbody></table>
+<p>把這三張表想成三段電路：</p>
+<p>#tmpSalesOrderDataResponse –(線A)–&gt; SalesOrderSlavePayProfileType –(線B)–&gt; PayProfile</p>
+<ul>
+<li>線A（第一個 JOIN）壞掉 → 第二段（PayProfile）永遠接不上</li>
+<li>所以哪怕 PayProfile 本身有電（有資料）</li>
+<li>只要中間 SalesOrderSlavePayProfileType 那條線沒通，整個電路就不亮</li>
+</ul>
+<h2 id="🧱-Filegroup-的目的"><a href="#🧱-Filegroup-的目的" class="headerlink" title="🧱 Filegroup 的目的"></a>🧱 Filegroup 的目的</h2><h4 id="①-把資料表分散在不同的磁碟，提高效能"><a href="#①-把資料表分散在不同的磁碟，提高效能" class="headerlink" title="① 把資料表分散在不同的磁碟，提高效能"></a>① 把資料表分散在不同的磁碟，提高效能</h4><p>假設交易量非常大的表（如 Orders）放到快速 SSD，歷史表、Log 表放到便宜 HDD → 不同 Filegroup 可以綁不同實體磁碟，提高整體 I&#x2F;O 效能</p>
+<p>PRIMARY (SSD)<br>CashFlowGroup (SSD)<br>ArchiveGroup (HDD)</p>
+<h4 id="②-做分區表（Partition-Table）必備"><a href="#②-做分區表（Partition-Table）必備" class="headerlink" title="② 做分區表（Partition Table）必備"></a>② 做分區表（Partition Table）必備</h4><p>若你要做分區（Partition），例如每個月一個 partition，partition 指定到不同 filegroup，SQL Server 一定要求你有多個 filegroup 才能做 partition。<br>沒有 filegroup &#x3D; 無法 partition</p>
+<p>雖然你 SELECT 時還是：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> TradesOrder</span><br><span class="line"><span class="keyword">WHERE</span> CreatedAt <span class="operator">&gt;=</span> <span class="string">&#x27;2024-03-01&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是 SQL Server 只會掃描「3 月的 partition」，而不是把整張大表都掃過。</p>
+<h4 id="③-獨立備份-還原-filegroup"><a href="#③-獨立備份-還原-filegroup" class="headerlink" title="③ 獨立備份 &#x2F; 還原 filegroup"></a>③ 獨立備份 &#x2F; 還原 filegroup</h4><p>大型系統（尤其 TB 級）常需要只備份活躍資料（Active Filegroup）、歷史資料放在 Archive Filegroup，必要時再掛載、只還原某個 filegroup（ex：歷史區域壞掉），這種需求必須靠 Filegroup 才能做到。</p>
+<h2 id="不是「所有情況-100-都比反向快」"><a href="#不是「所有情況-100-都比反向快」" class="headerlink" title="不是「所有情況 100% 都比反向快」"></a>不是「所有情況 100% 都比反向快」</h2><p>高基數欄位<br>Partition Key 跟查詢不一致<br>小表<br>模糊查詢沒有真正替代寫法</p>
+<h2 id="SARGable"><a href="#SARGable" class="headerlink" title="SARGable"></a>SARGable</h2><p>SARGable &#x3D; 可被索引最佳化的查詢條件</p>
+<p>SARGable → Index Seek（快）</p>
+<p>non-SARGable → Index Scan &#x2F; Table Scan（慢）</p>
+<p>差距是：</p>
+<p>Seek &#x3D; O(log n)</p>
+<p>Scan &#x3D; O(n)</p>
+<h2 id="UNION-ALL"><a href="#UNION-ALL" class="headerlink" title="UNION ALL"></a>UNION ALL</h2><p>UNION ALL效能比UNION好，因為UNION會使用類使DISTINCT的演算法</p>
+<h2 id="反正規化"><a href="#反正規化" class="headerlink" title="反正規化"></a>反正規化</h2><p>反正規化（Denormalization） &#x3D; 刻意把資料表重複一些欄位，讓查詢時不需要 JOIN 或不需要一直存取同一張熱門表</p>
+<p>📌 它是刻意做的，不是設計錯誤。<br>📌 目的：效能、效能、還是效能。</p>
+<p>🔥 案例 1：TradesOrderThirdPartyPayment 需要會員 Email</p>
+<p>原本：</p>
+<p>SELECT t.*, m.Email<br>FROM TradesOrderThirdPartyPayment t<br>JOIN CrmMember m ON t.MemberId &#x3D; m.MemberId</p>
+<p>CrmMember 是 Hot Table，JOIN 會讓：</p>
+<p>CPU 飆高</p>
+<p>IO 飆高</p>
+<p>執行變慢</p>
+<p>✔ 改成反正規化</p>
+<p>在 TradesOrderThirdPartyPayment 直接新增欄位：</p>
+<p>MemberEmail<br>MemberName</p>
+<p>寫入訂單時就存好；</p>
+<p>未來查詢時：</p>
+<p>SELECT MemberEmail FROM TradesOrderThirdPartyPayment</p>
+<p>→ 完全不需 JOIN<br>→ 壓力從 Hot 下來<br>→ 效能顯著提升（真實案例 10 倍以上）</p>
+<h2 id="where條件使用-OR-來連接條件"><a href="#where條件使用-OR-來連接條件" class="headerlink" title="where條件使用 OR 來連接條件"></a>where條件使用 OR 來連接條件</h2><p>SELECT job_id FROM   job  WHERE  job_priority &#x3D; 3 OR job_priority &#x3D; 1; </p>
+<p>–可以這樣查詢<br>SELECT job_id FROM   job WHERE  job_priority &#x3D; 3<br>UNION ALL<br>SELECT job_id FROM   job WHERE  job_priority &#x3D; 1; </p>
+<h2 id="cfn-SplitToBigintTableV2"><a href="#cfn-SplitToBigintTableV2" class="headerlink" title="cfn_SplitToBigintTableV2"></a>cfn_SplitToBigintTableV2</h2><p>抽成  CSP<br>LINQ改法:<br>先將原 List 用 string.Join 轉成逗號分隔的字串。<br>用函式 cfn_SplitToBigintTableV2<br>將字串轉成 temp table<br>temp table 拿來當條件</p>
+<p>範例一 連結 SalePageRepository.cs 行1122<br>temp table Any (Exists)</p>
+<h2 id="Func-vs-Expression-Func"><a href="#Func-vs-Expression-Func" class="headerlink" title="Func vs Expression Func"></a>Func vs Expression Func</h2><p>Func 在 LINQ 或 Lambda Expression 中並無法直接轉為 SQL，造成 EF 下查詢條件沒吃到，結果資料表全拉。<br>Predicate 要用 Expression&lt;Func&lt;Table, bool&gt;&gt; 不能用 Func&lt;Table, bool&gt;，直接丟 Func 他不會轉 Query 語法 會直接送去查完再下條件。<br>請大家記得，傳遞條件時，一定要用 Expression&lt;Func<T>&gt;<br>參考文章: <a target="_blank" rel="noopener" href="https://karatejb.blogspot.com/2016/10/c-func-vs-expression-func.html">https://karatejb.blogspot.com/2016/10/c-func-vs-expression-func.html</a> </p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2025/10/06/SQL-CHAOS/">https://chi-keke.github.io/2025/10/06/SQL-CHAOS/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.imgur.com/NfCnwwU.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/10/07/DeepType-SQL-Nested-Loop-Join-Merge-Join-Hash-Join/" title="Nested Loop Join &amp; Merge Join &amp; Hash Join"><img class="cover" src="https://i.imgur.com/NfCnwwU.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">Nested Loop Join &amp; Merge Join &amp; Hash Join</div></div></a></div><div class="next-post pull-right"><a href="/2025/10/06/%E7%B5%B1%E8%A8%88/" title="SQL - Store Procedure"><img class="cover" src="https://i.imgur.com/NfCnwwU.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">SQL - Store Procedure</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OFFSET-%E8%88%87-FETCH%EF%BC%9A%E5%88%86%E9%A0%81%E6%9F%A5%E8%A9%A2%EF%BC%88Paging%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">OFFSET 與 FETCH：分頁查詢（Paging）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E4%BA%A4%E6%98%93%E4%B8%AD%E9%80%B2%E8%A1%8C%E5%88%86%E9%A0%81-Paging-with-Transaction"><span class="toc-number">2.</span> <span class="toc-text">在交易中進行分頁 (Paging with Transaction)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E9%81%8B%E7%AE%97%E5%BC%8F-Expressions"><span class="toc-number">3.</span> <span class="toc-text">使用運算式 (Expressions)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-FK"><span class="toc-number">4.</span> <span class="toc-text">💼 FK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%BC-OLAP-OLTP"><span class="toc-number">5.</span> <span class="toc-text">💼 OLAP &#x2F; OLTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%A3%E6%8E%A5%E9%8F%88%E6%A2%9D"><span class="toc-number">6.</span> <span class="toc-text">連接鏈條</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A7%B1-Filegroup-%E7%9A%84%E7%9B%AE%E7%9A%84"><span class="toc-number">7.</span> <span class="toc-text">🧱 Filegroup 的目的</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%91%A0-%E6%8A%8A%E8%B3%87%E6%96%99%E8%A1%A8%E5%88%86%E6%95%A3%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E7%A3%81%E7%A2%9F%EF%BC%8C%E6%8F%90%E9%AB%98%E6%95%88%E8%83%BD"><span class="toc-number">7.0.1.</span> <span class="toc-text">① 把資料表分散在不同的磁碟，提高效能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%91%A1-%E5%81%9A%E5%88%86%E5%8D%80%E8%A1%A8%EF%BC%88Partition-Table%EF%BC%89%E5%BF%85%E5%82%99"><span class="toc-number">7.0.2.</span> <span class="toc-text">② 做分區表（Partition Table）必備</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%91%A2-%E7%8D%A8%E7%AB%8B%E5%82%99%E4%BB%BD-%E9%82%84%E5%8E%9F-filegroup"><span class="toc-number">7.0.3.</span> <span class="toc-text">③ 獨立備份 &#x2F; 還原 filegroup</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E6%98%AF%E3%80%8C%E6%89%80%E6%9C%89%E6%83%85%E6%B3%81-100-%E9%83%BD%E6%AF%94%E5%8F%8D%E5%90%91%E5%BF%AB%E3%80%8D"><span class="toc-number">8.</span> <span class="toc-text">不是「所有情況 100% 都比反向快」</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SARGable"><span class="toc-number">9.</span> <span class="toc-text">SARGable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UNION-ALL"><span class="toc-number">10.</span> <span class="toc-text">UNION ALL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E6%AD%A3%E8%A6%8F%E5%8C%96"><span class="toc-number">11.</span> <span class="toc-text">反正規化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#where%E6%A2%9D%E4%BB%B6%E4%BD%BF%E7%94%A8-OR-%E4%BE%86%E9%80%A3%E6%8E%A5%E6%A2%9D%E4%BB%B6"><span class="toc-number">12.</span> <span class="toc-text">where條件使用 OR 來連接條件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cfn-SplitToBigintTableV2"><span class="toc-number">13.</span> <span class="toc-text">cfn_SplitToBigintTableV2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Func-vs-Expression-Func"><span class="toc-number">14.</span> <span class="toc-text">Func vs Expression Func</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/Docker-redis/" title="redis"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Random/Whale.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis"/></a><div class="content"><a class="title" href="/2026/09/05/Docker-redis/" title="redis">redis</a><time datetime="2026-09-05T03:56:05.000Z" title="Created 2026-09-05 11:56:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="金流異常處理"/></a><div class="content"><a class="title" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理">金流異常處理</a><time datetime="2026-09-05T02:55:05.341Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="購物車 uniqueKey"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey">購物車 uniqueKey</a><time datetime="2026-09-05T02:55:05.339Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Untitled"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled">Untitled</a><time datetime="2026-09-05T02:55:05.334Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

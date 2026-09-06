@@ -1,0 +1,212 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Anonymous type | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="MobWhat is anonymous type?快速捏出 JSON匯出 CSV結構化 LogLINQ 資料流 - 排序LINQ - GroupBy 的複合鍵（Composite Key）Join &#x2F; Left Join 後整形（Shaping）結果需要索引的中間運算Distinct&#x2F;Except&#x2F;GroupBy 需要多欄位相等比較Dapper 參數包（Param Bag）summary 茂夫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Anonymous type">
+<meta property="og:url" content="https://chi-keke.github.io/2025/09/20/DeepType-CSHARP-anonymous/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="MobWhat is anonymous type?快速捏出 JSON匯出 CSV結構化 LogLINQ 資料流 - 排序LINQ - GroupBy 的複合鍵（Composite Key）Join &#x2F; Left Join 後整形（Shaping）結果需要索引的中間運算Distinct&#x2F;Except&#x2F;GroupBy 需要多欄位相等比較Dapper 參數包（Param Bag）summary 茂夫">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.imgur.com/Zly1UDM.png">
+<meta property="article:published_time" content="2025-09-20T14:25:03.000Z">
+<meta property="article:modified_time" content="2026-09-05T02:55:04.981Z">
+<meta property="article:author" content="Allen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/Zly1UDM.png"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2025/09/20/DeepType-CSHARP-anonymous/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Anonymous type',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-09-05 10:55:04'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.imgur.com/Zly1UDM.png')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Anonymous type</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-09-20T14:25:03.000Z" title="Created 2025-09-20 22:25:03">2025-09-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-09-05T02:55:04.981Z" title="Updated 2026-09-05 10:55:04">2026-09-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A8%8B%E6%80%9D%E8%88%9E%E6%83%B3/">程思舞想</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Anonymous type"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="tabs" id="anonymous-type"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="anonymous-type-1">Mob</button><button type="button" class="tab " data-href="anonymous-type-2">What is anonymous type?</button><button type="button" class="tab " data-href="anonymous-type-3">快速捏出 JSON</button><button type="button" class="tab " data-href="anonymous-type-4">匯出 CSV</button><button type="button" class="tab " data-href="anonymous-type-5">結構化 Log</button><button type="button" class="tab " data-href="anonymous-type-6">LINQ 資料流 - 排序</button><button type="button" class="tab " data-href="anonymous-type-7">LINQ - GroupBy 的複合鍵（Composite Key）</button><button type="button" class="tab " data-href="anonymous-type-8">Join / Left Join 後整形（Shaping）結果</button><button type="button" class="tab " data-href="anonymous-type-9">需要索引的中間運算</button><button type="button" class="tab " data-href="anonymous-type-10">Distinct/Except/GroupBy 需要多欄位相等比較</button><button type="button" class="tab " data-href="anonymous-type-11">Dapper 參數包（Param Bag）</button><button type="button" class="tab " data-href="anonymous-type-12">summary</button></ul><div class="tab-contents"><div class="tab-item-content active" id="anonymous-type-1"><p><img src="https://github.com/CHI-KEKE/pics/blob/main/csharp/mob.png?raw=true" alt="Mob"></p>
+<p>茂夫 被稱為 Mob，不是因為他弱，而是需要時總在場，不需要時悄悄退場。匿名型別（anonymous type）在 C# 裡就是這種感覺</p>
+<p>在方法裡臨時出現、幫你捏 JSON、整理投影（Select）、帶著排序鍵巡邏、裝參數進 Dapper、丟幾個欄位進結構化日誌……做完事就退場，不佔版面、也不必為它立個牌位</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/mob_landing.png" alt="mob"></p></div><div class="tab-item-content" id="anonymous-type-2"><p>匿名型別就像「沒有名字的人」。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> &#123; Name = <span class="string">&quot;Allen&quot;</span>, Age = <span class="number">30</span> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>這個 person 裡面確實有 Name 跟 Age 屬性，但它的型別是 編譯器臨時生出來的，當需要方法的回傳結果、宣告屬性&#x2F;欄位 或當作參數的時候，程式需要一個明確的「型別名稱」來描述它。但匿名型別 沒有名字，所以沒辦法</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ??? GetPerson() &#123; ... &#125; <span class="comment">// ??? 不知道要寫什麼</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="唯讀屬性"><a href="#唯讀屬性" class="headerlink" title="唯讀屬性"></a>唯讀屬性</h2><p>公開且唯讀的屬性(Immutable types)，屬性設定初始值後，無法再修改</p>
+<h2 id="屬性類型由編譯器推斷"><a href="#屬性類型由編譯器推斷" class="headerlink" title="屬性類型由編譯器推斷"></a>屬性類型由編譯器推斷</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> &#123; Name = <span class="string">&quot;Allen&quot;</span>, Age = <span class="number">30</span> &#125;;</span><br><span class="line"><span class="comment">// Name → string, Age → int</span></span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/anoy_feature.png" alt="name"></p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/under_the_hood.png" alt="under"></p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/why_no_name.png" alt="noname"></p></div><div class="tab-item-content" id="anonymous-type-3"><p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/quick_json_question.png" alt="json"></p>
+<p>有時候我們需要一個指定結構的 JSON，卻不想為此寫一個 class。這時候匿名型別就是好幫手。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">async</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">	TestAnoy(<span class="string">&quot;Karasuno&quot;</span>, <span class="string">&quot;vOLLEY&quot;</span>, <span class="string">&quot;Eng&quot;</span>).Dump();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">TestAnoy</span>(<span class="params"><span class="built_in">string</span> name, <span class="built_in">string</span> hobby, <span class="built_in">string</span> job</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">var</span> root = <span class="keyword">new</span></span><br><span class="line">	&#123;</span><br><span class="line">		rows = <span class="keyword">new</span></span><br><span class="line">		&#123;</span><br><span class="line">			row = <span class="keyword">new</span>[]</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">new</span></span><br><span class="line">				&#123;</span><br><span class="line">					name = name,</span><br><span class="line">					hobby = hobby,</span><br><span class="line">					job = job</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;	</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> JsonSerializer.Serialize(root, <span class="keyword">new</span> JsonSerializerOptions &#123; WriteIndented = <span class="literal">true</span>&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/task1_json_shape.png" alt="json"></p></div><div class="tab-item-content" id="anonymous-type-4"><p>匿名型別也能應用在投射 (Select) 場景，快速產生需要的欄位，再匯出成 CSV。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">  testtt();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testtt</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">var</span> arr = <span class="string">&quot;allem,jill,willy&quot;</span>.Split(<span class="string">&quot;,&quot;</span>)</span><br><span class="line">								.Select( (word,index) =&gt; <span class="keyword">new</span> &#123;Id = index, Name = word&#125;).ToArray().Dump();							</span><br><span class="line"></span><br><span class="line">	Type elemType = arr.GetType().GetElementType();</span><br><span class="line">	PropertyInfo[] props = elemType.GetProperties();</span><br><span class="line">	StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">	sb.AppendLine(<span class="built_in">string</span>.Join(<span class="string">&quot;\t&quot;</span>,props.Select(p =&gt; p.Name).ToArray()));</span><br><span class="line">	<span class="keyword">foreach</span>(<span class="built_in">object</span> ele <span class="keyword">in</span> arr)</span><br><span class="line">	&#123;</span><br><span class="line">		sb.AppendLine(<span class="built_in">string</span>.Join(<span class="string">&quot;\t&quot;</span>,</span><br><span class="line">			props.Select(o =&gt; o.GetValue(ele, <span class="literal">null</span>).ToString())));</span><br><span class="line">	&#125;</span><br><span class="line">	sb.ToString().Dump();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/task2_data_export_and_projection.png" alt="export"></p></div><div class="tab-item-content" id="anonymous-type-5"><p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/log_question.png" alt="log"></p>
+<p>匿名型別特別適合「只挑幾個重要欄位」來記錄 log，而不需要建立新 DTO。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> projection = <span class="keyword">new</span></span><br><span class="line">&#123;</span><br><span class="line">    UserId = complexObject.UserId,</span><br><span class="line">    EmailAddress = complexObject.EmailAddress,</span><br><span class="line">    RegisteredAtUtc = complexObject.RegisteredAtUtc</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">logger.LogInformation(<span class="string">&quot;New user registered: &#123;@NewUser&#125;&quot;</span>, projection);</span><br></pre></td></tr></table></figure>
+
+<p>這樣會輸出乾淨的 JSON 格式，對於結構化日誌 (Structured Logging) 特別有用。</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/task3_logger_carrier.png" alt="log2"></p></div><div class="tab-item-content" id="anonymous-type-6"><p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/task5_LINQ_OrderKey_save_energy.png" alt="order"></p>
+<p>先計算排序鍵＋原物件包在匿名型別，排序後再取回原物件，避免重複計算。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ordered = people</span><br><span class="line">    .Select(p =&gt; <span class="keyword">new</span> &#123; Person = p, Key = ExpensiveNormalize(p.LastName) &#125;)</span><br><span class="line">    .OrderBy(x =&gt; x.Key)</span><br><span class="line">    .Select(x =&gt; x.Person)</span><br><span class="line">    .ToList();</span><br></pre></td></tr></table></figure>
+
+<p>排序鍵只算一次，效能更穩。中間匿名型別只是「暫時的載具」</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/orderby_flow.png" alt="sequence"></p></div><div class="tab-item-content" id="anonymous-type-7"><p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/group_question.png" alt="group"></p>
+<p>用匿名型別做群組鍵，語法自然且有結構</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> groups = orders</span><br><span class="line">    .GroupBy(o =&gt; <span class="keyword">new</span> &#123; o.Region, o.Category &#125;)</span><br><span class="line">    .Select(g =&gt; <span class="keyword">new</span></span><br><span class="line">    &#123;</span><br><span class="line">        g.Key.Region,</span><br><span class="line">        g.Key.Category,</span><br><span class="line">        Count = g.Count(),</span><br><span class="line">        Total = g.Sum(x =&gt; x.Amount)</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">var</span> g <span class="keyword">in</span> groups)</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;<span class="subst">&#123;g.Region&#125;</span>/<span class="subst">&#123;g.Category&#125;</span>: <span class="subst">&#123;g.Count&#125;</span>件，合計<span class="subst">&#123;g.Total&#125;</span>&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>匿名型別自帶成員值相等的相等性（value-based equality），很適合當 GroupBy 鍵。讀起來比手動建比較器好懂</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/task_6_composite_key.png" alt="shape"></p></div><div class="tab-item-content" id="anonymous-type-8"><p>把兩邊要的欄位「捏」成你要的形狀，不用為此造型別。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> q =</span><br><span class="line">    <span class="keyword">from</span> o <span class="keyword">in</span> orders</span><br><span class="line">    <span class="keyword">join</span> c <span class="keyword">in</span> customers <span class="keyword">on</span> o.CustomerId <span class="keyword">equals</span> c.Id <span class="keyword">into</span> gj</span><br><span class="line">    <span class="keyword">from</span> c <span class="keyword">in</span> gj.DefaultIfEmpty() <span class="comment">// Left Join</span></span><br><span class="line">    <span class="keyword">select</span> <span class="keyword">new</span></span><br><span class="line">    &#123;</span><br><span class="line">        o.Id,</span><br><span class="line">        o.OrderDate,</span><br><span class="line">        CustomerName = c?.Name ?? <span class="string">&quot;(未知客戶)&quot;</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">var</span> x <span class="keyword">in</span> q)</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;<span class="subst">&#123;x.Id&#125;</span> <span class="subst">&#123;x.CustomerName&#125;</span> <span class="subst">&#123;x.OrderDate:d&#125;</span>&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Join 後的結果只要幾個欄位，匿名型別是最省力的方式。EF Core 會只抓到需要的欄位（投影）</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/task_7_result_shape.png" alt="shape"></p></div><div class="tab-item-content" id="anonymous-type-9"><p>常見於產生行號、比對相鄰元素、分頁編號等。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> lines = File.ReadAllLines(<span class="string">&quot;data.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> withIndex = lines</span><br><span class="line">    .Select((text, idx) =&gt; <span class="keyword">new</span> &#123; LineNo = idx + <span class="number">1</span>, Text = text &#125;)</span><br><span class="line">    .Where(x =&gt; !<span class="built_in">string</span>.IsNullOrWhiteSpace(x.Text));</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">var</span> x <span class="keyword">in</span> withIndex)</span><br><span class="line">    Console.WriteLine(<span class="string">$&quot;<span class="subst">&#123;x.LineNo&#125;</span>: <span class="subst">&#123;x.Text&#125;</span>&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/task_9_index.png" alt="index"></p></div><div class="tab-item-content" id="anonymous-type-10"><p>匿名型別的相等性是結構相等（同屬性名稱與值都相等才相等），很好用來做去重或比較。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> unique = products</span><br><span class="line">    .Select(p =&gt; <span class="keyword">new</span> &#123; p.Sku, p.Color &#125;) <span class="comment">// 決定唯一性的鍵</span></span><br><span class="line">    .Distinct()</span><br><span class="line">    .ToList();</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/task_8_distinct.png" alt="dis"></p></div><div class="tab-item-content" id="anonymous-type-11"><p>Dapper 常用匿名型別傳參數，寫起來乾淨</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rows = connection.Query(</span><br><span class="line">    <span class="string">&quot;SELECT * FROM Users WHERE Email = @Email AND IsActive = @Active&quot;</span>,</span><br><span class="line">    <span class="keyword">new</span> &#123; Email = email, Active = <span class="literal">true</span> &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/task4_dapper.png" alt="dapper"></p></div><div class="tab-item-content" id="anonymous-type-12"><p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/sum_power.png" alt="sum"></p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Anonymous/getback.png" alt="getback"></p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2025/09/20/DeepType-CSHARP-anonymous/">https://chi-keke.github.io/2025/09/20/DeepType-CSHARP-anonymous/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.imgur.com/Zly1UDM.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/09/21/DeepType-CSHARP-Extension-Method/" title="Extension Method"><img class="cover" src="https://i.imgur.com/Zly1UDM.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">Extension Method</div></div></a></div><div class="next-post pull-right"><a href="/2025/09/17/Disgn-Dependency-Inversion-Principle-DIP/" title="Dependency-Inversion Principle"><img class="cover" src="https://i.imgur.com/LF7L1Ws.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Dependency-Inversion Principle</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%94%AF%E8%AE%80%E5%B1%AC%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">唯讀屬性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%AC%E6%80%A7%E9%A1%9E%E5%9E%8B%E7%94%B1%E7%B7%A8%E8%AD%AF%E5%99%A8%E6%8E%A8%E6%96%B7"><span class="toc-number">2.</span> <span class="toc-text">屬性類型由編譯器推斷</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/Docker-redis/" title="redis"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Random/Whale.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis"/></a><div class="content"><a class="title" href="/2026/09/05/Docker-redis/" title="redis">redis</a><time datetime="2026-09-05T03:56:05.000Z" title="Created 2026-09-05 11:56:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="金流異常處理"/></a><div class="content"><a class="title" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理">金流異常處理</a><time datetime="2026-09-05T02:55:05.341Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="購物車 uniqueKey"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey">購物車 uniqueKey</a><time datetime="2026-09-05T02:55:05.339Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Untitled"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled">Untitled</a><time datetime="2026-09-05T02:55:05.334Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

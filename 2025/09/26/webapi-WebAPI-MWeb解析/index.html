@@ -1,0 +1,299 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>WebAPI - MWeb | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="啟動點流程 IIS 啟動網站應用程式池 (Application Pool)  當有請求進來時，IIS 會把 Request 交給 ASP.NET Runtime (w3wp.exe)。 w3wp.exe 是什麼？w3wp.exe &#x3D; IIS 的 Worker Process（工作進程） IIS 6&#x2F;7&#x2F;8&#x2F;10 都會用 Windows Process A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebAPI - MWeb">
+<meta property="og:url" content="https://chi-keke.github.io/2025/09/26/webapi-WebAPI-MWeb%E8%A7%A3%E6%9E%90/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="啟動點流程 IIS 啟動網站應用程式池 (Application Pool)  當有請求進來時，IIS 會把 Request 交給 ASP.NET Runtime (w3wp.exe)。 w3wp.exe 是什麼？w3wp.exe &#x3D; IIS 的 Worker Process（工作進程） IIS 6&#x2F;7&#x2F;8&#x2F;10 都會用 Windows Process A">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true">
+<meta property="article:published_time" content="2025-09-26T09:07:34.000Z">
+<meta property="article:modified_time" content="2026-09-05T02:55:05.319Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="WebAPI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2025/09/26/webapi-WebAPI-MWeb%E8%A7%A3%E6%9E%90/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'WebAPI - MWeb',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-09-05 10:55:05'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">WebAPI - MWeb</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-09-26T09:07:34.000Z" title="Created 2025-09-26 17:07:34">2025-09-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-09-05T02:55:05.319Z" title="Updated 2026-09-05 10:55:05">2026-09-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/WebAPI/">WebAPI</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="WebAPI - MWeb"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true" alt="Image"></p>
+<h2 id="啟動點流程"><a href="#啟動點流程" class="headerlink" title="啟動點流程"></a>啟動點流程</h2><ul>
+<li>IIS 啟動網站應用程式池 (Application Pool)</li>
+</ul>
+<p>當有請求進來時，IIS 會把 Request 交給 ASP.NET Runtime (w3wp.exe)。</p>
+<h4 id="w3wp-exe-是什麼？"><a href="#w3wp-exe-是什麼？" class="headerlink" title="w3wp.exe 是什麼？"></a>w3wp.exe 是什麼？</h4><p>w3wp.exe &#x3D; IIS 的 Worker Process（工作進程）</p>
+<p>IIS 6&#x2F;7&#x2F;8&#x2F;10 都會用 Windows Process Activation Service (WAS) 啟動 w3wp.exe</p>
+<p>每個 Application Pool 會有自己的 w3wp.exe</p>
+<p>網站的程式碼、ASP.NET Runtime、Http Pipeline 都是在 w3wp.exe 裡面運作</p>
+<p>👉 w3wp.exe 是容器（Container）──不是 Runtime 本身。</p>
+<h4 id="ASP-NET-Runtime-是什麼"><a href="#ASP-NET-Runtime-是什麼" class="headerlink" title="ASP.NET Runtime 是什麼"></a>ASP.NET Runtime 是什麼</h4><p>ASP.NET Runtime 指的是：</p>
+<p>Page Handler Factory (System.Web)<br>HTTP Pipeline（Modules + Handlers）<br>Request Processing Pipeline（BeginRequest、AuthorizeRequest、ResolveRequestCache…）<br>WebForms &#x2F; MVC Pipeline<br>ViewState、Session、Membership Provider 等<br>Compilation System（ASPX 編譯器）<br>C# Compiler Provider<br>Configuration System（Web.config）<br>Caching（HttpRuntime.Cache）</p>
+<p>這些邏輯與類別集合起來，稱為 ASP.NET Runtime（CLR 上的 ASP.NET 執行環境），它是一組 .NET Framework 組件，不是一個 exe</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">IIS → 啟動 AppPool → 生出 w3wp.exe</span><br><span class="line">           ↓</span><br><span class="line">         w3wp.exe → 載入 CLR</span><br><span class="line">           ↓</span><br><span class="line">         CLR → 載入 ASP.NET Runtime（System.Web.*）</span><br><span class="line">           ↓</span><br><span class="line">         ASP.NET Runtime → 執行你的程式碼</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>IIS &#x3D; 節點負責人</li>
+<li>w3wp.exe &#x3D; 容器（像 K8s Pod）</li>
+<li>CLR &#x3D; .NET 執行引擎（像 JVM）</li>
+<li>ASP.NET Runtime &#x3D; 框架（像 Spring MVC）</li>
+<li>Your Code &#x3D; 實作 API &#x2F; 網頁的部份</li>
+</ul>
+<p>w3wp.exe 是 ASP.NET Runtime 的“宿主”；Runtime 是 System.Web DLL 所組成的執行框架，兩者不是同一個東西</p>
+<p>IIS → WAS → AppPool → w3wp.exe → CLR → ASP.NET Pipeline → Handler → Response</p>
+<br>
+<br>
+
+<h4 id="CLR-就是-runtime嗎"><a href="#CLR-就是-runtime嗎" class="headerlink" title="CLR 就是 runtime嗎"></a>CLR 就是 runtime嗎</h4><p>👉 CLR（Common Language Runtime）就是 .NET Framework／.NET Core 的 Runtime。<br>但它並不是整個「應用程式執行環境」的全部，它是 核心執行引擎（Execution Engine）。</p>
+<p>✅ CLR &#x3D; Runtime（執行引擎）</p>
+<p>CLR 是 .NET 的執行引擎，負責所有程式運行時的關鍵功能：</p>
+<ul>
+<li>IL → 機器碼（JIT）</li>
+<li>Memory 管理（GC）</li>
+<li>例外處理（Exception）</li>
+<li>執行緒（Thread Pool）</li>
+<li>型別安全（Type Safety）</li>
+<li>安全性（CAS）</li>
+<li>呼叫 Managed &#x2F; Unmanaged 程式碼（P&#x2F;Invoke）</li>
+<li>AppDomain（舊版 .NET Framework）</li>
+</ul>
+<p>這些都是 Runtime 才會做的事。</p>
+<p>所以從正式定義來說：</p>
+<p>CLR &#x3D; .NET Runtime（執行時期系統）。</p>
+<p>❗但注意：</p>
+<p>在 ASP.NET &#x2F; ASP.NET Core 的語境中，「Runtime」常常不只指 CLR。</p>
+<p>也會包含：</p>
+<ul>
+<li>ASP.NET Runtime（System.Web 管線）</li>
+<li>Http Pipeline（Handlers, Modules, Middleware）</li>
+<li>Request Processing Framework</li>
+<li>Page&#x2F;MVC&#x2F;Web API 的整個解析、執行模型</li>
+</ul>
+<p>因此</p>
+<p>✔ CLR &#x3D; .NET 的底層 Runtime<br>✘ CLR ≠ ASP.NET Runtime（這是更高一層的 Web Framework）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">IIS / Kestrel（宿主 Host）</span><br><span class="line">        ↓</span><br><span class="line">   w3wp.exe / dotnet.exe（Process）</span><br><span class="line">        ↓</span><br><span class="line">        CLR（.NET Runtime / Execution Engine）</span><br><span class="line">        ↓</span><br><span class="line">ASP.NET Runtime（System.Web / Middleware Pipeline）</span><br><span class="line">        ↓</span><br><span class="line">Your Code（Controllers, Razor, Handlers）</span><br></pre></td></tr></table></figure>
+
+
+<p>CLR 是在 Process 裡被載入的 Runtime<br>ASP.NET Runtime 是建立在 CLR 之上的 Web Framework 功能<br>w3wp.exe &#x2F; dotnet.exe 則是 Runtime 的宿主</p>
+<p>✔ CLR 是 .NET 的底層執行環境（Execution Engine）。<br>✔ “Runtime” 不是時間，而是指「程式在執行時所依賴的完整環境」。<br>✔ 叫 Runtime 是源自 Computer Science 對 Compile-time &#x2F; Run-time 的分類。<br>✔ 所以不會叫 RunEngine（太工程師，但不科學標準）。</p>
+<ul>
+<li>ASP.NET Runtime 建立 AppDomain</li>
+</ul>
+<p>這個時候，它會去讀 web.config 的設定，載入模組與處理程序。</p>
+<ul>
+<li>載入 Global.asax</li>
+</ul>
+<p>如果你的專案裡有 Global.asax，ASP.NET Runtime 會在啟動時執行它裡面的 Application_Start()。</p>
+<p>所以 Global.asax.cs 是開發者能控制的「起始點」。</p>
+<ul>
+<li>進入 HTTP Request 處理流程</li>
+</ul>
+<p>請求會經過 HTTP Pipeline（HttpModules → HttpHandlers）。最後才進到 Web Forms Page、MVC Controller、或 Web API Controller。</p>
+<p>真正的程式啟動點，在 IIS &#x2F; ASP.NET Runtime 裡面（你專案裡看不到 Main()）。<br>開發者能寫邏輯的啟動點：</p>
+<p>Global.asax.cs → Application_Start()（應用程式初始化）<br>App_Start 資料夾裡的檔案（MVC&#x2F;Web API 常見）<br>    RouteConfig.cs（註冊路由）<br>    FilterConfig.cs（註冊全域 Filter）<br>    BundleConfig.cs（註冊 Script&#x2F;CSS Bundling）<br>    WebApiConfig.cs（Web API 路由設定）</p>
+<h2 id="沒有管線"><a href="#沒有管線" class="headerlink" title="沒有管線"></a>沒有管線</h2><p>在 ASP.NET Framework (舊版) 裡沒有 Middleware 概念<br>請求管線是由 IIS + ASP.NET Runtime 定義好的固定流程，主要靠 HttpModules 和 HttpHandlers 來處理<br>你可以在 Global.asax 或 web.config 裡設定哪些模組要參與，順序幾乎是固定的 👉 所以在舊版 ASP.NET 專案裡，你看不到 UseXxx，因為那是 Core 的 Middleware 概念</p>
+<p>ASP.NET Framework 的 Request Pipeline</p>
+<p>IIS 接收請求，交給 ASP.NET Runtime。<br>依據 web.config，請求會先經過一系列 HttpModules（像攔截器）。例如：驗證、Session、UrlRoutingModule。<br>請求會被分派到對應的 HttpHandler（像 Controller&#x2F; WebForm Page）。</p>
+<p>Web API → HttpControllerHandler<br>MVC → MvcHandler<br>WebForm → PageHandler</p>
+<p>最後產生 Response 回傳給瀏覽器。</p>
+<p>HttpModule &#x3D; ASP.NET Framework 的 Middleware</p>
+<p>在 BeginRequest、AuthenticateRequest、EndRequest 等階段注入邏輯。</p>
+<p>但順序主要由 ASP.NET Pipeline 決定，沒有像 Core 那樣自由。</p>
+<p>HttpHandler &#x3D; 負責真正處理請求的人</p>
+<p>在 Web API 裡，會把請求交給 Controller。</p>
+<p>在 MVC 裡，會交給 ActionResult。</p>
+<p>在 WebForm 裡，會交給 .aspx Page。</p>
+<h2 id="ASP-NET-Framework-HttpModules-HttpHandlers-的缺點"><a href="#ASP-NET-Framework-HttpModules-HttpHandlers-的缺點" class="headerlink" title="ASP.NET Framework (HttpModules + HttpHandlers) 的缺點"></a>ASP.NET Framework (HttpModules + HttpHandlers) 的缺點</h2><p>管線順序固定、難以客製化</p>
+<p>HttpModules 的執行順序是由 ASP.NET Runtime 決定（Authenticate → Authorize → ResolveHandler → AcquireRequestState…）。</p>
+<p>你能做的只是「插入」某些事件，不容易控制整個流程。</p>
+<p>想要改順序（例如先壓縮再驗證）幾乎不可能。</p>
+<p>高度耦合 IIS &#x2F; System.Web</p>
+<p>ASP.NET Framework 跑在 IIS 上，強烈依賴 System.Web.dll。</p>
+<p>專案要部署到非 Windows 環境（Linux、Docker、雲端）非常困難。</p>
+<p>效能與資源消耗大</p>
+<p>System.Web 很龐大，哪怕只是回傳一個簡單的 JSON，也會載入整個 ASP.NET Runtime。</p>
+<p>記憶體開銷大、啟動慢。</p>
+<p>可測試性差</p>
+<p>HttpModules&#x2F;Handlers 與 Runtime 綁死，單元測試很難模擬，通常只能在 IIS Express 下測。</p>
+<p>多技術並存難整合</p>
+<p>WebForms、MVC、Web API 各自有自己的處理方式（不同 Handler）。</p>
+<p>導致開發者要學不同模型，維護困難。</p>
+<h2 id="ASP-NET-Core-Middleware-Pipeline-的優勢"><a href="#ASP-NET-Core-Middleware-Pipeline-的優勢" class="headerlink" title="ASP.NET Core (Middleware Pipeline) 的優勢"></a>ASP.NET Core (Middleware Pipeline) 的優勢</h2><p>完全可組合、順序自由</p>
+<p>你可以決定 UseRouting → UseCors → UseAuthentication → UseAuthorization → UseEndpoints 的順序。</p>
+<p>自己寫 Middleware 也只是一個 RequestDelegate，比 Module&#x2F;Handler 輕量很多。</p>
+<p>跨平台、跨伺服器</p>
+<p>ASP.NET Core 不再依賴 IIS，可以跑在 Kestrel、Nginx、Docker、Linux。</p>
+<p>系統核心精簡，不需要 System.Web。</p>
+<p>效能極大提升</p>
+<p>Pipeline 是單純的委派串接，沒有一大堆「事件模型」開銷。</p>
+<p>官方數據顯示 ASP.NET Core 比 ASP.NET Framework 快好幾倍。</p>
+<p>統一的請求處理模型</p>
+<p>MVC、Web API、Razor Pages 全部整合成「Endpoint Routing」。</p>
+<p>不再需要分 MvcHandler、HttpControllerHandler。</p>
+<p>可測試性高</p>
+<p>Middleware 只是 C# 方法，完全可以在單元測試裡模擬 Request&#x2F;Response。</p>
+<p>開發流程更符合現代 DevOps &#x2F; TDD。</p>
+<h2 id="比較可調換順序的差異"><a href="#比較可調換順序的差異" class="headerlink" title="比較可調換順序的差異"></a>比較可調換順序的差異</h2><p>你可以根據：</p>
+<p>流量特性（高併發先擋垃圾流量）<br>金流 API 的特殊需求（前置 authentication）<br>促購中心特例（解碼 promotion token）<br>前端需求（CORS 必須前置）<br>觀測 (OpenTelemetry)<br>監控（APM）<br>灰度發布（A&#x2F;B Test）<br>分環境差異（UAT&#x2F;Prod）<br>來調整 Pipeline<br>這是舊版 ASP.NET 永遠無法做到的</p>
+<p>🔸（1）Correlation ID 無法放在最前面</p>
+<p>你只能用 HttpModule 套在 BeginRequest，但你沒辦法</p>
+<p>在整個 Pipeline 最前面插入</p>
+<p>在下游 Middleware 前插入</p>
+<p>包裹後續邏輯（next）</p>
+<p>結果：</p>
+<p>❌ 异常時抓不到完整 CorrelationId<br>❌ 無法實現 OpenTelemetry 標準<br>❌ 無法做到像 Core 那種前後包裝 Log（Request + Response）</p>
+<p>🔸（2）Rate Limit 無法前置</p>
+<p>舊 Pipeline 無法做到：</p>
+<p>RateLimit → Logging → Auth → Routing</p>
+<p>你只能掛 Module，順序無法保證</p>
+<p>因此 RateLimit 必須等到後面才執行，造成：</p>
+<p>不必要的 CPU 浪費<br>不必要的 Routing 計算<br>不必要的 Auth 驗證<br>被 DDoS 打爆</p>
+<p>在電商 Checkout 這種 RPS 高達 2000 的場景下，這是致命的</p>
+<p>🔸（3）CORS 必須在 Routing 之前</p>
+<p>在 Core 正確順序：</p>
+<p>UseCors<br>UseRouting<br>UseEndpoints</p>
+<p>在舊版：</p>
+<p>❌ 你只能用 HttpModule<br>❌ 但不知道 Routing 何時做<br>❌ 有些狀況（如 MVC Attribute Routing）會讓 CORS 失效<br>❌ 無法精準比對 OPTIONS request<br>❌ 無法為整個 API 攔截跨域前置檢查</p>
+<p>🔸（4）Exception Handling 無法最外層包住</p>
+<p>舊版沒有：</p>
+<p>try {<br>   await next();<br>} catch…</p>
+<p>你永遠無法寫出全域 exception middleware。</p>
+<p>結果：</p>
+<p>很多 500 是 IIS 回的<br>很多 Error 重導到 defaultErrorPage<br>很多錯誤無法 Log 到 APM<br>很多錯誤無法附上 CorrelationId<br>對大型 API 系統非常痛苦。</p>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2025/09/26/webapi-WebAPI-MWeb%E8%A7%A3%E6%9E%90/">https://chi-keke.github.io/2025/09/26/webapi-WebAPI-MWeb%E8%A7%A3%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/WebAPI/">WebAPI</a></div><div class="post_share"><div class="social-share" data-image="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/10/04/DeepType-SQL-Index/" title="Index"><img class="cover" src="https://i.imgur.com/NfCnwwU.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">Index</div></div></a></div><div class="next-post pull-right"><a href="/2025/09/26/DeepType-Middleware-Built-in-Middleware/" title="Built-in Middleware"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/WebAPI/tree.png?raw=true" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Built-in Middleware</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%95%9F%E5%8B%95%E9%BB%9E%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">啟動點流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#w3wp-exe-%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="toc-number">1.0.1.</span> <span class="toc-text">w3wp.exe 是什麼？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ASP-NET-Runtime-%E6%98%AF%E4%BB%80%E9%BA%BC"><span class="toc-number">1.0.2.</span> <span class="toc-text">ASP.NET Runtime 是什麼</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CLR-%E5%B0%B1%E6%98%AF-runtime%E5%97%8E"><span class="toc-number">1.0.3.</span> <span class="toc-text">CLR 就是 runtime嗎</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%92%E6%9C%89%E7%AE%A1%E7%B7%9A"><span class="toc-number">2.</span> <span class="toc-text">沒有管線</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASP-NET-Framework-HttpModules-HttpHandlers-%E7%9A%84%E7%BC%BA%E9%BB%9E"><span class="toc-number">3.</span> <span class="toc-text">ASP.NET Framework (HttpModules + HttpHandlers) 的缺點</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASP-NET-Core-Middleware-Pipeline-%E7%9A%84%E5%84%AA%E5%8B%A2"><span class="toc-number">4.</span> <span class="toc-text">ASP.NET Core (Middleware Pipeline) 的優勢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%BC%83%E5%8F%AF%E8%AA%BF%E6%8F%9B%E9%A0%86%E5%BA%8F%E7%9A%84%E5%B7%AE%E7%95%B0"><span class="toc-number">5.</span> <span class="toc-text">比較可調換順序的差異</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie"><span class="toc-number">6.</span> <span class="toc-text">cookie</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/Docker-redis/" title="redis"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Random/Whale.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis"/></a><div class="content"><a class="title" href="/2026/09/05/Docker-redis/" title="redis">redis</a><time datetime="2026-09-05T03:56:05.000Z" title="Created 2026-09-05 11:56:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="金流異常處理"/></a><div class="content"><a class="title" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理">金流異常處理</a><time datetime="2026-09-05T02:55:05.341Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="購物車 uniqueKey"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey">購物車 uniqueKey</a><time datetime="2026-09-05T02:55:05.339Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Untitled"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled">Untitled</a><time datetime="2026-09-05T02:55:05.334Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Enumerator | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="🍔 從 foreach 官方文件開始想要使用 foreach 的集合需要實作 System.Collections.IEnumerable or System.Collections.Generic.IEnumerable interface foreach 的真正實現，是一個迴圈控制結構，必須知道：  怎麼取得下一筆資料 (MoveNext) 怎麼拿到目前這筆資料 (Current) 怎麼從頭">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Enumerator">
+<meta property="og:url" content="https://chi-keke.github.io/2024/06/20/LINQ-Enumerator/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="🍔 從 foreach 官方文件開始想要使用 foreach 的集合需要實作 System.Collections.IEnumerable or System.Collections.Generic.IEnumerable interface foreach 的真正實現，是一個迴圈控制結構，必須知道：  怎麼取得下一筆資料 (MoveNext) 怎麼拿到目前這筆資料 (Current) 怎麼從頭">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.imgur.com/cBfeEDY.png">
+<meta property="article:published_time" content="2024-06-20T15:50:10.000Z">
+<meta property="article:modified_time" content="2026-09-05T02:55:05.127Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="LINQ">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/cBfeEDY.png"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2024/06/20/LINQ-Enumerator/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Enumerator',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-09-05 10:55:05'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.imgur.com/cBfeEDY.png')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Enumerator</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-06-20T15:50:10.000Z" title="Created 2024-06-20 23:50:10">2024-06-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-09-05T02:55:05.127Z" title="Updated 2026-09-05 10:55:05">2026-09-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/LINQ/">LINQ</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Enumerator"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="🍔-從-foreach-官方文件開始"><a href="#🍔-從-foreach-官方文件開始" class="headerlink" title="🍔 從 foreach 官方文件開始"></a>🍔 從 foreach 官方文件開始</h2><p>想要使用 foreach 的集合需要實作 System.Collections.IEnumerable or System.Collections.Generic.IEnumerable<T> interface</p>
+<p>foreach 的真正實現，是一個迴圈控制結構，必須知道：</p>
+<ul>
+<li>怎麼取得下一筆資料 (MoveNext)</li>
+<li>怎麼拿到目前這筆資料 (Current)</li>
+<li>怎麼從頭開始 (GetEnumerator)</li>
+</ul>
+<p>這一切都來自於 Iterator 模式，也就是 .NET 中 IEnumerable<T> &#x2F; IEnumerator<T> 的設計核心。</p>
+<br>
+<br>
+
+<h2 id="🍔-有一天我在摩斯排隊點餐，但前面點餐的大叔點有點久，於是我開始發白日夢…"><a href="#🍔-有一天我在摩斯排隊點餐，但前面點餐的大叔點有點久，於是我開始發白日夢…" class="headerlink" title="🍔 有一天我在摩斯排隊點餐，但前面點餐的大叔點有點久，於是我開始發白日夢…"></a>🍔 有一天我在摩斯排隊點餐，但前面點餐的大叔點有點久，於是我開始發白日夢…</h2><p>一位客人</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">FatLaw</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">int</span> Number &#123;<span class="keyword">get</span>;<span class="keyword">set</span>;&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">string</span> [] Menu &#123;<span class="keyword">get</span>;<span class="keyword">set</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>排隊點餐的一群客人</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// FatLawQueue 實作了 IEnumerable&lt;FatLaw&gt;，這是使用 foreach 的要求。</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">FatLawQueue</span> : <span class="title">IEnumerable</span>&lt;<span class="title">FatLaw</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">private</span> List&lt;FatLaw&gt; fatlaws = <span class="keyword">new</span> List&lt;FatLaw&gt;();</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Enqueue</span>(<span class="params">FatLaw fatlaw</span>)</span></span><br><span class="line">	&#123;</span><br><span class="line">		fatlaws.Add(fatlaw);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> IEnumerator&lt;FatLaw&gt; <span class="title">GetEnumerator</span>()</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> FatLawEnumerator(fatlaws);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 實作IEnumerable, 必須實作GetEnumerator		</span></span><br><span class="line">	<span class="comment">// foreach時，編譯器會自動調用 GetEnumerator 來獲取 FatLawEnumerator，才知道怎麼控制依序處理的過程</span></span><br><span class="line">	IEnumerator IEnumerable.GetEnumerator()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> GetEnumerator();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">class</span> <span class="title">FatLawEnumerator</span> : <span class="title">IEnumerator</span>&lt;<span class="title">FatLaw</span>&gt;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">private</span> List&lt;FatLaw&gt; _fatlaws;</span><br><span class="line">		<span class="keyword">private</span> <span class="built_in">int</span> _currentIndex = <span class="number">-1</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">FatLawEnumerator</span>(<span class="params">List&lt;FatLaw&gt; fatlaws</span>)</span></span><br><span class="line">		&#123;</span><br><span class="line">			_fatlaws = fatlaws;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 確認自己在哪裡</span></span><br><span class="line">		<span class="keyword">public</span> FatLaw Current =&gt; _fatlaws[_currentIndex];</span><br><span class="line"></span><br><span class="line">		<span class="built_in">object</span> IEnumerator.Current =&gt; Current;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 往下一個 Item 處理，已經沒有下一個返回 false</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">MoveNext</span>()</span></span><br><span class="line">		&#123;</span><br><span class="line">			_currentIndex ++;</span><br><span class="line">			<span class="keyword">return</span> _currentIndex &lt; _fatlaws.Count;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Reset</span>()</span></span><br><span class="line">		&#123;</span><br><span class="line">			_currentIndex = <span class="number">-1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Dispose</span>()</span> =&gt; _fatlaws = <span class="literal">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在沒有 foreach 之前，開發者會這樣寫</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> enumerator = fatLawQueue.GetEnumerator();</span><br><span class="line"><span class="keyword">while</span> (enumerator.MoveNext())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> item = enumerator.Current;</span><br><span class="line">    <span class="comment">// 處理 item</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>現在集合只要能「一個一個地走訪」，就能用 foreach。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> fatLawQueue = <span class="keyword">new</span> FatLawQueue();</span><br><span class="line">fatLawQueue.Enqueue(<span class="keyword">new</span> FatLaw() &#123; Number = <span class="number">1</span>, Menu = <span class="keyword">new</span> <span class="built_in">string</span>[] &#123;<span class="string">&quot;雙人分享餐&quot;</span>,<span class="string">&quot;雪碧&quot;</span>&#125;&#125;);</span><br><span class="line">fatLawQueue.Enqueue(<span class="keyword">new</span> FatLaw() &#123; Number = <span class="number">2</span>, Menu = <span class="keyword">new</span> <span class="built_in">string</span>[] &#123;<span class="string">&quot;摩斯雞塊豪雪套餐&quot;</span>,<span class="string">&quot;可樂&quot;</span>&#125;&#125;);</span><br><span class="line">fatLawQueue.Enqueue(<span class="keyword">new</span> FatLaw() &#123; Number = <span class="number">3</span>, Menu = <span class="keyword">new</span> <span class="built_in">string</span>[] &#123;<span class="string">&quot;黃金炸蝦堡&quot;</span>,<span class="string">&quot;可可&quot;</span>&#125;&#125;);</span><br><span class="line">fatLawQueue.Enqueue(<span class="keyword">new</span> FatLaw() &#123; Number = <span class="number">4</span>, Menu = <span class="keyword">new</span> <span class="built_in">string</span>[] &#123;<span class="string">&quot;藜麥杏鮑菇珍珠堡&quot;</span>,<span class="string">&quot;摩斯咖啡&quot;</span>&#125;&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(<span class="keyword">var</span> fatLaw <span class="keyword">in</span> fatLawQueue)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;♬ ♬ ♩  ♪ ♪ ♫ ♭ ♫  ♪ ♪ ♫ ♭  ♫ ♭ ♭ ♫  ♪ ♪  \n&quot;</span>.Dump();</span><br><span class="line">    <span class="string">$&quot;歡迎光臨，肥佬 <span class="subst">&#123;fatLaw.Number&#125;</span> 號，請問今天吃甚麼 ? &quot;</span>.Dump();</span><br><span class="line">    <span class="string">$&quot;<span class="subst">&#123;<span class="built_in">string</span>.Join(<span class="string">&quot; ,&quot;</span>, fatLaw.Menu)&#125;</span> 是吧，客人吃有點多喔 &quot;</span>.Dump();</span><br><span class="line">    <span class="string">$&quot;收您 <span class="subst">&#123;fatLaw.Money&#125;</span>，謝謝光臨\n&quot;</span>.Dump();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">♬ ♬ ♩  ♪ ♪ ♫ ♭ ♫  ♪ ♪ ♫ ♭  ♫ ♭ ♭ ♫  ♪ ♪ </span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">歡迎光臨，肥佬 1 號，請問今天吃甚麼 ? </span></span><br><span class="line"><span class="comment">雙人分享餐 ,雪碧 是吧，客人吃有點多喔 </span></span><br><span class="line"><span class="comment">收您 1000，謝謝光臨</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">♬ ♬ ♩  ♪ ♪ ♫ ♭ ♫  ♪ ♪ ♫ ♭  ♫ ♭ ♭ ♫  ♪ ♪ </span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">歡迎光臨，肥佬 2 號，請問今天吃甚麼 ? </span></span><br><span class="line"><span class="comment">摩斯雞塊豪雪套餐 ,可樂 是吧，客人吃有點多喔 </span></span><br><span class="line"><span class="comment">收您 1000，謝謝光臨</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">♬ ♬ ♩  ♪ ♪ ♫ ♭ ♫  ♪ ♪ ♫ ♭  ♫ ♭ ♭ ♫  ♪ ♪ </span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">歡迎光臨，肥佬 3 號，請問今天吃甚麼 ? </span></span><br><span class="line"><span class="comment">黃金炸蝦堡 ,熱可可 是吧，客人吃有點多喔 </span></span><br><span class="line"><span class="comment">收您 1000，謝謝光臨</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">♬ ♬ ♩  ♪ ♪ ♫ ♭ ♫  ♪ ♪ ♫ ♭  ♫ ♭ ♭ ♫  ♪ ♪ </span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">歡迎光臨，肥佬 4 號，請問今天吃甚麼 ? </span></span><br><span class="line"><span class="comment">藜麥杏鮑菇珍珠堡 ,摩斯咖啡 是吧，客人吃有點多喔 </span></span><br><span class="line"><span class="comment">收您 1000，謝謝光臨</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">**/</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/LKsAWAL.png" alt="Image"></p>
+<br>
+<br>
+
+<h2 id="🍔-改用-yield"><a href="#🍔-改用-yield" class="headerlink" title="🍔 改用 yield"></a>🍔 改用 yield</h2><p>在 MoveNext &amp; Current 遍歷處理上，也可以用 yield return 來取代，它可以保留位置 &amp; 狀態，下一次呼叫 MoveNext () 時，會從當前位置 &amp; 狀態繼續執行。如此一來，遍歷的作法進一步被封裝起來，且省去自訂義 Enumerator的時間</p>
+<p>yield return 是 C# 編譯器幫你自動產生一個類似你自己手寫的 IEnumerator<T> 類別，它自動幫你記住「目前位置、狀態」，所以你不需要自己實作 MoveNext()、Current 等細節。因為 yield return 會把你的方法變成一個「可中斷又可繼續的流程（狀態機）」，這種設計叫做 Compiler-generated State Machine（編譯器產生的狀態機），可以把它想成：每遇到一個 yield return，編譯器都幫你標記一個中斷點（checkpoint），而在下一次呼叫 MoveNext() 時，它就從上一個中斷點「繼續往下執行」</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> IEnumerator&lt;FatLaw&gt; <span class="title">GetEnumerator</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> fatLaw <span class="keyword">in</span> _fatLaws)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="keyword">return</span> fatLaw;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="🍔-參考文章"><a href="#🍔-參考文章" class="headerlink" title="🍔 參考文章"></a>🍔 參考文章</h2><a class="btn-beautify " href="https://learn.microsoft.com/zh-tw/dotnet/api/system.collections.generic.ienumerable-1?view=net-8.0" 
+  title="IEnumerable<T> 介面"><i class="far fa-hand-point-right"></i><span>IEnumerable<T> 介面</span></a>
+
+<br>
+
+<a class="btn-beautify do" target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements?redirectedfrom=MSDN" 
+  title="Iteration statements - for"><i class="foreach"></i><span>Iteration statements - for</span></a>
+
+<br>
+
+<a class="btn-beautify " target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Iterator_pattern" 
+  title="Iterator pattern"><i class="far fa-hand-point-right"></i><span>Iterator pattern</span></a></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2024/06/20/LINQ-Enumerator/">https://chi-keke.github.io/2024/06/20/LINQ-Enumerator/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LINQ/">LINQ</a></div><div class="post_share"><div class="social-share" data-image="https://i.imgur.com/cBfeEDY.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/24/DeepType-Web-Vlidation-1/" title="Data Validation"><img class="cover" src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Codesss/Validation/1/1_landing.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">Data Validation</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/08/DeepType-SQL-Anti-Join-Performance/" title="Anti Join"><img class="cover" src="https://i.imgur.com/NfCnwwU.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">Anti Join</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/10/23/LINQ-Defferred-Execution/" title="Deferred Execution - 延遲的智慧"><img class="cover" src="https://i.imgur.com/bUJj6Dn.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-23</div><div class="title">Deferred Execution - 延遲的智慧</div></div></a></div><div><a href="/2024/03/17/LINQ-Groupby-%E5%9C%A8%E8%B3%87%E6%96%99%E4%B8%AD%E6%8E%A2%E7%B4%A2%E6%AD%B8%E5%B1%AC/" title="Groupby - 在資料中探索歸屬"><img class="cover" src="https://i.imgur.com/cBfeEDY.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-17</div><div class="title">Groupby - 在資料中探索歸屬</div></div></a></div><div><a href="/2025/09/22/LINQ-Except/" title="Except"><img class="cover" src="https://i.imgur.com/cBfeEDY.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-22</div><div class="title">Except</div></div></a></div><div><a href="/2024/10/24/LINQ-IE/" title="IEnumerable"><img class="cover" src="https://i.imgur.com/cBfeEDY.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-24</div><div class="title">IEnumerable</div></div></a></div><div><a href="/2024/10/22/LINQ-IEICIL/" title="IEnumerable, ICollection, IList and List – Which One To Use?"><img class="cover" src="https://i.imgur.com/cBfeEDY.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-22</div><div class="title">IEnumerable, ICollection, IList and List – Which One To Use?</div></div></a></div><div><a href="/2024/06/06/LINQ-Query-Expression-Syntax-vs-Method-Chaining-Syntax/" title="Query Expression Syntax vs Method Chaining Syntax"><img class="cover" src="https://i.imgur.com/cBfeEDY.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-06</div><div class="title">Query Expression Syntax vs Method Chaining Syntax</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%94-%E5%BE%9E-foreach-%E5%AE%98%E6%96%B9%E6%96%87%E4%BB%B6%E9%96%8B%E5%A7%8B"><span class="toc-number">1.</span> <span class="toc-text">🍔 從 foreach 官方文件開始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%94-%E6%9C%89%E4%B8%80%E5%A4%A9%E6%88%91%E5%9C%A8%E6%91%A9%E6%96%AF%E6%8E%92%E9%9A%8A%E9%BB%9E%E9%A4%90%EF%BC%8C%E4%BD%86%E5%89%8D%E9%9D%A2%E9%BB%9E%E9%A4%90%E7%9A%84%E5%A4%A7%E5%8F%94%E9%BB%9E%E6%9C%89%E9%BB%9E%E4%B9%85%EF%BC%8C%E6%96%BC%E6%98%AF%E6%88%91%E9%96%8B%E5%A7%8B%E7%99%BC%E7%99%BD%E6%97%A5%E5%A4%A2%E2%80%A6"><span class="toc-number">2.</span> <span class="toc-text">🍔 有一天我在摩斯排隊點餐，但前面點餐的大叔點有點久，於是我開始發白日夢…</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%94-%E6%94%B9%E7%94%A8-yield"><span class="toc-number">3.</span> <span class="toc-text">🍔 改用 yield</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%94-%E5%8F%83%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">4.</span> <span class="toc-text">🍔 參考文章</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/Docker-redis/" title="redis"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Random/Whale.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis"/></a><div class="content"><a class="title" href="/2026/09/05/Docker-redis/" title="redis">redis</a><time datetime="2026-09-05T03:56:05.000Z" title="Created 2026-09-05 11:56:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="金流異常處理"/></a><div class="content"><a class="title" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理">金流異常處理</a><time datetime="2026-09-05T02:55:05.341Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="購物車 uniqueKey"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey">購物車 uniqueKey</a><time datetime="2026-09-05T02:55:05.339Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Untitled"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled">Untitled</a><time datetime="2026-09-05T02:55:05.334Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

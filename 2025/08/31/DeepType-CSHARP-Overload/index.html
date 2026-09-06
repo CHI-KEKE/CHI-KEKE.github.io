@@ -1,0 +1,201 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Overload | 平屋慢生活</title><meta name="author" content="Allen"><meta name="copyright" content="Allen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="OverloadConsole.WriteLine()String.Format() 或 $&quot;{value}&quot;HttpClient.GetAsync(...) 重載Overload 是讓「使用者思維」與「開發者實作」分離Overload 幫助 API 適應成長需求（可擴展性）用 Overload 做「語意導向」的 API 設計（Intent-Driven Design）取代複雜參數物件或旗標（Fl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Overload">
+<meta property="og:url" content="https://chi-keke.github.io/2025/08/31/DeepType-CSHARP-Overload/">
+<meta property="og:site_name" content="平屋慢生活">
+<meta property="og:description" content="OverloadConsole.WriteLine()String.Format() 或 $&quot;{value}&quot;HttpClient.GetAsync(...) 重載Overload 是讓「使用者思維」與「開發者實作」分離Overload 幫助 API 適應成長需求（可擴展性）用 Overload 做「語意導向」的 API 設計（Intent-Driven Design）取代複雜參數物件或旗標（Fl">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.imgur.com/Zly1UDM.png">
+<meta property="article:published_time" content="2025-08-31T01:56:01.000Z">
+<meta property="article:modified_time" content="2026-09-05T02:55:04.981Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="C#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/Zly1UDM.png"><link rel="shortcut icon" href="/img/kiwibird.png"><link rel="canonical" href="https://chi-keke.github.io/2025/08/31/DeepType-CSHARP-Overload/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Overload',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2026-09-05 10:55:04'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.imgur.com/q4xr50n.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.imgur.com/Zly1UDM.png')"><nav id="nav"><span id="blog-info"><a href="/" title="平屋慢生活"><span class="site-name">平屋慢生活</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Overload</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-08-31T01:56:01.000Z" title="Created 2025-08-31 09:56:01">2025-08-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-09-05T02:55:04.981Z" title="Updated 2026-09-05 10:55:04">2026-09-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A8%8B%E6%80%9D%E8%88%9E%E6%83%B3/">程思舞想</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Overload"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="tabs" id="overload"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="overload-1">Overload</button><button type="button" class="tab " data-href="overload-2">Console.WriteLine()</button><button type="button" class="tab " data-href="overload-3">String.Format() 或 $"{value}"</button><button type="button" class="tab " data-href="overload-4">HttpClient.GetAsync(...) 重載</button><button type="button" class="tab " data-href="overload-5">Overload 是讓「使用者思維」與「開發者實作」分離</button><button type="button" class="tab " data-href="overload-6">Overload 幫助 API 適應成長需求（可擴展性）</button><button type="button" class="tab " data-href="overload-7">用 Overload 做「語意導向」的 API 設計（Intent-Driven Design）</button><button type="button" class="tab " data-href="overload-8">取代複雜參數物件或旗標（Flag）</button><button type="button" class="tab " data-href="overload-9">用在「動作不變，情境變化」的功能設計</button><button type="button" class="tab " data-href="overload-10">Anti - 語意模糊</button><button type="button" class="tab " data-href="overload-11">Anti - 過度 overload</button><button type="button" class="tab " data-href="overload-12">Anti - 行為不一致，產生不可預期狀態</button><button type="button" class="tab " data-href="overload-13">結語</button></ul><div class="tab-contents"><div class="tab-item-content active" id="overload-1"><p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Overload/landing.png" alt="o"></p>
+<p>對使用 API 的開發者來說。當他們呼叫一個方法時，心中想的只是「我要讓它運作」，卻不希望因為情境稍有不同，就被迫學習一整套全新的操作方式。這就是 Overload（方法重載） 存在的理由，它讓同一個「旋律」能被多種方式演奏，保持一致性，同時降低學習與使用的心智負擔</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Overload/lower_mind_workload.png" alt="cc"></p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Overload/only_know_what.png" alt="a"></p></div><div class="tab-item-content" id="overload-2"><p>我們平常在寫 Console.WriteLine() 的時候，可以丟 string、int、bool、甚至物件，對吧？因為每種型別印出來的方式不一定一樣，比如物件就會呼叫 ToString()，而 string 不需要再轉。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Console.WriteLine(<span class="string">&quot;Hello&quot;</span>);      <span class="comment">// string</span></span><br><span class="line">Console.WriteLine(<span class="number">123</span>);          <span class="comment">// int</span></span><br><span class="line">Console.WriteLine(<span class="number">3.14</span>);         <span class="comment">// double</span></span><br><span class="line">Console.WriteLine(<span class="literal">true</span>);         <span class="comment">// bool</span></span><br><span class="line">Console.WriteLine(<span class="keyword">new</span> DateTime(<span class="number">2025</span>, <span class="number">8</span>, <span class="number">31</span>));  <span class="comment">// DateTime</span></span><br></pre></td></tr></table></figure>
+
+<p>.NET 裡面 Console.WriteLine 方法重載了超過 18 種版本!</p>
+<p><img src="https://github.com/CHI-KEKE/pics/blob/main/Code_Design/Overload/consolewriteline.png?raw=true" alt="c"></p></div><div class="tab-item-content" id="overload-3"><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> name = <span class="string">&quot;John&quot;</span>;</span><br><span class="line"><span class="built_in">int</span> age = <span class="number">30</span>;</span><br><span class="line"><span class="built_in">string</span> result = <span class="built_in">string</span>.Format(<span class="string">&quot;Name: &#123;0&#125;, Age: &#123;1&#125;&quot;</span>, name, age);</span><br></pre></td></tr></table></figure>
+
+<p>因為參數數量不固定，而且傳進來後要轉成 string，用泛型沒辦法這麼靈活地處理 params object[]。</p></div><div class="tab-item-content" id="overload-4"><p>你用 HttpClient 發送 GET 請求的時候，可能會有很多種情境：</p>
+<p>只有 URL<br>URL + CancellationToken<br>URL + HttpCompletionOption + CancellationToken</p>
+<p>.NET 內部就有多個 Overload 來支援不同的需求。因為這些重載代表的是不同參數的組合、執行流程可能也不一樣，而不是單純型別替換。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HttpClient client = <span class="keyword">new</span> HttpClient();</span><br><span class="line"><span class="keyword">await</span> client.GetAsync(<span class="string">&quot;https://api.example.com&quot;</span>);                      <span class="comment">// 簡單版本</span></span><br><span class="line"><span class="keyword">await</span> client.GetAsync(<span class="string">&quot;https://api.example.com&quot;</span>, cancellationToken);  <span class="comment">// 需要取消操作</span></span><br><span class="line"><span class="keyword">await</span> client.GetAsync(<span class="string">&quot;https://api.example.com&quot;</span>, </span><br><span class="line">    HttpCompletionOption.ResponseHeadersRead, cancellationToken);     <span class="comment">// 更細部的控制</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/CHI-KEKE/pics/blob/main/Code_Design/Overload/httpclient_getasync.png?raw=true" alt="f"></p></div><div class="tab-item-content" id="overload-5"><p>➤ 當你設計一個 Library、API、SDK 給別人用時，Overload 幫你隱藏複雜度，讓開發者「感覺只做了一件事」，但其實內部可以有多種處理路徑。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Save(User user);</span><br><span class="line">Save(UserDto dto);</span><br><span class="line">Save(User user, SaveOption option);</span><br></pre></td></tr></table></figure>
+
+<p>在使用者角度來看，他只需要呼叫 Save()，不用記得「哪一個是 SaveUserDto、SaveWithOption」，這讓他在心中建構的 mental model 是：「我就是要 Save 資料」而已。這是設計上的一致性（Consistency）與心智模型對齊（Cognitive Load Reduction）。</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Overload/dis_mentalmodel_and_logic.png" alt="d"></p></div><div class="tab-item-content" id="overload-6"><p>Overload 是一種「演進友善的設計」，當需求成長、功能增加時，你可以不破壞原有 API，讓原本的使用者繼續用，新的使用者使用新的版本。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初版</span></span><br><span class="line">Send(<span class="built_in">string</span> message);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 新增：指定收件人</span></span><br><span class="line">Send(<span class="built_in">string</span> message, <span class="built_in">string</span> to);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 再新增：加入標題與附件</span></span><br><span class="line">Send(<span class="built_in">string</span> message, <span class="built_in">string</span> to, <span class="built_in">string</span> subject, <span class="built_in">string</span>[] attachments);</span><br></pre></td></tr></table></figure>
+
+<p>舊系統不需重構就能繼續使用，新需求也能支援，方法名稱保持一致</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Overload/merge_old.png" alt="o"></p></div><div class="tab-item-content" id="overload-7"><p>有時候不同參數，雖然都可以共用邏輯，但「參數本身代表了不同的使用情境」</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FindById(<span class="built_in">int</span> id);             <span class="comment">// 單筆查詢</span></span><br><span class="line">FindById(<span class="built_in">int</span>[] ids);          <span class="comment">// 多筆查詢</span></span><br><span class="line">FindById(<span class="built_in">string</span> externalKey); <span class="comment">// 外部系統查詢</span></span><br></pre></td></tr></table></figure>
+<p>雖然這三個方法本質上都叫 FindById，但參數型別讓使用者自然知道：「我現在在查哪種資料」</p>
+<p><img src="https://github.com/CHI-KEKE/pics/blob/main/Code_Design/Overload/diff_type.png?raw=true" alt="g"></p></div><div class="tab-item-content" id="overload-8"><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Save(user, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+
+<p>你應該要開始思考：這是 overload 的場景！</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Save(User user);</span><br><span class="line">Save(User user, <span class="built_in">bool</span> overwrite);</span><br><span class="line">Save(User user, SaveOption option);</span><br></pre></td></tr></table></figure>
+
+<p>overload 可以清楚區分語意，避免程式碼變成猜謎遊戲，讓讀程式的人不用去猜每個參數是做什麼的。</p></div><div class="tab-item-content" id="overload-9"><p>動作：登入 Login<br>情境：帳號密碼、Google、Facebook、手機驗證碼</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Login(<span class="built_in">string</span> username, <span class="built_in">string</span> password);</span><br><span class="line">Login(GoogleToken token);</span><br><span class="line">Login(FacebookToken token);</span><br><span class="line">Login(<span class="built_in">string</span> phoneNumber, <span class="built_in">string</span> smsCode);</span><br></pre></td></tr></table></figure>
+
+<p>這時候 overload 是比 interface、策略模式、泛型都來得更清楚直觀的選擇，因為你只是在提供「登入的不同方式」，不是不同的動作</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Overload/login.png" alt="t"></p></div><div class="tab-item-content" id="overload-10"><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">User</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span>(<span class="params"><span class="built_in">string</span> name</span>)</span> &#123; ... &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span>(<span class="params"><span class="built_in">string</span> name, <span class="built_in">bool</span> isActive</span>)</span> &#123; ... &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span>(<span class="params"><span class="built_in">string</span> name, <span class="built_in">bool</span> isActive, <span class="built_in">bool</span> isAdmin</span>)</span> &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> User(<span class="string">&quot;Alice&quot;</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<p>🧠 使用者根本不知道 true, false 是什麼意思，容易寫錯。語意模糊 + 容易誤用<br>✅ 解法是使用 Builder Pattern、Factory、或組裝 DTO。</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Overload/confuse.png" alt="p"></p></div><div class="tab-item-content" id="overload-11"><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">User(<span class="built_in">string</span> name)</span><br><span class="line">User(<span class="built_in">string</span> name, <span class="built_in">string</span> email)</span><br><span class="line">User(<span class="built_in">string</span> name, <span class="built_in">string</span> email, <span class="built_in">string</span> phone)</span><br><span class="line">User(<span class="built_in">string</span> name, <span class="built_in">string</span> email, <span class="built_in">string</span> phone, <span class="built_in">int</span> age)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>本質問題：「資料初始化應該抽象化，不該硬寫死在 overload」<br>解法是使用 Builder Pattern、Factory、或組裝 DTO</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Overload/too_much_overload_need_dto_bulder.png" alt="f"></p></div><div class="tab-item-content" id="overload-12"><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Connection</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Connection</span>(<span class="params"><span class="built_in">string</span> connString</span>)</span> &#123; Connect(); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Connection</span>(<span class="params"><span class="built_in">string</span> server, <span class="built_in">int</span> port</span>)</span> &#123; <span class="comment">/* 不會自動連線 */</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>🧠 這讓使用者「以為兩個建構子只差參數，結果差邏輯」，這會導致誤解與難以除錯，屬於語意與行為不一致的典型設計錯誤</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Overload/behavior_not_as_expected.png" alt="kk"></p></div><div class="tab-item-content" id="overload-13"><p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Overload/composer.png" alt="com"></p>
+<p>Overload 的價值在於它能讓開發者「聽見」同一首旋律，不管樂器如何轉換，都能感覺一致、流暢，但若樂譜過度複雜、或每個版本都暗藏不同邏輯，那麼這首曲子將變得支離破碎、難以演奏，因此，好的 Overload 設計，就像一位懂得取捨的編曲者 —— 它保留必要的變化，卻維持主題的純粹與清晰</p>
+<p><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Code_Design/Overload/summa.png" alt="g"></p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io">Allen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://chi-keke.github.io/2025/08/31/DeepType-CSHARP-Overload/">https://chi-keke.github.io/2025/08/31/DeepType-CSHARP-Overload/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C#</a></div><div class="post_share"><div class="social-share" data-image="https://i.imgur.com/Zly1UDM.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/08/31/New-Teamwork-Refine/" title="開發流程"><img class="cover" src="https://github.com/CHI-KEKE/pics/blob/main/Team/team.png?raw=true" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">開發流程</div></div></a></div><div class="next-post pull-right"><a href="/2025/08/30/HttpClient-HttpRequestMessage/" title="HttpRequestMessage"><img class="cover" src="https://i.imgur.com/hZWviQz.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next</div><div class="next_info">HttpRequestMessage</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/07/02/Automapper/" title="AutoMapper"><img class="cover" src="https://i.imgur.com/KXBUhrt.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-02</div><div class="title">AutoMapper</div></div></a></div><div><a href="/2024/07/02/Stripe-API/" title="Stripe"><img class="cover" src="https://i.imgur.com/QYGzWvo.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-02</div><div class="title">Stripe</div></div></a></div><div><a href="/2024/11/24/%E5%8F%96%E5%BE%97%E7%B3%BB%E7%B5%B1%E8%B3%87%E8%A8%8A/" title="取得系統資訊"><img class="cover" src="https://i.imgur.com/Zly1UDM.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-24</div><div class="title">取得系統資訊</div></div></a></div><div><a href="/2024/11/03/DeepType-CSHARP-Deepclone/" title="Deep Clone"><img class="cover" src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Codesss/Code_Design/DeepClone/1_landing.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-03</div><div class="title">Deep Clone</div></div></a></div><div><a href="/2024/11/24/DeepType-CSHARP-lambdaExpression/" title="LambdaExpression"><img class="cover" src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Codesss/Code_Design/Lambda/1_landing.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-24</div><div class="title">LambdaExpression</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.imgur.com/q4xr50n.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Allen</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">271</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">55</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">39</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/AI/landing.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hallucination"/></a><div class="content"><a class="title" href="/2027/03/16/DeepType-AI-Thinking-Hallucination/" title="Hallucination">Hallucination</a><time datetime="2027-03-16T03:10:11.000Z" title="Created 2027-03-16 11:10:11">2027-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/Docker-redis/" title="redis"><img src="https://raw.githubusercontent.com/CHI-KEKE/pics/refs/heads/main/Random/Whale.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis"/></a><div class="content"><a class="title" href="/2026/09/05/Docker-redis/" title="redis">redis</a><time datetime="2026-09-05T03:56:05.000Z" title="Created 2026-09-05 11:56:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="金流異常處理"/></a><div class="content"><a class="title" href="/2026/09/05/%E9%87%91%E6%B5%81%E8%A8%AD%E8%A8%88-%E7%95%B0%E5%B8%B8%E8%99%95%E7%90%86/" title="金流異常處理">金流異常處理</a><time datetime="2026-09-05T02:55:05.341Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="購物車 uniqueKey"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-%E8%B3%BC%E7%89%A9%E8%BB%8AK/" title="購物車 uniqueKey">購物車 uniqueKey</a><time datetime="2026-09-05T02:55:05.339Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled"><img src="https://i.imgur.com/f2eWUWv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Untitled"/></a><div class="content"><a class="title" href="/2026/09/05/%E8%B3%87%E5%AE%89-mweb-CORS/" title="Untitled">Untitled</a><time datetime="2026-09-05T02:55:05.334Z" title="Created 2026-09-05 10:55:05">2026-09-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.imgur.com/yZlXwed.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Allen</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
